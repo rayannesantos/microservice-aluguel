@@ -81,8 +81,6 @@ def cadastrar_funcionario(senha, confirmacaoSenha, email, nome, idade, funcao, c
      return response_mock.json()
  
  
-# TODO editarFuncionario
-
 def editar_funcionario(id_funcionario, senha, confirmacaoSenha, email, nome, idade, funcao, cpf ):
 
      response_mock = Mock()
@@ -108,5 +106,22 @@ def editar_funcionario(id_funcionario, senha, confirmacaoSenha, email, nome, ida
         return response_mock.json()
  
 
+def remover_funcionario(id_funcionario):
+    response_mock = Mock()
 
-# TODO deletarFuncionario
+    funcionarios = listar_funcionarios()
+    index_to_remove = None
+    for i, funcionario in enumerate(funcionarios):
+        if funcionario['id_funcionario'] == id_funcionario:
+            index_to_remove = i
+            break
+
+    if index_to_remove is not None:
+        del funcionarios[index_to_remove]
+        response_mock.status_code = 200
+        response_mock.json.return_value = {"message": "Funcionário removido com sucesso"}
+    else:
+        response_mock.status_code = 404
+        response_mock.json.return_value = {"error": "Funcionário não encontrado"}
+
+    return response_mock.json()
