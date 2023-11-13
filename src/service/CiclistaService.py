@@ -1,4 +1,4 @@
-# UC01 – Cadastrar Ciclista
+# UC01–Cadastrar Ciclista
 
 import random
 from flask import Flask
