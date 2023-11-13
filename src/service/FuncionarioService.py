@@ -64,21 +64,21 @@ def cadastrar_funcionario(senha, confirmacaoSenha, email, nome, idade, funcao, c
             }
         ]
         return response_mock.json()
-    
-     response_mock.json.return_value = {
-        "id_funcionario":3,
-        "matricula":567,
-        "senha" : senha,
-         "confirmacaoSenha":confirmacaoSenha,
-        "email" : email,
-        "nome" : nome,
-        "idade" : idade,
-        "funcao" : funcao,
-        "cpf" : cpf
+     else:
+        response_mock.json.return_value = {
+            "id_funcionario":3,
+            "matricula":567,
+            "senha" : senha,
+            "confirmacaoSenha":confirmacaoSenha,
+            "email" : email,
+            "nome" : nome,
+            "idade" : idade,
+            "funcao" : funcao,
+            "cpf" : cpf
+                
+        }
             
-     }
-        
-     return response_mock.json()
+        return response_mock.json()
  
  
 def editar_funcionario(id_funcionario, senha, confirmacaoSenha, email, nome, idade, funcao, cpf ):
