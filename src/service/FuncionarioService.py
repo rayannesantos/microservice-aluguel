@@ -35,8 +35,6 @@ def listar_funcionarios():
     ]
     return response_mock.json()
 
-# TODO cadastrarFuncionario 
-
 def cadastrar_funcionario(senha, confirmacaoSenha, email, nome, idade, funcao, cpf ):
      response_mock = Mock()
      response_mock.status_code = "Dados cadastrados", 200
