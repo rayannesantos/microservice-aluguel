@@ -23,7 +23,7 @@ def cadastrar_ciclista_route():
         nacionalidade = data.get("ciclista", {}).get("nacionalidade")
         
         email = data.get("ciclista", {}).get("email")
-        url_foto_documento = data.get("ciclista", {}).get("urlFotoDocumento")
+        urlFotoDocumento = data.get("ciclista", {}).get("urlFotoDocumento")
         senha = data.get("ciclista", {}).get("senha")
         nome_titular = data.get("meioDePagamento", {}).get("nomeTitular")
         numero_cartao = data.get("meioDePagamento", {}).get("numero")
@@ -32,7 +32,7 @@ def cadastrar_ciclista_route():
         
     
         response = cadastrar_ciclista(nome, nascimento,cpf, passaporte_numero, passaporte_validade, passaporte_pais, nacionalidade,
-                                      email,url_foto_documento,senha, nome_titular, numero_cartao, validade_cartao, cvv)
+                                      email,urlFotoDocumento,senha, nome_titular, numero_cartao, validade_cartao, cvv)
 
         return response
 
@@ -63,14 +63,14 @@ def listar_funcionarios_route():
 def cadastrar_funcionario_route():
         data = request.get_json()
         senha = data.get("senha")
-        confirmacao_senha = data.get("confirmacaoSenha")
+        confirmacaoSenha = data.get("confirmacaoSenha")
         email =  data.get("email")
         nome = data.get("nome")
         idade = data.get("idade")
         funcao = data.get("funcao")
         cpf = data.get("cpf")
 
-        response = cadastrar_funcionario(senha,confirmacao_senha,email, nome, idade,funcao,cpf)
+        response = cadastrar_funcionario(senha,confirmacaoSenha,email, nome, idade,funcao,cpf)
         return response
 
 
@@ -78,14 +78,14 @@ def cadastrar_funcionario_route():
 def editar_funcionario_route(id_funcionario):
         data = request.get_json()
         senha = data.get("senha")
-        confirmacao_senha = data.get("confirmacaoSenha")
+        confirmacaoSenha = data.get("confirmacaoSenha")
         email =  data.get("email")
         nome = data.get("nome")
         idade = data.get("idade")
         funcao = data.get("funcao")
         cpf = data.get("cpf")
 
-        response = editar_funcionario(id_funcionario,senha,confirmacao_senha,email, nome, idade,funcao,cpf)
+        response = editar_funcionario(id_funcionario,senha,confirmacaoSenha,email, nome, idade,funcao,cpf)
         return response
     
 
