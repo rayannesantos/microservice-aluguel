@@ -1,16 +1,16 @@
 import requests, os, sys
 from flask import Flask
-from flask import Flask, request, jsonify
-from werkzeug.exceptions import BadRequest
+from flask import Flask, request
 
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.insert(0, project_root)
 
 from service.CiclistaService import cadastrar_ciclista
+from service.FuncionarioService import listar_funcionarios
 app = Flask(__name__)
 
 
-
+# CICLISTAS
 @app.route('/ciclista', methods=['POST'])
 def cadastrar_ciclista_route():
         data = request.get_json()
@@ -36,6 +36,13 @@ def cadastrar_ciclista_route():
 
         return response
 
+
+# FUNCIONARIOS 
+
+@app.route('/funcionarios', methods=['GET'])
+def listar_funcionarios_route():
+    funcionarios = listar_funcionarios()
+    return funcionarios
 
 if __name__ == '__main__':
     app.run(debug=True)

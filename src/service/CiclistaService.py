@@ -1,6 +1,7 @@
+# UC01 – Cadastrar Ciclista
+
 import random
-from flask import Flask, request, jsonify
-from werkzeug.exceptions import BadRequest
+from flask import Flask
 from unittest.mock import Mock
 
 app = Flask(__name__)
