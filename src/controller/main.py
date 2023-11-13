@@ -6,7 +6,7 @@ project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.insert(0, project_root)
 
 from service.CiclistaService import cadastrar_ciclista
-from service.FuncionarioService import listar_funcionarios, cadastrar_funcionario
+from service.FuncionarioService import listar_funcionarios, cadastrar_funcionario, editar_funcionario
 app = Flask(__name__)
 
 
@@ -57,6 +57,21 @@ def cadastrar_funcionario_route():
         cpf = data.get("cpf")
 
         response = cadastrar_funcionario(senha,confirmacaoSenha,email, nome, idade,funcao,cpf)
+        return response
+
+
+@app.route('/funcionario/<int:id_funcionario>', methods=['PUT'])
+def editar_funcionario_route(id_funcionario):
+        data = request.get_json()
+        senha = data.get("senha")
+        confirmacaoSenha = data.get("confirmacaoSenha")
+        email =  data.get("email")
+        nome = data.get("nome")
+        idade = data.get("idade")
+        funcao = data.get("funcao")
+        cpf = data.get("cpf")
+
+        response = editar_funcionario(id_funcionario,senha,confirmacaoSenha,email, nome, idade,funcao,cpf)
         return response
 
 

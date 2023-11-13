@@ -12,6 +12,7 @@ def listar_funcionarios():
     response_mock.status_code = 200
     response_mock.json.return_value = [
         {
+            "id_funcionario":1,
             "matricula": "123",
             "senha": "string",
             "confirmacaoSenha": "string",
@@ -23,6 +24,7 @@ def listar_funcionarios():
         },
         
          {
+            "id_funcionario":2,
             "matricula": "456",
             "senha": "string",
             "confirmacaoSenha": "string",
@@ -34,6 +36,19 @@ def listar_funcionarios():
         },    
     ]
     return response_mock.json()
+
+def listar_funcionario_id (id_funcionario):
+    response_mock = Mock()
+    response_mock.status_code = 200
+   
+    funcionarios = listar_funcionarios()
+    
+    for funcionario in funcionarios:
+        if funcionario['id_funcionario'] == id_funcionario:
+            return response_mock.json()
+
+    return False
+       
 
 def cadastrar_funcionario(senha, confirmacaoSenha, email, nome, idade, funcao, cpf ):
      response_mock = Mock()
@@ -51,6 +66,7 @@ def cadastrar_funcionario(senha, confirmacaoSenha, email, nome, idade, funcao, c
         return response_mock.json()
     
      response_mock.json.return_value = {
+        "id_funcionario":3,
         "matricula":567,
         "senha" : senha,
          "confirmacaoSenha":confirmacaoSenha,
@@ -63,6 +79,34 @@ def cadastrar_funcionario(senha, confirmacaoSenha, email, nome, idade, funcao, c
      }
         
      return response_mock.json()
-
+ 
+ 
 # TODO editarFuncionario
+
+def editar_funcionario(id_funcionario, senha, confirmacaoSenha, email, nome, idade, funcao, cpf ):
+
+     response_mock = Mock()
+     response_mock.status_code = "Dados editados", 200
+     
+     funcionario = listar_funcionario_id(id_funcionario)
+     
+     if funcionario:
+        response_mock.status_code = 200
+        response_mock.json.return_value = {
+            "senha": senha,
+            "confirmacaoSenha": confirmacaoSenha,
+            "email": email,
+            "nome": nome,
+            "idade": idade,
+            "funcao": funcao,
+            "cpf": cpf
+        }
+        return response_mock.json()
+     else:
+        response_mock.status_code = 404
+        response_mock.json.return_value = {"error": "Funcionário não encontrado"}
+        return response_mock.json()
+ 
+
+
 # TODO deletarFuncionario
