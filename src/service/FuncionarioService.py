@@ -50,7 +50,7 @@ def listar_funcionario_id (id_funcionario):
     return False
        
 
-def cadastrar_funcionario(senha, confirmacaoSenha, email, nome, idade, funcao, cpf ):
+def cadastrar_funcionario(senha, confirmacao_senha, email, nome, idade, funcao, cpf ):
      response_mock = Mock()
      response_mock.status_code = "Dados cadastrados", 200
      
@@ -69,7 +69,7 @@ def cadastrar_funcionario(senha, confirmacaoSenha, email, nome, idade, funcao, c
             "id_funcionario":3,
             "matricula":567,
             "senha" : senha,
-            "confirmacaoSenha":confirmacaoSenha,
+            "confirmacaoSenha":confirmacao_senha,
             "email" : email,
             "nome" : nome,
             "idade" : idade,
@@ -81,7 +81,7 @@ def cadastrar_funcionario(senha, confirmacaoSenha, email, nome, idade, funcao, c
         return response_mock.json()
  
  
-def editar_funcionario(id_funcionario, senha, confirmacaoSenha, email, nome, idade, funcao, cpf ):
+def editar_funcionario(id_funcionario, senha, confirmacao_senha, email, nome, idade, funcao, cpf ):
 
      response_mock = Mock()
      response_mock.status_code = "Dados editados", 200
@@ -92,7 +92,7 @@ def editar_funcionario(id_funcionario, senha, confirmacaoSenha, email, nome, ida
         response_mock.status_code = 200
         response_mock.json.return_value = {
             "senha": senha,
-            "confirmacaoSenha": confirmacaoSenha,
+            "confirmacaoSenha": confirmacao_senha,
             "email": email,
             "nome": nome,
             "idade": idade,
