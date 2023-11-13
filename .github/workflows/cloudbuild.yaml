@@ -45,10 +45,10 @@ jobs:
     #     python src/tests/funcionarios_test.py
     #     deactivate 
 
-    - name: Build and Push Docker image
-      run: |
-        docker buildx build --platform linux/amd64 -t gcr.io/micr-405023/micr:$GITHUB_SHA src/
-        docker push gcr.io/micr-405023/micr:$GITHUB_SHA
+    # - name: Build and Push Docker image
+    #   run: |
+    #     docker buildx build --platform linux/amd64 -t gcr.io/micr-405023/micr:$GITHUB_SHA src/
+    #     docker push gcr.io/micr-405023/micr:$GITHUB_SHA
 
     - name: Deploy to Cloud Run
       run: |
