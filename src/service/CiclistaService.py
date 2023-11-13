@@ -26,9 +26,10 @@ def cadastrar_ciclista(nome, nascimento, cpf, passaporteNumero, passaporteValida
         ]
         return response_mock.json()
     
+    validar_cartao()
+    
     response_mock.json.return_value = {
         "ciclista": {
-            # TODO validação para apenas numeros que não foram usados
             "id": random.randint(1, 1000),
             "nome": nome,
             "nascimento": nascimento,
@@ -50,7 +51,21 @@ def cadastrar_ciclista(nome, nascimento, cpf, passaporteNumero, passaporteValida
             "cvv": cvv
         }
     }
+    
 
+    enviar_email()
     return response_mock.json()
+
+
+# método de enviar email (retornando sempre "sucesso"), mas que não chame o microsserviço Externo. 
+def enviar_email():
+    response_mock = Mock()
+    response_mock.json.return_value = {"message": "Email enviado com sucesso"}
+    return response_mock.json()
+
+# Apenas para retornar sem chamar o microsserviço externo
+def validar_cartao():
+    return True
+
 
 
