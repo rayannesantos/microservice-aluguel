@@ -25,35 +25,36 @@ def cadastrar_ciclista(nome, nascimento, cpf, passaporteNumero, passaporteValida
         ]
         return response_mock.json()
     
-    validar_cartao()
-    
-    response_mock.json.return_value = {
-        "ciclista": {
-            "id_ciclista": random.randint(1, 1000),
-            "nome": nome,
-            "nascimento": nascimento,
-            "cpf": cpf,
-            "passaporte": {
-                "numero": passaporteNumero,
-                "validade": passaporteValidade,
-                "pais": passaportePais
+    else:
+        validar_cartao()
+        
+        response_mock.json.return_value = {
+            "ciclista": {
+                "id_ciclista": random.randint(1, 1000),
+                "nome": nome,
+                "nascimento": nascimento,
+                "cpf": cpf,
+                "passaporte": {
+                    "numero": passaporteNumero,
+                    "validade": passaporteValidade,
+                    "pais": passaportePais
+                },
+                "nacionalidade": nacionalidade,
+                "email": email,
+                "urlFotoDocumento": urlFotoDocumento,
+                "senha": senha
             },
-            "nacionalidade": nacionalidade,
-            "email": email,
-            "urlFotoDocumento": urlFotoDocumento,
-            "senha": senha
-        },
-        "meioDePagamento": {
-            "nomeTitular": nomeTitular,
-            "numero": numeroCartao,
-            "validade": validadeCartao,
-            "cvv": cvv
+            "meioDePagamento": {
+                "nomeTitular": nomeTitular,
+                "numero": numeroCartao,
+                "validade": validadeCartao,
+                "cvv": cvv
+            }
         }
-    }
-    
+        
 
-    enviar_email()
-    return response_mock.json()
+        enviar_email()
+        return response_mock.json()
 
 
 # UC02 – Confirmar email
