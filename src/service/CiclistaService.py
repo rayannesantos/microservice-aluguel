@@ -7,8 +7,8 @@ from unittest.mock import Mock
 app = Flask(__name__)
 
 
-def cadastrar_ciclista(nome, nascimento, cpf, passaporteNumero, passaporteValidade, passaportePais, nacionalidade, email, 
-                       urlFotoDocumento,senha, nomeTitular, numeroCartao, validadeCartao, cvv ):
+def cadastrar_ciclista(nome, nascimento, cpf, passaporte_numero, passaporte_validade, passaporte_pais, nacionalidade, email, 
+                       url_foto_documento,senha, nome_titular, numero_cartao, validade_cartao, cvv ):
     
     response_mock = Mock()
     response_mock.status_code = "Dados cadastrados", 200
@@ -35,19 +35,19 @@ def cadastrar_ciclista(nome, nascimento, cpf, passaporteNumero, passaporteValida
                 "nascimento": nascimento,
                 "cpf": cpf,
                 "passaporte": {
-                    "numero": passaporteNumero,
-                    "validade": passaporteValidade,
-                    "pais": passaportePais
+                    "numero": passaporte_numero,
+                    "validade": passaporte_validade,
+                    "pais": passaporte_pais
                 },
                 "nacionalidade": nacionalidade,
                 "email": email,
-                "urlFotoDocumento": urlFotoDocumento,
+                "urlFotoDocumento": url_foto_documento,
                 "senha": senha
             },
             "meioDePagamento": {
-                "nomeTitular": nomeTitular,
-                "numero": numeroCartao,
-                "validade": validadeCartao,
+                "nomeTitular": nome_titular,
+                "numero": numero_cartao,
+                "validade": validade_cartao,
                 "cvv": cvv
             }
         }
