@@ -10,7 +10,6 @@ app = Flask(__name__)
 def cadastrar_ciclista(nome, nascimento, cpf, passaporteNumero, passaporteValidade, passaportePais, nacionalidade, email, 
                        urlFotoDocumento,senha, nomeTitular, numeroCartao, validadeCartao, cvv ):
     
-    # TODO validarEmail
     response_mock = Mock()
     response_mock.status_code = "Dados cadastrados", 200
 
