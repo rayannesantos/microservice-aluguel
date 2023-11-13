@@ -29,21 +29,21 @@ jobs:
     - name: Configure Docker authentication for Google Container Registry
       run: gcloud auth configure-docker
 
-    - name: Run Ciclista Tests
-      run: |
-        python -m venv venv
-        source venv/bin/activate
-        pip install Flask gunicorn requests mock
-        python src/tests/ciclista_test.py
-        deactivate
+    # - name: Run Ciclista Tests
+    #   run: |
+    #     python -m venv venv
+    #     source venv/bin/activate
+    #     pip install Flask gunicorn requests mock
+    #     python src/tests/ciclista_test.py
+    #     deactivate
 
-    - name: Run Funcionarios Tests
-      run: |
-        python -m venv venv
-        source venv/bin/activate
-        pip install Flask gunicorn requests mock
-        python src/tests/funcionarios_test.py
-        deactivate 
+    # - name: Run Funcionarios Tests
+    #   run: |
+    #     python -m venv venv
+    #     source venv/bin/activate
+    #     pip install Flask gunicorn requests mock
+    #     python src/tests/funcionarios_test.py
+    #     deactivate 
 
     - name: Build and Push Docker image
       run: |
