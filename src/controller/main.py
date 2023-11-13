@@ -17,22 +17,22 @@ def cadastrar_ciclista_route():
         nome =  data.get("ciclista", {}).get("nome")
         nascimento = data.get("ciclista", {}).get("nascimento")
         cpf = data.get("ciclista", {}).get("cpf")
-        passaporteNumero = data.get("ciclista", {}).get("passaporte", {}).get("numero")
-        passaporteValidade =  data.get("ciclista", {}).get("passaporte", {}).get("validade")
-        passaportePais =  data.get("ciclista", {}).get("passaporte", {}).get("pais")
+        passaporte_numero = data.get("ciclista", {}).get("passaporte", {}).get("numero")
+        passaporte_validade =  data.get("ciclista", {}).get("passaporte", {}).get("validade")
+        passaporte_pais =  data.get("ciclista", {}).get("passaporte", {}).get("pais")
         nacionalidade = data.get("ciclista", {}).get("nacionalidade")
         
         email = data.get("ciclista", {}).get("email")
         urlFotoDocumento = data.get("ciclista", {}).get("urlFotoDocumento")
         senha = data.get("ciclista", {}).get("senha")
-        nomeTitular = data.get("meioDePagamento", {}).get("nomeTitular")
-        numeroCartao = data.get("meioDePagamento", {}).get("numero")
-        validadeCartao = data.get("meioDePagamento", {}).get("validade")
+        nome_titular = data.get("meioDePagamento", {}).get("nomeTitular")
+        numero_cartao = data.get("meioDePagamento", {}).get("numero")
+        validade_cartao = data.get("meioDePagamento", {}).get("validade")
         cvv = data.get("meioDePagamento", {}).get("cvv")
         
     
-        response = cadastrar_ciclista(nome, nascimento,cpf, passaporteNumero, passaporteValidade, passaportePais, nacionalidade,
-                                      email,urlFotoDocumento,senha, nomeTitular, numeroCartao, validadeCartao, cvv)
+        response = cadastrar_ciclista(nome, nascimento,cpf, passaporte_numero, passaporte_validade, passaporte_pais, nacionalidade,
+                                      email,urlFotoDocumento,senha, nome_titular, numero_cartao, validade_cartao, cvv)
 
         return response
 
