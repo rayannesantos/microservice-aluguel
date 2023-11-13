@@ -24,7 +24,6 @@ def cadastrar_ciclista(nome, nascimento, cpf, passaporte_numero, passaporte_vali
             }
         ]
         return response_mock.json()
-    
     else:
         validar_cartao()
         
