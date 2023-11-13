@@ -5,7 +5,7 @@ from flask import Flask, request
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.insert(0, project_root)
 
-from service.CiclistaService import cadastrar_ciclista
+from service.CiclistaService import cadastrar_ciclista, listar_ciclistas,ativar_ciclista
 from service.FuncionarioService import listar_funcionarios, cadastrar_funcionario, editar_funcionario, remover_funcionario
 app = Flask(__name__)
 
@@ -35,6 +35,20 @@ def cadastrar_ciclista_route():
                                       email,urlFotoDocumento,senha, nomeTitular, numeroCartao, validadeCartao, cvv)
 
         return response
+
+
+
+@app.route('/ciclista/<int:id_ciclista>/ativar', methods=['POST'])
+def ativar_ciclista_route(id_ciclista):
+    response = ativar_ciclista(id_ciclista)
+    return response
+
+
+@app.route('/ciclistas', methods=['GET'])
+def listar_ciclistas_route():
+    ciclistas = listar_ciclistas()
+    return ciclistas
+
 
 
 # FUNCIONARIOS 

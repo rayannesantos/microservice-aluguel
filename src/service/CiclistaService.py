@@ -29,7 +29,7 @@ def cadastrar_ciclista(nome, nascimento, cpf, passaporteNumero, passaporteValida
     
     response_mock.json.return_value = {
         "ciclista": {
-            "id": random.randint(1, 1000),
+            "id_ciclista": random.randint(1, 1000),
             "nome": nome,
             "nascimento": nascimento,
             "cpf": cpf,
@@ -54,6 +54,61 @@ def cadastrar_ciclista(nome, nascimento, cpf, passaporteNumero, passaporteValida
 
     enviar_email()
     return response_mock.json()
+
+
+# UC02 – Confirmar email
+def ativar_ciclista (id_ciclista):
+    response_mock = Mock()
+    response_mock.status_code = 200
+   
+    ciclistas = listar_ciclistas()
+    for ciclista in ciclistas:
+        if ciclista['id_ciclista'] == id_ciclista:
+            ciclista['status'] = 'ativado'
+            return ciclista
+
+    return {'error': 'Ciclista not found'}, 404
+    
+
+
+def listar_ciclistas():
+    response_mock = Mock()
+    response_mock.status_code = 200
+    response_mock.json.return_value = [
+       {
+        "id_ciclista": 1,
+        "status": "desativado",
+        "nome": "string",
+        "nascimento": "2023-11-13",
+        "cpf": "00964211258",
+        "passaporte": {
+            "numero": "string",
+            "validade": "2023-11-13",
+            "pais": "JF"
+        },
+        "nacionalidade": "string",
+        "email": "user@example.com",
+        "urlFotoDocumento": "string"
+        },   
+      {
+        "id_ciclista": 2,
+        "status": "desativado",
+        "nome": "string",
+        "nascimento": "2023-11-13",
+        "cpf": "00964211258",
+        "passaporte": {
+            "numero": "string",
+            "validade": "2023-11-13",
+            "pais": "JF"
+        },
+        "nacionalidade": "string",
+        "email": "user@example.com",
+        "urlFotoDocumento": "string"
+      },   
+    ]
+    return response_mock.json()
+
+
 
 
 # método de enviar email (retornando sempre "sucesso"), mas que não chame o microsserviço Externo. 
