@@ -29,6 +29,14 @@ jobs:
     - name: Configure Docker authentication for Google Container Registry
       run: gcloud auth configure-docker
 
+    - name: Run Funcionario Tests
+      run: |
+        python -m venv venv
+        source venv/bin/activate
+        pip install Flask gunicorn requests mock
+        python src/tests/funcionario_test.py
+        deactivate
+
 
     - name: Build and Push Docker image
       run: |
