@@ -55,7 +55,7 @@ def cadastrar_funcionario_route():
         funcao = data.get("funcao")
         cpf = data.get("cpf")
 
-        response = cadastrar_funcionario(senha,confirmacao_senha,email, nome, idade, funcao, cpf)
+        response = cadastrar_funcionario(senha, confirmacao_senha, email, nome, idade, funcao, cpf)
         return response
 
 
@@ -70,7 +70,7 @@ def editar_funcionario_route(id_funcionario):
         funcao = data.get("funcao")
         cpf = data.get("cpf")
 
-        response = editar_funcionario(id_funcionario,senha,confirmacao_senha,email, nome, idade,funcao,cpf)
+        response = editar_funcionario(id_funcionario, senha, confirmacao_senha, email, nome, idade, funcao,cpf)
         return response
     
 

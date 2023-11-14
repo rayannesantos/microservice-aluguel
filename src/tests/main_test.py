@@ -9,13 +9,30 @@ from controller.main import app
 class TestMain(unittest.TestCase):
 
     @patch('controller.main.Mock')
+    def test_listar_ciclista_route(self, mock_listar_ciclista):
+
+        mock_listar_ciclista.status_code = 200
+
+        with app.test_client() as client:
+            response = client.get('/ciclistas')
+            self.assertEqual(response.status_code, mock_listar_ciclista.status_code)
+
+    @patch('controller.main.Mock')
+    def test_ativar_ciclista_route(self, mock_ativar_ciclista):
+
+        mock_ativar_ciclista.status_code = 200
+
+        with app.test_client() as client:
+            response = client.post('/ciclista/1/ativar')
+            self.assertEqual(response.status_code, mock_ativar_ciclista.status_code)
+
+    @patch('controller.main.Mock')
     def test_listar_funcionarios_route(self, mock_listar_funcionarios):
 
         mock_listar_funcionarios.status_code = 200
 
         with app.test_client() as client:
             response = client.get('/funcionarios')
-
             self.assertEqual(response.status_code, mock_listar_funcionarios.status_code)
 
 
