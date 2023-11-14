@@ -41,5 +41,5 @@ jobs:
           --image gcr.io/micr-405023/microservice-aluguel:$GITHUB_SHA \
           --platform managed \
           --region us-central1
-
+          
 # version 1.0
