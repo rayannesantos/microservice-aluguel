@@ -38,7 +38,7 @@ def cadastrar_ciclista_route():
         
         print("Oi")
         response = cadastrar_ciclista(nome, nascimento, cpf, passaporte_numero, passaporte_validade, passaporte_pais, nacionalidade,
-                                      email, url_foto_documento, senha, nome_titular, numero_cartao, validade_cartao, cvv)
+                                      email, url_foto_documento, senha, nome_titular, numero_cartao, validade_cartao)
 
         return response
 

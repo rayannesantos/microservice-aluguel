@@ -3,7 +3,7 @@ from unittest.mock import Mock
 
 
 def cadastrar_ciclista(nome, nascimento, cpf, passaporte_numero, passaporte_validade, passaporte_pais, nacionalidade, email, 
-                       url_foto_documento,senha, nome_titular, numero_cartao, validade_cartao, cvv):
+                       url_foto_documento,senha, nome_titular, numero_cartao, validade_cartao):
     
     response_mock = Mock()
     response_mock.status_code = "Dados cadastrados", 200
@@ -39,7 +39,7 @@ def cadastrar_ciclista(nome, nascimento, cpf, passaporte_numero, passaporte_vali
             "nome_titular": nome_titular,
             "numero": numero_cartao,
             "validade": validade_cartao,
-            "cvv": cvv
+            "cvv": 232
         }
     }
     enviar_email()
