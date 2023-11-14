@@ -2,8 +2,7 @@
 from unittest.mock import Mock
 
 
-def cadastrar_ciclista(nome, nascimento, cpf, passaporte_numero, passaporte_validade, passaporte_pais, nacionalidade, email, 
-                       url_foto_documento,senha, nome_titular, numero_cartao, validade_cartao):
+def cadastrar_ciclista(data):
     
     response_mock = Mock()
     response_mock.status_code = "Dados cadastrados", 200
@@ -19,7 +18,28 @@ def cadastrar_ciclista(nome, nascimento, cpf, passaporte_numero, passaporte_vali
 
     validar_cartao()
         
-    response_mock.json.return_value = {
+    response_mock.json.return_value = dados_ciclista(data)
+    enviar_email()
+    return response_mock.json()
+
+def dados_ciclista(data):
+    nome =  data.get("ciclista").get("nome")
+    nascimento = data.get("ciclista").get("nascimento")
+    cpf = data.get("ciclista").get("cpf")
+    passaporte_numero = data.get("ciclista").get("passaporte").get("numero")
+    passaporte_validade =  data.get("ciclista").get("passaporte").get("validade")
+    passaporte_pais =  data.get("ciclista").get("passaporte").get("pais")
+    nacionalidade = data.get("ciclista").get("nacionalidade")
+        
+    email = data.get("ciclista").get("email")
+    url_foto_documento = data.get("ciclista").get("url_foto_documento")
+    senha = data.get("ciclista").get("senha")
+    nome_titular = data.get("meio_de_pagamento").get("nome_titular")
+    numero_cartao = data.get("meio_de_pagamento").get("numero")
+    validade_cartao = data.get("meio_de_pagamento").get("validade")
+    cvv = data.get("meio_de_pagamento").get("cvv")
+
+    mock_json = {
         "ciclista": {
             "id_ciclista": 3,
             "nome": nome,
@@ -39,11 +59,10 @@ def cadastrar_ciclista(nome, nascimento, cpf, passaporte_numero, passaporte_vali
             "nome_titular": nome_titular,
             "numero": numero_cartao,
             "validade": validade_cartao,
-            "cvv": 232
+            "cvv": cvv
         }
     }
-    enviar_email()
-    return response_mock.json()
+    return mock_json
 
 
 # UC02 – Confirmar email
