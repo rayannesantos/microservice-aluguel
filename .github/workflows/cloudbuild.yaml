@@ -1,0 +1,43 @@
+name: Deploy to Cloud Run
+
+on:
+ push:
+    #tags:
+    branches:
+      #- v*
+      - main
+
+jobs:
+
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Google Cloud SDK
+      uses: google-github-actions/setup-gcloud@v0.2
+      with:
+        project_id: micr-405023
+        service_account_key: ${{ secrets.GCLOUD_SERVICE_KEY }}
+        export_default_credentials: true
+
+    - name: Update Google Cloud SDK
+      run: gcloud components update
+
+    - name: Configure Docker authentication for Google Container Registry
+      run: gcloud auth configure-docker
+
+  
+    - name: Build and Push Docker image
+      run: |
+        docker buildx build --platform linux/amd64 -t gcr.io/micr-405023/microservice-aluguel:$GITHUB_SHA src/
+        docker push gcr.io/micr-405023/microservice-aluguel:$GITHUB_SHA
+
+    - name: Deploy to Cloud Run
+      run: |
+        gcloud run deploy microservice-aluguel \
+          --image gcr.io/micr-405023/microservice-aluguel:$GITHUB_SHA \
+          --platform managed \
+          --region us-central1
