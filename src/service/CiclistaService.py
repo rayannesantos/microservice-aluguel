@@ -15,7 +15,7 @@ def cadastrar_ciclista(nome, nascimento, cpf, passaporte_numero, passaporte_vali
 
     validacao = True
     
-    if not validacao:
+    if validacao == False:
         response_mock.status_code = 422
         response_mock.json.return_value = [
             {
@@ -24,10 +24,11 @@ def cadastrar_ciclista(nome, nascimento, cpf, passaporte_numero, passaporte_vali
             }
         ]
         return response_mock.json()
-    else:
-        validar_cartao()
+
+
+    validar_cartao()
         
-        response_mock.json.return_value = {
+    response_mock.json.return_value = {
             "ciclista": {
                 "id_ciclista": random.randint(1, 1000),
                 "nome": nome,
@@ -52,8 +53,8 @@ def cadastrar_ciclista(nome, nascimento, cpf, passaporte_numero, passaporte_vali
         }
         
 
-        enviar_email()
-        return response_mock.json()
+    enviar_email()
+    return response_mock.json()
 
 
 # UC02 – Confirmar email

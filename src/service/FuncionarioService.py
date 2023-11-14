@@ -55,7 +55,7 @@ def cadastrar_funcionario(senha, confirmacao_senha, email, nome, idade, funcao, 
      response_mock.status_code = "Dados cadastrados", 200
      
      validacao = True
-     if not validacao:
+     if validacao == False:
         response_mock.status_code = 422
         response_mock.json.return_value = [
             {
