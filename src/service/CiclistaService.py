@@ -32,11 +32,11 @@ def cadastrar_ciclista(nome, nascimento, cpf, passaporte_numero, passaporte_vali
             },
             "nacionalidade": nacionalidade,
             "email": email,
-            "urlFotoDocumento": url_foto_documento,
+            "url_foto_documento": url_foto_documento,
             "senha": senha
         },
-        "meioDePagamento": {
-            "nomeTitular": nome_titular,
+        "meio_de_pagamento": {
+            "nome_titular": nome_titular,
             "numero": numero_cartao,
             "validade": validade_cartao,
             "cvv": cvv

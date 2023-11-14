@@ -20,7 +20,6 @@ def hello_world():
 @app.route('/ciclista', methods=['POST'])
 def cadastrar_ciclista_route():
         data = request.json
-        print(data)
         nome =  data.get("ciclista").get("nome")
         nascimento = data.get("ciclista").get("nascimento")
         cpf = data.get("ciclista").get("cpf")
@@ -30,12 +29,12 @@ def cadastrar_ciclista_route():
         nacionalidade = data.get("ciclista").get("nacionalidade")
         
         email = data.get("ciclista").get("email")
-        url_foto_documento = data.get("ciclista").get("urlFotoDocumento")
+        url_foto_documento = data.get("ciclista").get("url_foto_documento")
         senha = data.get("ciclista").get("senha")
-        nome_titular = data.get("meioDePagamento").get("nomeTitular")
-        numero_cartao = data.get("meioDePagamento").get("numero")
-        validade_cartao = data.get("meioDePagamento").get("validade")
-        cvv = data.get("meioDePagamento").get("cvv")
+        nome_titular = data.get("meio_de_pagamento").get("nome_titular")
+        numero_cartao = data.get("meio_de_pagamento").get("numero")
+        validade_cartao = data.get("meio_de_pagamento").get("validade")
+        cvv = data.get("meio_de_pagamento").get("cvv")
         
         print("Oi")
         response = cadastrar_ciclista(nome, nascimento, cpf, passaporte_numero, passaporte_validade, passaporte_pais, nacionalidade,
