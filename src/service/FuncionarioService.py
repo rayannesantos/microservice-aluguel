@@ -44,13 +44,21 @@ def listar_funcionario_id (id_funcionario):
     funcionarios = listar_funcionarios()
     
     for funcionario in funcionarios:
+        print(funcionario)
         if funcionario['id_funcionario'] == id_funcionario:
-            return response_mock.json()
+            return funcionario
 
-    return False
+    response_mock.status_code = 404
+    response_mock.json.return_value = [
+        {
+            "codigo": 404,
+            "mensagem": "Not found"
+        }
+    ]
+    return response_mock.json()
        
 
-def cadastrar_funcionario(senha, confirmacao_senha, email, nome, idade, funcao, cpf ):
+def cadastrar_funcionario(senha, confirmacao_senha, email, nome, idade, funcao, cpf):
      response_mock = Mock()
      response_mock.status_code = "Dados cadastrados", 200
      
@@ -64,20 +72,19 @@ def cadastrar_funcionario(senha, confirmacao_senha, email, nome, idade, funcao, 
             }
         ]
         return response_mock.json()
+     
      else:
         response_mock.json.return_value = {
             "id_funcionario":3,
             "matricula":567,
             "senha" : senha,
-            "confirmacaoSenha":confirmacao_senha,
+            "confirmacao_senha": confirmacao_senha,
             "email" : email,
             "nome" : nome,
             "idade" : idade,
             "funcao" : funcao,
-            "cpf" : cpf
-                
+            "cpf" : cpf  
         }
-            
         return response_mock.json()
  
  

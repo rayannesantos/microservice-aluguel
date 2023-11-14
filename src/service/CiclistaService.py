@@ -1,58 +1,47 @@
 # UC01–Cadastrar Ciclista
-
-import random
-from flask import Flask
 from unittest.mock import Mock
-
-app = Flask(__name__)
 
 
 def cadastrar_ciclista(nome, nascimento, cpf, passaporte_numero, passaporte_validade, passaporte_pais, nacionalidade, email, 
-                       url_foto_documento,senha, nome_titular, numero_cartao, validade_cartao, cvv ):
+                       url_foto_documento,senha, nome_titular, numero_cartao, validade_cartao, cvv):
     
     response_mock = Mock()
     response_mock.status_code = "Dados cadastrados", 200
 
     validacao = True
-    
     if validacao == False:
         response_mock.status_code = 422
-        response_mock.json.return_value = [
-            {
-                "codigo": 422,
-                "mensagem": "Dados inválidos"
-            }
-        ]
+        response_mock.json.return_value = [{
+            "codigo": 422,
+            "mensagem": "Dados inválidos"
+        }]
         return response_mock.json()
-
 
     validar_cartao()
         
     response_mock.json.return_value = {
-            "ciclista": {
-                "id_ciclista": 3,
-                "nome": nome,
-                "nascimento": nascimento,
-                "cpf": cpf,
-                "passaporte": {
-                    "numero": passaporte_numero,
-                    "validade": passaporte_validade,
-                    "pais": passaporte_pais
-                },
-                "nacionalidade": nacionalidade,
-                "email": email,
-                "urlFotoDocumento": url_foto_documento,
-                "senha": senha
+        "ciclista": {
+            "id_ciclista": 3,
+            "nome": nome,
+            "nascimento": nascimento,
+            "cpf": cpf,
+            "passaporte": {
+                "numero": passaporte_numero,
+                "validade": passaporte_validade,
+                "pais": passaporte_pais
             },
-            "meioDePagamento": {
-                "nomeTitular": nome_titular,
-                "numero": numero_cartao,
-                "validade": validade_cartao,
-                "cvv": cvv
-            }
+            "nacionalidade": nacionalidade,
+            "email": email,
+            "urlFotoDocumento": url_foto_documento,
+            "senha": senha
+        },
+        "meioDePagamento": {
+            "nomeTitular": nome_titular,
+            "numero": numero_cartao,
+            "validade": validade_cartao,
+            "cvv": cvv
         }
-        
-
+    }
     enviar_email()
     return response_mock.json()
 
@@ -110,8 +99,6 @@ def listar_ciclistas():
     return response_mock.json()
 
 
-
-
 # método de enviar email (retornando sempre "sucesso"), mas que não chame o microsserviço Externo. 
 def enviar_email():
     response_mock = Mock()
@@ -121,6 +108,3 @@ def enviar_email():
 # Apenas para retornar sem chamar o microsserviço externo
 def validar_cartao():
     return True
-
-
-
