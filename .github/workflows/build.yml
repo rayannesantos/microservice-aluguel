@@ -7,13 +7,28 @@ on:
     types: [opened, synchronize, reopened]
 jobs:
   sonarcloud:
-
     name: SonarCloud
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0 
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9' 
+
+      - name: Install dependencies
+        run: |
+          pip install Flask gunicorn requests mock flask_wtf coverage
+
+      - name: Run tests and coverage
+        run: |
+          coverage run src/tests/funcionario_test.py
+          coverage run src/tests/main_test.py
+          coverage xml -o coverage.xml
+
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
