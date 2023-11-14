@@ -30,7 +30,7 @@ def cadastrar_ciclista(nome, nascimento, cpf, passaporte_numero, passaporte_vali
         
     response_mock.json.return_value = {
             "ciclista": {
-                "id_ciclista": random.randint(1, 1000),
+                "id_ciclista": 3,
                 "nome": nome,
                 "nascimento": nascimento,
                 "cpf": cpf,
