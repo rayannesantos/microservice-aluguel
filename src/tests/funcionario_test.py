@@ -44,3 +44,25 @@ class TestBicicletaService(unittest.TestCase):
         result = listar_funcionarios()
         self.assertEqual(len(result), 2) 
 
+
+    @patch('service.FuncionarioService.Mock')
+    def test_cadastrar_funcionario(self, mock_request):
+        senha, confirmacao_senha, email, nome, idade, funcao, cpf  = "123","123", "teste@email.com","Teste" ,30, "REPARADOR", "85459341060"
+        response_mock = Mock()
+        response_mock.status_code = 200
+
+        response_mock.json.return_value = {
+            "id_funcionario": 3,
+            "matricula":"567",
+            "senha" : senha,
+            "confirmacaoSenha":confirmacao_senha,
+            "email" : email,
+            "nome" : nome,
+            "idade" : idade,
+            "funcao" : funcao,
+            "cpf" : cpf
+        }
+        mock_request.return_value = response_mock
+        result = cadastrar_funcionario(senha, confirmacao_senha, email, nome, idade, funcao, cpf)
+        self.assertEqual(result['email'], email)  
+        self.assertEqual(result['cpf'], cpf)

@@ -19,5 +19,26 @@ class TestMain(unittest.TestCase):
             self.assertEqual(response.status_code, mock_listar_funcionarios.status_code)
 
 
+    @patch('controller.main.Mock')
+    def test_cadastrar_funcionario_route(self, mock_cadastrar_funcionario):
+
+        mock_cadastrar_funcionario.status_code = 200
+
+        data = {
+            "id_funcionario":1,
+            "matricula": "teste",
+            "senha": "teste",
+            "confirmacaoSenha": "teste",
+            "email": "teste@example.com",
+            "nome": "teste",
+            "idade": 19,
+            "funcao": "REPARADOR",
+            "cpf": "teste"
+        }
+        with app.test_client() as client:
+            response = client.get('/get_csrf_token')
+            response = client.post('/funcionario', headers={"Content-Type": "application/json"}, json=data)
+            self.assertEqual(response.status_code, mock_cadastrar_funcionario.status_code)
+
 if __name__ == '__main__':
     unittest.main()
