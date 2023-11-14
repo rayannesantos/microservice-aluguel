@@ -36,7 +36,6 @@ class TestMain(unittest.TestCase):
             "cpf": "teste"
         }
         with app.test_client() as client:
-            response = client.get('/get_csrf_token')
             response = client.post('/funcionario', headers={"Content-Type": "application/json"}, json=data)
             self.assertEqual(response.status_code, mock_cadastrar_funcionario.status_code)
 
