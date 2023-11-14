@@ -2,10 +2,8 @@ name: Deploy to Cloud Run
 
 on:
  push:
-    #tags:
-    branches:
-      #- v*
-      - main
+    tags:
+      - v*
 
 jobs:
 
