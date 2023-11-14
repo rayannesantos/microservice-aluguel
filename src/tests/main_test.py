@@ -46,8 +46,11 @@ class TestMain(unittest.TestCase):
             }
         }
 
+        token = "None"
         with app.test_client() as client:
-            response = client.post('/ciclista', json=data)
+            response = client.get('/get_csrf_token')
+            token = response.get_data(as_text=True)
+            response = client.post('/ciclista', json=data, headers={"Content-Type": "application/json", "X-CSRFToken": token})
             self.assertEqual(response.status_code, mock_cadastrar_ciclista.status_code)
 
     @patch('controller.main.Mock')
@@ -55,8 +58,11 @@ class TestMain(unittest.TestCase):
 
         mock_ativar_ciclista.status_code = 200
 
+        token = "None"
         with app.test_client() as client:
-            response = client.post('/ciclista/1/ativar')
+            response = client.get('/get_csrf_token')
+            token = response.get_data(as_text=True)
+            response = client.post('/ciclista/1/ativar', headers={"Content-Type": "application/json", "X-CSRFToken": token})
             self.assertEqual(response.status_code, mock_ativar_ciclista.status_code)
 
     @patch('controller.main.Mock')
@@ -85,8 +91,12 @@ class TestMain(unittest.TestCase):
             "funcao": "REPARADOR",
             "cpf": "teste"
         }
+
+        token = "None"
         with app.test_client() as client:
-            response = client.post('/funcionario', headers={"Content-Type": "application/json"}, json=data)
+            response = client.get('/get_csrf_token')
+            token = response.get_data(as_text=True)
+            response = client.post('/funcionario', headers={"Content-Type": "application/json", "X-CSRFToken": token}, json=data)
             self.assertEqual(response.status_code, mock_cadastrar_funcionario.status_code)
 
 
@@ -107,8 +117,11 @@ class TestMain(unittest.TestCase):
             "cpf": "teste"
         }
 
+        token = "None"
         with app.test_client() as client:
-            response = client.put('/funcionario/2', headers={"Content-Type": "application/json"}, json=data)
+            response = client.get('/get_csrf_token')
+            token = response.get_data(as_text=True)
+            response = client.put('/funcionario/2', headers={"Content-Type": "application/json", "X-CSRFToken": token}, json=data)
             self.assertEqual(response.status_code, mock_editar_funcionario.status_code) 
 
 if __name__ == '__main__':

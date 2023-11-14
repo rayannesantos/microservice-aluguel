@@ -11,6 +11,20 @@ from service.FuncionarioService import listar_funcionarios, cadastrar_funcionari
 
 app = Flask(__name__)
 
+###### config do SONAR do problema de CSRF ###### 
+from flask_wtf import CSRFProtect               #
+from flask_wtf.csrf import generate_csrf        #
+                                                #
+csrf = CSRFProtect(app)                         #
+csrf.init_app(app)                              #
+app.config['SECRET_KEY'] = 'teste123'           #
+                                                #
+@app.route('/get_csrf_token', methods=['GET'])  #
+def get_csrf_token():                           #
+    token = generate_csrf()                     #
+    return token, 200                           #
+#################################################
+
 @app.route('/', methods=['GET'])
 def hello_world():
     return "Hello World! :)"
