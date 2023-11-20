@@ -1,13 +1,13 @@
 import os, sys
 from flask import Flask
-from flask import Flask, request
 from unittest.mock import Mock
 
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.insert(0, project_root)
 
-from service.CiclistaService import cadastrar_ciclista, listar_ciclistas,ativar_ciclista
-from service.FuncionarioService import listar_funcionarios, cadastrar_funcionario, editar_funcionario, remover_funcionario, listar_funcionario_id
+
+from controller.CiclistaController import ciclista_app
+
 
 app = Flask(__name__)
 
@@ -30,6 +30,10 @@ def hello_world():
     return "Hello World! :)"
 
 
+
+
+# PRIMEIRA ENTREGA
+
 # CICLISTAS
 @app.route('/ciclista', methods=['POST'])
 def cadastrar_ciclista_route():
@@ -46,6 +50,17 @@ def ativar_ciclista_route(id_ciclista):
 def listar_ciclistas_route():
     return listar_ciclistas()
 
+
+# apenas testes
+
+# @app.route('/teste', methods=['GET'])
+# def listar_teste_route():
+#     ciclista_service = CiclistaService()
+#     # Chamar o método listar_todos na instância criada
+#     ciclistas = ciclista_service.listar_todos()
+
+#     # Retornar a lista de dicionários em formato JSON
+#     return jsonify({"ciclistas": ciclistas})
 
 # FUNCIONARIOS 
 
@@ -95,4 +110,5 @@ def remover_funcionario_route(id_funcionario):
     
 
 if __name__ == '__main__':
+    app.register_blueprint(ciclista_app, url_prefix='/ciclista')
     app.run(port=int(os.environ.get("PORT", 8080)),host='0.0.0.0',debug=True)
