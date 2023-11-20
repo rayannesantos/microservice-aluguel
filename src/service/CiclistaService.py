@@ -112,7 +112,6 @@ class CiclistaService:
         self.validar_cartao()
 
         response_mock.json.return_value = self.dados_ciclista(data)
-        self.enviar_email()
         return response_mock.json()
 
     def dados_ciclista(self, data):
@@ -217,7 +216,7 @@ class CiclistaService:
     
     # Método de enviar email (retornando sempre "sucesso"), mas que não chame o microsserviço Externo.
     def enviar_email(self, email, mensagem):
-        sendTo = email;
+        send_to = email;
         body = mensagem;
         return True;
 
