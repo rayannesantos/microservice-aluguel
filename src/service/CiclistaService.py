@@ -97,9 +97,9 @@ class CiclistaService:
         response_mock = Mock()
         response_mock.status_code = "Dados cadastrados", 200
 
-        validacao = False
+        validacao = True
         
-        if not validacao:
+        if validacao:
             response_mock.status_code = 422
             response_mock.json.return_value = [{
                 "codigo": 422,
