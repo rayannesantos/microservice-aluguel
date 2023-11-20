@@ -34,6 +34,6 @@ def listar_todos_ciclistas_route():
         # Lógica para obter a lista de ciclistas
         ciclistas = ciclista_service.listar_todos()
         return jsonify({"ciclistas": ciclistas})
-    except Exception as e:
+    except Exception:
         # Se ocorrer uma exceção, trata como "Not Found"
         return jsonify({"error": "Not Found"}), 404

@@ -73,7 +73,7 @@ class CiclistaService:
             if not self.validar_dados_ciclista(ciclista):
                 return {"error": "Dados inválidos"}, 422
             
-            self.enviar_email(email)
+            self.enviar_email(email,"Cadastro alterado com sucesso")
             return ciclista.to_dict()
 
 
@@ -216,7 +216,9 @@ class CiclistaService:
     
     
     # Método de enviar email (retornando sempre "sucesso"), mas que não chame o microsserviço Externo.
-    def enviar_email(self, email):
+    def enviar_email(self, email, mensagem):
+        sendTo = email;
+        body = mensagem;
         return True;
 
     # Apenas para retornar sem chamar o microsserviço externo
