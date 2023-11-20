@@ -73,7 +73,7 @@ class CiclistaService:
             if not self.validar_dados_ciclista(ciclista):
                 return {"error": "Dados inválidos"}, 422
             
-            self.enviar_email(email,"Cadastro alterado com sucesso")
+            self.enviar_email()
             return ciclista.to_dict()
 
 
@@ -85,11 +85,9 @@ class CiclistaService:
     
     
     def obter_ciclista_por_id(self, id_ciclista):
-        ciclista = Ciclista
-        
-        for ciclista in self.ciclistas:
-            if ciclista.id_ciclista == id_ciclista:
-                return ciclista
+        for Ciclista in self.ciclistas:
+            if Ciclista.id_ciclista == id_ciclista:
+                return Ciclista
         return None   
     
     
@@ -217,10 +215,8 @@ class CiclistaService:
     
     
     # Método de enviar email (retornando sempre "sucesso"), mas que não chame o microsserviço Externo.
-    def enviar_email(self, email, mensagem):
-        send_to = email;
-        body = mensagem;
-        return True;
+    def enviar_email(self):
+        returnenviar_email True;
 
     # Apenas para retornar sem chamar o microsserviço externo
     def validar_cartao(self):
