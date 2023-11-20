@@ -25,7 +25,6 @@ def alterar_ciclista_id_route(id_ciclista):
         return resultado, 422  
 
     return {"mensagem": "Dados atualizados", "ciclistas": resultado}, 200
-    return resultado, 200  
 
 
 # LISTA TODOS OS CICLISTAS
