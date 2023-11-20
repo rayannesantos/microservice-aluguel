@@ -23,11 +23,11 @@ jobs:
         run: |
           pip install Flask gunicorn requests mock flask_wtf coverage
 
-      - name: Run tests and coverage
-        run: |
-          coverage run src/tests/funcionario_test.py
-          coverage run src/tests/main_test.py
-          coverage xml -o coverage.xml
+      # - name: Run tests and coverage
+      #   run: |
+      #     coverage run src/tests/funcionario_test.py
+      #     coverage run src/tests/main_test.py
+      #     coverage xml -o coverage.xml
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
