@@ -50,18 +50,6 @@ def ativar_ciclista_route(id_ciclista):
 def listar_ciclistas_route():
     return listar_ciclistas()
 
-
-# apenas testes
-
-# @app.route('/teste', methods=['GET'])
-# def listar_teste_route():
-#     ciclista_service = CiclistaService()
-#     # Chamar o método listar_todos na instância criada
-#     ciclistas = ciclista_service.listar_todos()
-
-#     # Retornar a lista de dicionários em formato JSON
-#     return jsonify({"ciclistas": ciclistas})
-
 # FUNCIONARIOS 
 
 @app.route('/funcionarios', methods=['GET'])
