@@ -85,10 +85,14 @@ class CiclistaService:
     
     
     def obter_ciclista_por_id(self, id_ciclista):
-        for Ciclista in self.ciclistas:
-            if Ciclista.id_ciclista == id_ciclista:
-                return Ciclista
+        ciclista = Ciclista
+        
+        for ciclista in self.ciclistas:
+            if ciclista.id_ciclista == id_ciclista:
+                return ciclista
         return None   
+    
+    
     
     
     
@@ -99,7 +103,7 @@ class CiclistaService:
 
         validacao = True
         
-        if validacao:
+        if not validacao:
             response_mock.status_code = 422
             response_mock.json.return_value = [{
                 "codigo": 422,
@@ -111,9 +115,6 @@ class CiclistaService:
 
         response_mock.json.return_value = self.dados_ciclista(data)
         return response_mock.json()
-
-
-
 
     def dados_ciclista(self, data):
         nome = data.get("ciclista").get("nome")
