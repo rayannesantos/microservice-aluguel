@@ -92,15 +92,13 @@ class CiclistaService:
     
     
     
-    
-    
     # PRIMEIRA ENTREGA
-    
     def cadastrar_ciclista(self, data):
         response_mock = Mock()
         response_mock.status_code = "Dados cadastrados", 200
 
-        validacao = True
+        validacao = False
+        
         if not validacao:
             response_mock.status_code = 422
             response_mock.json.return_value = [{
@@ -113,6 +111,9 @@ class CiclistaService:
 
         response_mock.json.return_value = self.dados_ciclista(data)
         return response_mock.json()
+
+
+
 
     def dados_ciclista(self, data):
         nome = data.get("ciclista").get("nome")
