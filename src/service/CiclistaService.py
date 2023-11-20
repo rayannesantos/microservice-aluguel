@@ -216,7 +216,7 @@ class CiclistaService:
     
     # Método de enviar email (retornando sempre "sucesso"), mas que não chame o microsserviço Externo.
     def enviar_email(self):
-        returnenviar_email True;
+        return True;
 
     # Apenas para retornar sem chamar o microsserviço externo
     def validar_cartao(self):
