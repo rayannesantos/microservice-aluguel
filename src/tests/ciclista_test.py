@@ -78,6 +78,8 @@ class TestCiclistaService(unittest.TestCase):
         mock_enviar_email.assert_called_once()
         mock_enviar_para_administradora_cc.assert_called_once()
 
+
+
     def test_ativar_ciclista(self):
         response_mock = Mock()
         response_mock.status_code = 200
