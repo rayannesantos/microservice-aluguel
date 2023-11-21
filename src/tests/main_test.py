@@ -5,6 +5,7 @@ project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.insert(0, project_root)
 
 from controller.main import app
+from controller.CiclistaController import ciclista_app
 
 class TestMain(unittest.TestCase):
 
