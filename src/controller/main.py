@@ -33,23 +33,7 @@ def hello_world():
 
 
 
-# PRIMEIRA ENTREGA
 
-# CICLISTAS
-@app.route('/ciclista', methods=['POST'])
-def cadastrar_ciclista_route():
-        data = request.json
-        return cadastrar_ciclista(data)
-
-
-@app.route('/ciclista/<int:id_ciclista>/ativar', methods=['POST'])
-def ativar_ciclista_route(id_ciclista):
-    return ativar_ciclista(id_ciclista)
-
-
-@app.route('/ciclistas', methods=['GET'])
-def listar_ciclistas_route():
-    return listar_ciclistas()
 
 # FUNCIONARIOS 
 

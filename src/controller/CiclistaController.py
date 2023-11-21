@@ -38,11 +38,9 @@ def alterar_cartao_route(id_ciclista):
 @ciclista_app.route('/', methods=['GET'])
 def listar_todos_ciclistas_route():
     try:
-        # Lógica para obter a lista de ciclistas
         ciclistas = ciclista_service.listar_todos()
         return jsonify({"ciclistas": ciclistas})
     except Exception:
-        # Se ocorrer uma exceção, trata como "Not Found"
         return jsonify({"error": "Not Found"}), 404
     
     
@@ -56,3 +54,17 @@ def listar_meio_de_pagamento_por_id(id_ciclista):
     
     return jsonify(meio_de_pagamento)
 
+
+
+# PRIMEIRA ENTREGA
+
+# CICLISTAS
+@ciclista_app.route('/', methods=['POST'])
+def cadastrar_ciclista_route():
+        data = request.json
+        return cadastrar_ciclista(data)
+
+
+@ciclista_app.route('/<int:id_ciclista>/ativar', methods=['POST'])
+def ativar_ciclista_route(id_ciclista):
+    return ativar_ciclista(id_ciclista)
