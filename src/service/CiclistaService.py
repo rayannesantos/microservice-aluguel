@@ -145,8 +145,6 @@ class CiclistaService:
         return True
 
 
-
-
     # PRIMEIRA ENTREGA
     def cadastrar_ciclista(self, data):
         response_mock = Mock()
@@ -163,9 +161,10 @@ class CiclistaService:
         else:
             self.validar_cartao()
 
-        response_mock.json.return_value = self.dados_ciclista(data)
-        return response_mock.json()
-
+            response_mock.json.return_value = self.dados_ciclista(data)
+            return response_mock.json()
+        
+        
     def dados_ciclista(self, data):
         nome = data.get("ciclista").get("nome")
         nascimento = data.get("ciclista").get("nascimento")
