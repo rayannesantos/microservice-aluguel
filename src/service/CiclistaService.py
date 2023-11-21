@@ -160,9 +160,8 @@ class CiclistaService:
                 "mensagem": "Dados inválidos"
             }]
             return response_mock.json()
-
-        # Execute the subsequent code when validacao is True
-        self.validar_cartao()
+        else:
+            self.validar_cartao()
 
         response_mock.json.return_value = self.dados_ciclista(data)
         return response_mock.json()
