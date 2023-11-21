@@ -39,14 +39,11 @@ class TestAluguelService(unittest.TestCase):
         self.assertEqual(status_code, 404)
         
     def test_alterar_status_bicicleta(self):
-        # Suponha que a bicicleta com número 101 inicialmente tem status "Disponível"
         numero_bicicleta = 101
         novo_status = "Indisponível"
 
-        # Execute o método que você deseja testar
         self.aluguel_service.alterar_status_bicicleta(numero_bicicleta, novo_status)
 
-        # Verifique se o status foi alterado corretamente
         for bicicleta in self.aluguel_service.bicicletas:
             if bicicleta["numero"] == numero_bicicleta:
                 self.assertEqual(bicicleta["status"], novo_status)
