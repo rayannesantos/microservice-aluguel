@@ -78,7 +78,6 @@ class TestAluguelService(unittest.TestCase):
 
         self.assertEqual(status_code, 404)
 
-        
+
 if __name__ == '__main__':
-    
     unittest.main()
