@@ -57,7 +57,6 @@ class AluguelService:
         if ciclista.status_aluguel:
             return {"error": "Ciclista já tem um aluguel"}, 422
 
-        cartao_usado = ciclista.meio_de_pagamento.numero_cartao if ciclista.meio_de_pagamento else "N/A"
 
         aluguel = AluguelBicicleta(
             bicicleta=trancadesejada["bicicleta"],

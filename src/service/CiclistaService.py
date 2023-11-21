@@ -98,7 +98,6 @@ class CiclistaService:
             ciclista.nacionalidade = dados.get("nacionalidade", ciclista.nacionalidade)
             ciclista.url_foto_documento = dados.get("url_foto_documento", ciclista.url_foto_documento)
             ciclista.senha = dados.get("senha", ciclista.senha)
-            email = ciclista.email
 
             # Validação dos dados
             if not self.validar_dados_ciclista(ciclista):
@@ -150,11 +149,11 @@ class CiclistaService:
         return {"error": "Ciclista não encontrado"}, 404
 
 
-    def validar_dados_cartao(self, dados_cartao):
+    def validar_dados_cartao(self):
         # externo
         return True
 
-    def enviar_para_administradora_cc(self, dados_cartao):
+    def enviar_para_administradora_cc(self):
         # Simulação do envio para a Administradora CC
         return True
 

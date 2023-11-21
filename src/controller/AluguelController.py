@@ -1,5 +1,4 @@
 from flask import Blueprint, jsonify,request
-# from service.CiclistaService import CiclistaService
 from service.AluguelService import AluguelService
 
 aluguel_app = Blueprint('aluguel_app', __name__)
