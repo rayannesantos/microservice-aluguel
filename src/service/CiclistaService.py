@@ -102,9 +102,9 @@ class CiclistaService:
     
     
     def obter_ciclista_por_id(self, id_ciclista):
-        for Ciclista in self.ciclistas:
-            if Ciclista.id_ciclista == id_ciclista:
-                return Ciclista
+        for ciclista in self.ciclistas:
+            if ciclista.id_ciclista == id_ciclista:
+                return ciclista
         return None   
     
     

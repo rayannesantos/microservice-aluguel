@@ -35,7 +35,7 @@ def alterar_cartao_route(id_ciclista):
     return jsonify(resultado)
 
 # LISTA TODOS OS CICLISTAS
-@ciclista_app.route('/teste', methods=['GET'])
+@ciclista_app.route('/', methods=['GET'])
 def listar_todos_ciclistas_route():
     try:
         # Lógica para obter a lista de ciclistas

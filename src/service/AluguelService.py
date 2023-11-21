@@ -125,5 +125,5 @@ class AluguelService:
     def obter_aluguel_por_bicicleta(self, numero_bicicleta):
         for aluguel in self.alugueis: 
             if aluguel.bicicleta == numero_bicicleta:
-                return aluguel.to_dict()  # Utiliza o método to_dict para obter um dicionário
+                return aluguel.to_dict()  
         return None
