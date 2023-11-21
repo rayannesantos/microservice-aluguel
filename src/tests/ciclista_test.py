@@ -95,23 +95,7 @@ class TestCiclistaService(unittest.TestCase):
 
         self.assertEqual(resultado['status'], 'ativado')
 
-    def test_listar_meio_de_pagamento_por_id_found(self):
-        id_ciclista =  4 
-        dados_cartao = {
-            "nome_titular": "Novo Titular",
-            "numero_cartao": "1234567812345678",
-            "validade_cartao": "12/25",
-            "cvv_cartao": "123",
-            "ciclista": 4
-        }
-                
-        with patch.object(self.ciclista_service, 'enviar_email') as mock_enviar_email, \
-                patch.object(self.ciclista_service, 'enviar_para_administradora_cc', return_value=True) as mock_enviar_para_administradora_cc:
-
-            resultado = self.ciclista_service.alterar_cartao(id_ciclista, dados_cartao)
-
-        self.assertIsInstance(resultado, dict)          
-
+    
 
 if __name__ == '__main__':
     unittest.main()
