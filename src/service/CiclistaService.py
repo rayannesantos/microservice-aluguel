@@ -10,6 +10,7 @@
 # UC01–Cadastrar Ciclista
 from unittest.mock import Mock
 from model.CiclistaModel import Ciclista
+from model.MeiodePagamentoModel import MeioDePagamento  # Make sure to adjust the import path
 
 class CiclistaService: 
     def __init__(self):
@@ -46,12 +47,41 @@ class CiclistaService:
                 "senha": "senha"
             }
         ]
-        self.ciclistas = [Ciclista(**ciclista_data) for ciclista_data in self.ciclistas_data]
+        self.ciclistas = []
+        
+        for ciclista_data in self.ciclistas_data:
+            ciclista = Ciclista(**ciclista_data)
 
+            if not self.ciclistas:  
+                meio_de_pagamento_data = {
+                    "nome_titular": "Titular",
+                    "numero_cartao": "1234567890123456",  
+                    "validade_cartao": "2025-12-31",
+                    "cvv_cartao": "123",
+                    "ciclista": ciclista  
+                }
+                ciclista.meio_de_pagamento = MeioDePagamento(**meio_de_pagamento_data)
+
+            self.ciclistas.append(ciclista)
+            
+            
 
     def listar_todos(self):
         ciclistas = [ciclista.to_dict() for ciclista in self.ciclistas]
-        return ciclistas
+        return ciclistas        
+    
+    def listar_meio_de_pagamento_por_id(self, id_ciclista):
+        ciclista = self.obter_ciclista_por_id(id_ciclista)
+
+        if ciclista:
+            meio_de_pagamento = ciclista.meio_de_pagamento
+            if meio_de_pagamento:
+                return meio_de_pagamento.to_dict()
+
+        return {"error": "Ciclista or meio de pagamento not found"}, 404
+    
+
+    
         
         
     # UC06 – Alterar Dados do Ciclista
@@ -92,7 +122,42 @@ class CiclistaService:
     
     
     
-    
+    # UC07 – Alterar Cartão
+    def alterar_cartao(self, id_ciclista, dados_cartao):
+        ciclista = self.obter_ciclista_por_id(id_ciclista)
+
+        if ciclista:
+            if not self.validar_dados_cartao(dados_cartao):
+                return {"error": "Dados do cartão inválidos"}, 422
+
+            if not self.enviar_para_administradora_cc(dados_cartao):
+                return {"error": "Cartão recusado pela Administradora CC"}, 422
+
+            ciclista.meio_de_pagamento = MeioDePagamento(
+                nome_titular=dados_cartao["nome_titular"],
+                numero_cartao=dados_cartao["numero_cartao"],
+                validade_cartao=dados_cartao["validade_cartao"],
+                cvv_cartao=dados_cartao["cvv_cartao"],
+                ciclista=ciclista
+        )
+
+            if not self.enviar_email():
+                return {"warning": "Cartão atualizado, mas houve um problema ao enviar o e-mail"}
+
+            return {"success": "Cartão atualizado com sucesso"}
+
+        return {"error": "Ciclista não encontrado"}, 404
+
+
+    def validar_dados_cartao(self, dados_cartao):
+        # externo
+        return True
+
+    def enviar_para_administradora_cc(self, dados_cartao):
+        # Simulação do envio para a Administradora CC
+        return True
+
+
     
     # PRIMEIRA ENTREGA
     def cadastrar_ciclista(self, data):

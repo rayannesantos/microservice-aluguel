@@ -22,3 +22,4 @@ class Ciclista:
             "url_foto_documento": self.url_foto_documento,
             "senha": self.senha
         }
+
