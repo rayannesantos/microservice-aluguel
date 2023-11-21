@@ -96,5 +96,6 @@ class TestCiclistaService(unittest.TestCase):
 
         self.assertEqual(resultado['status'], 'ativado')
 
+
 if __name__ == '__main__':
     unittest.main()

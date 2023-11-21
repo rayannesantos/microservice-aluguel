@@ -31,10 +31,6 @@ def hello_world():
     return "Hello World! :)"
 
 
-
-
-
-
 # FUNCIONARIOS 
 
 @app.route('/funcionarios', methods=['GET'])

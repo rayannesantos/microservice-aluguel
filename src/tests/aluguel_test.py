@@ -72,8 +72,6 @@ class TestAluguelService(unittest.TestCase):
         self.assertEqual(tranca_simulada["status"], novo_status)
 
     def test_devolver_bicicleta_invalido(self):
-        
-        # quando não tem aluguel
         numero_bicicleta = 1
         numero_tranca_devolucao = 105
         resultado, status_code = self.aluguel_service.devolver_bicicleta(numero_bicicleta, numero_tranca_devolucao)
