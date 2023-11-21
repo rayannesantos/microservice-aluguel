@@ -3,6 +3,10 @@ from datetime import datetime
 from model.AluguelModel import AluguelBicicleta
 
 class AluguelService:
+    DISPONIVEL = "Disponível"
+    INDISPONIVEL = "Indisponível"
+    OCUPADA = "Ocupada"
+    
     def __init__(self):
         # Inicializa dados de bicicletas e trancas mockados
         self.bicicletas = [
@@ -12,7 +16,7 @@ class AluguelService:
                 "modelo": "Mountain Bike",
                 "ano": "2022",
                 "numero": 101,
-                "status": "Disponível"
+                "status": self.DISPONIVEL
             },
             {
                 "id": 2,
@@ -20,7 +24,7 @@ class AluguelService:
                 "modelo": "Road Bike",
                 "ano": "2021",
                 "numero": 102,
-                "status": "Indisponível"
+                "status": self.INDISPONIVEL
             }
         ]
 
@@ -32,7 +36,7 @@ class AluguelService:
                 "localizacao": "Estação A",
                 "anoDeFabricacao": "2022",
                 "modelo": "Tranca A",
-                "status": "Disponível"
+                "status": self.DISPONIVEL
             }
         ]
         
@@ -89,9 +93,9 @@ class AluguelService:
             
             
             
-            self.alterar_status_bicicleta(numero_bicicleta, "Disponível")
+            self.alterar_status_bicicleta(numero_bicicleta, self.DISPONIVEL)
 
-            self.alterar_status_tranca(numero_tranca, "Ocupada")            
+            self.alterar_status_tranca(numero_tranca, self.OCUPADA)            
 
             return {"success": "Bicicleta devolvida com sucesso", "registro_devolucao": aluguel_correspondente.to_dict()}, 200
 

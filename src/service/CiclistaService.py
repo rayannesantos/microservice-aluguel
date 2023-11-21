@@ -144,6 +144,9 @@ class CiclistaService:
         # Simulação do envio para a Administradora CC
         return True
 
+
+
+
     # PRIMEIRA ENTREGA
     def cadastrar_ciclista(self, data):
         response_mock = Mock()
@@ -256,14 +259,11 @@ class CiclistaService:
         ]
         return response_mock.json()
 
-        # Método de enviar email (retornando sempre "sucesso"), mas que não chame o microsserviço Externo.
-        def enviar_email(self):
-            response_mock = Mock()
-            response_mock.json.return_value = {"message": "Email enviado com sucesso"}
-            return response_mock.json()
+       
+    # Apenas para retornar sem chamar o microsserviço externo
+    def enviar_email(self):
+        return True
     
-    
-
     # Apenas para retornar sem chamar o microsserviço externo
     def validar_cartao(self):
         return True
