@@ -51,6 +51,30 @@ class TestAluguelService(unittest.TestCase):
         else:
             self.fail(f"Bicicleta com número {numero_bicicleta} não encontrada.")        
 
+    def test_alterar_status_tranca(self):
+        numero_tranca = 100
+        novo_status = "Ocupada"
 
+        tranca_simulada = {
+            "id": 1,
+            "bicicleta": 1,
+            "numero": numero_tranca,
+            "localizacao": "Estação A",
+            "anoDeFabricacao": "2022",
+            "modelo": "Tranca A",
+            "status": self.aluguel_service.DISPONIVEL
+        }
+        self.aluguel_service.trancas.append(tranca_simulada)
+
+        with patch.object(self.aluguel_service, 'trancas', [tranca_simulada]):
+            self.aluguel_service.alterar_status_tranca(numero_tranca, novo_status)
+
+        self.assertEqual(tranca_simulada["status"], novo_status)
+
+
+
+
+        
 if __name__ == '__main__':
+    
     unittest.main()
