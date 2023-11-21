@@ -9,6 +9,8 @@ class Ciclista:
         self.email = email
         self.url_foto_documento = url_foto_documento
         self.senha = senha
+        self.status_aluguel = False
+
 
     def to_dict(self):
         return {
@@ -20,6 +22,8 @@ class Ciclista:
             "nacionalidade": self.nacionalidade,
             "email": self.email,
             "url_foto_documento": self.url_foto_documento,
-            "senha": self.senha
+            "senha": self.senha,        
+            "status_aluguel": self.status_aluguel
+
         }
 

@@ -7,7 +7,7 @@ sys.path.insert(0, project_root)
 
 
 from controller.CiclistaController import ciclista_app
-
+from controller.AluguelController import aluguel_app
 
 app = Flask(__name__)
 
@@ -99,4 +99,5 @@ def remover_funcionario_route(id_funcionario):
 
 if __name__ == '__main__':
     app.register_blueprint(ciclista_app, url_prefix='/ciclista')
+    app.register_blueprint(aluguel_app, url_prefix='/aluguel')
     app.run(port=int(os.environ.get("PORT", 8080)),host='0.0.0.0',debug=True)

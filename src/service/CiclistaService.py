@@ -20,13 +20,13 @@ class CiclistaService:
                 "id_ciclista": 3,
                 "nome": "Ciclista 1",
                 "nascimento": "nascimento",
-                "cpf": "cpf",
+                "cpf": "",
                 "passaporte": {
-                    "numero": "passaporte_numero",
-                    "validade": "passaporte_validade",
-                    "pais": "passaporte_pais"
+                    "numero": "12358",
+                    "validade": "02/01/1997",
+                    "pais": "MX"
                 },
-                "nacionalidade": "nacionalidade",
+                "nacionalidade": "ESTRANGEIRO",
                 "email": "email",
                 "url_foto_documento": "url_foto_documento",
                 "senha": "senha"
@@ -60,6 +60,7 @@ class CiclistaService:
                     "cvv_cartao": "123",
                     "ciclista": ciclista  
                 }
+                
                 ciclista.meio_de_pagamento = MeioDePagamento(**meio_de_pagamento_data)
 
             self.ciclistas.append(ciclista)
@@ -156,6 +157,60 @@ class CiclistaService:
     def enviar_para_administradora_cc(self, dados_cartao):
         # Simulação do envio para a Administradora CC
         return True
+
+
+
+    #UC03 – Alugar bicicleta 
+    def alugar_bicicleta(self, id_ciclista, numero_tranca, bicicleta_tranca):
+        numero_tranca = 123
+        bicicleta_tranca = 567
+
+        if not self.validar_tranca(numero_tranca):
+            return {"error": "Dados Inválidos"}, 422
+
+        if not self.validar_bicicleta(bicicleta_tranca):
+            return {"error": "Dados Inválidos"}, 422
+
+        ciclista = self.obter_ciclista_por_id(id_ciclista)
+        cartao = self.listar_meio_de_pagamento_por_id(id_ciclista)
+
+        if ciclista is None:
+            return {"error": "Ciclista não encontrado"}, 404
+            
+            
+        if ciclista.status_aluguel:
+            return {"error": "Ciclista já tem um aluguel"}, 422
+
+            registro_retirada = {
+                "data_hora_retirada": "timestamp",
+                "numero_tranca": numero_tranca,
+                "numero_bicicleta": bicicleta_tranca,
+                "cartao_usado": cartao.numero_cartao,
+                "ciclista": ciclista.nome,
+            }
+            
+        ciclista.status_aluguel = True
+
+        
+        return {"success": "Aluguel realizado", "ciclista": ciclista.to_dict()},200
+    
+    
+    
+    # Validação apenas de exemplo MICROSSERVIÇO EQUIPAMENTO
+    def validar_tranca(self,numero_tranca):
+        if numero_tranca < 0:
+            return False
+        return True
+
+
+    # Validação apenas de exemplo MICROSSERVIÇO EQUIPAMENTO
+    def validar_bicicleta(self,bicicleta_tranca):
+        if bicicleta_tranca < 0:
+            return False
+        return True
+ 
+    def cobranca(self):
+        return true  
 
 
     

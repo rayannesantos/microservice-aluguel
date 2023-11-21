@@ -34,11 +34,6 @@ def alterar_cartao_route(id_ciclista):
     resultado = ciclista_service.alterar_cartao(id_ciclista, dados_cartao)
     return jsonify(resultado)
 
-
-
-
-
-
 # LISTA TODOS OS CICLISTAS
 @ciclista_app.route('/teste', methods=['GET'])
 def listar_todos_ciclistas_route():
