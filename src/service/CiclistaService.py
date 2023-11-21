@@ -1,12 +1,3 @@
-# Como dito anteriormente, essa camada é responsável por guardar e abstrair as regras de negócio, 
-# para que a camada Model seja "leve" e objetiva. Sendo ainda responsável pelo acesso aos dados, 
-# validando se as informações recebidas da camada Controllers são suficientes para completar a requisição.
-#####################################################################################################
-# Centralizar o acesso aos dados e funções externas
-# Abstrair regras de negócios
-# Não ter nenhum "conhecimento" sobre a camada Model (EX: Query SQL)
-# Não receber nada relacionada ao HTTP (Request ou Response)
-
 # UC01–Cadastrar Ciclista
 from unittest.mock import Mock
 from model.CiclistaModel import Ciclista
@@ -82,9 +73,6 @@ class CiclistaService:
         return {"error": "Ciclista or meio de pagamento not found"}, 404
     
 
-    
-        
-        
     # UC06 – Alterar Dados do Ciclista
     def alterar_ciclista(self, id_ciclista, dados):
         ciclista = self.obter_ciclista_por_id(id_ciclista)
@@ -156,47 +144,6 @@ class CiclistaService:
         # Simulação do envio para a Administradora CC
         return True
 
-
-    # # UC04 – Devolver bicicleta
-    # def devolver_bicicleta(self, numero_bicicleta, numero_tranca):
-    #     if not self.validar_bicicleta(numero_bicicleta):
-    #         return {"error": "Dados Inválidos"}, 422
-
-    #     # Calcula o valor a pagar
-    #     valor_a_pagar = self.calcular_valor_a_pagar(2)
-
-    #     registro_devolucao = {
-    #         "data_hora_devolucao": "timestamp",
-    #         "valor_a_pagar": valor_a_pagar,
-    #         "cartao_usado": "teste",
-    #         "numero_bicicleta": numero_bicicleta,
-    #         "numero_tranca": "123"
-    #     }
-        
-
-    #     # Altera o status da bicicleta para "disponível"
-    #     # bicicleta.status = "disponível"
-
-    #     # Solicita o fechamento da tranca alterando seu status para "ocupada"
-    #     # bicicleta.tranca.status = "ocupada"
-
-    #     # Envia uma mensagem para o ciclista informando os dados da devolução da bicicleta
-    #     if not self.enviar_email():
-    #         return {"warning": "Bicicleta devolvida, mas houve um problema ao enviar o e-mail"}
-
-    #     return {"success": "Bicicleta devolvida com sucesso", "registro_devolucao": registro_devolucao}, 200
-
-
-    def calcular_valor_a_pagar(self, tempo):
-        if tempo>2:
-            tempoExcedente * 5
-            return tempoExcedente  
-        return 0
-        
-
-
-    
-    
     # PRIMEIRA ENTREGA
     def cadastrar_ciclista(self, data):
         response_mock = Mock()
