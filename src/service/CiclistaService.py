@@ -78,11 +78,6 @@ class CiclistaService:
         ciclista = self.obter_ciclista_por_id(id_ciclista)
         
         if ciclista:
-            # Atualiza os dados do ciclista com os novos dados
-            # Verifica se o ciclista é brasileiro e se o CPF está presente
-            if ciclista.nacionalidade == "BRASILEIRO" and not dados.get("cpf"):
-                return {"error": "CPF é obrigatório para ciclistas brasileiros"}, 422
-
             ciclista.nome = dados.get("nome", ciclista.nome)
             ciclista.cpf = dados.get("cpf", ciclista.cpf)
             ciclista.passaporte = dados.get("passaporte", ciclista.passaporte)
@@ -102,8 +97,7 @@ class CiclistaService:
 
     def validar_dados_ciclista(self, ciclista):
         if ciclista.nacionalidade == "Brasileiro" and not ciclista.cpf:
-            return False
-        
+            return False  
         return True
     
     

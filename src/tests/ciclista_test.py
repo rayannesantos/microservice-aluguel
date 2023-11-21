@@ -8,6 +8,7 @@ sys.path.insert(0, project_root)
 
 from service.CiclistaService import CiclistaService
 from model.CiclistaModel import Ciclista
+from model.MeiodePagamentoModel import MeioDePagamento
 
 
 class TestCiclistaService(unittest.TestCase):
@@ -30,7 +31,6 @@ class TestCiclistaService(unittest.TestCase):
             "senha": "nova_senha"
         }
 
-        # Mock para a função de envio de e-mail para evitar a execução real durante os testes
         with patch.object(self.ciclista_service, 'enviar_email') as mock_enviar_email:
             resultado = self.ciclista_service.alterar_ciclista(id_ciclista, novos_dados)
 
@@ -45,7 +45,38 @@ class TestCiclistaService(unittest.TestCase):
         # Verificando se a função de envio de e-mail foi chamada
         mock_enviar_email.assert_called_once()
 
+    def test_alterar_cartao(self):
+        # Teste para alterar os dados do cartão de um ciclista
+        id_ciclista =  4 # Substitua pelo ID válido do ciclista
+        dados_cartao = {
+            "nome_titular": "Novo Titular",
+            "numero_cartao": "1234567812345678",
+            "validade_cartao": "12/25",
+            "cvv_cartao": "123"
+        }
 
+        # Mock para a função de envio de e-mail e para a validação junto à administradora de cartão
+        with patch.object(self.ciclista_service, 'enviar_email') as mock_enviar_email, \
+                patch.object(self.ciclista_service, 'enviar_para_administradora_cc', return_value=True) as mock_enviar_para_administradora_cc:
+
+            resultado = self.ciclista_service.alterar_cartao(id_ciclista, dados_cartao)
+
+        # Verificando se a função retornou um dicionário (resultado esperado)
+        self.assertIsInstance(resultado, dict)
+
+        # Verificando se os dados do cartão foram atualizados corretamente
+        if "error" in resultado:
+            self.fail(f"Erro inesperado: {resultado['error']}")
+        elif "success" in resultado:
+            self.assertEqual(resultado["success"], "Cartão atualizado com sucesso")
+        elif "warning" in resultado:
+            self.assertEqual(resultado["warning"], "Cartão atualizado, mas houve um problema ao enviar o e-mail")
+        else:
+            self.fail("Chave 'error', 'success' ou 'warning' não encontrada no resultado")
+
+        # Verificando se as funções de envio de e-mail e administradora foram chamadas
+        mock_enviar_email.assert_called_once()
+        mock_enviar_para_administradora_cc.assert_called_once()
 
 
 
