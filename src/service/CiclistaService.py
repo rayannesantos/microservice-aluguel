@@ -149,20 +149,9 @@ class CiclistaService:
     def cadastrar_ciclista(self, data):
         response_mock = Mock()
         response_mock.status_code = 200  # Assume success by default
-        validacao = True
-
-        if not validacao:
-            response_mock.status_code = 422
-            response_mock.json.return_value = [{
-                "codigo": 422,
-                "mensagem": "Dados inválidos"
-            }]
-            return response_mock.json()
-        else:
-            self.validar_cartao()
-
-            response_mock.json.return_value = self.dados_ciclista(data)
-            return response_mock.json()
+        self.validar_cartao()
+        response_mock.json.return_value = self.dados_ciclista(data)
+        return response_mock.json()
         
         
     def dados_ciclista(self, data):
