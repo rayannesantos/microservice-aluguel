@@ -27,6 +27,7 @@ jobs:
         run: |
           coverage run src/tests/funcionario_test.py
           coverage run src/tests/ciclista_test.py
+          coverage run src/tests/aluguel_test.py
           coverage xml -o coverage.xml
 
       - name: SonarCloud Scan
