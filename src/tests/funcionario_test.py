@@ -66,3 +66,6 @@ class TestBicicletaService(unittest.TestCase):
         result = cadastrar_funcionario(senha, confirmacao_senha, email, nome, idade, funcao, cpf)
         self.assertEqual(result['email'], email)  
         self.assertEqual(result['cpf'], cpf)
+
+if __name__ == '__main__':
+    unittest.main()
