@@ -1,52 +1,70 @@
- class AluguelService:
+from service.CiclistaService import CiclistaService
+from datetime import datetime
+from model.AluguelModel import AluguelBicicleta
 
+class AluguelService:
     def __init__(self):
-  
+        # Inicializa dados de bicicletas e trancas mockados
+        self.bicicletas = [
+            {
+                "id": 1,
+                "marca": "Caloi",
+                "modelo": "Mountain Bike",
+                "ano": "2022",
+                "numero": 101,
+                "status": "Disponível"
+            },
+            {
+                "id": 2,
+                "marca": "Specialized",
+                "modelo": "Road Bike",
+                "ano": "2021",
+                "numero": 102,
+                "status": "Indisponível"
+            }
+        ]
 
+        self.trancas = [
+            {
+                "id": 50,
+                "bicicleta": 1,
+                "numero": 100,
+                "localizacao": "Estação A",
+                "anoDeFabricacao": "2022",
+                "modelo": "Tranca A",
+                "status": "Disponível"
+            }
+        ]
+
+    # UC03 – Alugar bicicleta 
     def alugar_bicicleta(self, id_ciclista, numero_tranca):
-        
-        
-        
-        # ciclista = next((c for c in self.ciclistas if c.id_ciclista == id_ciclista), None)
-        # tranca = next((t for t in self.trancas if t.numero_tranca == numero_tranca), None)
+        # Validando dados para alugar bicicleta
+        trancadesejada = None
+        for tranca in self.trancas:
+            if tranca["numero"] == numero_tranca:
+                trancadesejada = tranca
+                break
 
-        # if ciclista and tranca:
-        #     if ciclista.status_aluguel:
-        #         # Ciclista já tem um aluguel
-        #         return {"error": "Ciclista já tem um aluguel"}
+        if trancadesejada is None:
+            return {"error": "Tranca não encontrada"}, 404
 
-        #     if tranca.status != "ocupada":
-        #         # Número da tranca inválido
-        #         return {"error": "Número da tranca inválido"}
+        ciclista_service = CiclistaService()
+        ciclista = ciclista_service.obter_ciclista_por_id(id_ciclista)
 
-        #     bicicleta = self.bicicletas[0]  # Assumindo uma única bicicleta para simplificar o exemplo
+        if ciclista is None:
+            return {"error": "Ciclista não encontrado"}, 404
 
-        #     if bicicleta.status == "em reparo":
-        #         return {"error": "A bicicleta não está em condições de uso (status 'em reparo')"}
+        if ciclista.status_aluguel:
+            return {"error": "Ciclista já tem um aluguel"}, 422
 
-        #     # Verificar se o pagamento foi autorizado
-        #     if self.administradora_cc.processar_pagamento(10.00):
-        #         # Atualizar registros
-        #         ciclista.status_aluguel = True
-        #         bicicleta.status = "em uso"
-        #         tranca.status = "livre"
+        cartao_usado = ciclista.meio_de_pagamento.numero_cartao if ciclista.meio_de_pagamento else "N/A"
 
-        #         # Registro da retirada da bicicleta
-        #         registro_retirada = {
-        #             "data_hora_retirada": "timestamp",
-        #             "numero_tranca": numero_tranca,
-        #             "numero_bicicleta": bicicleta.numero_bicicleta,
-        #             "cartao_usado": "1234-5678-9012-3456",
-        #             "ciclista": ciclista.nome
-        #         }
+        aluguel = AluguelBicicleta(
+            bicicleta=trancadesejada["bicicleta"],
+            hora_inicio=datetime.now(),
+            tranca_inicio=numero_tranca,
+            ciclista=ciclista.nome
+        )
 
-        #         # Enviar email
-        #         self.enviar_email(ciclista, bicicleta, registro_retirada)
 
-        #         return {"success": "Bicicleta alugada com sucesso", "registro_retirada": registro_retirada}
-
-        #     else:
-        #         # Erro no pagamento
-        #         return {"error": "Erro no pagamento ou pagamento não autorizado"}
-
-        # return {"error": "Ciclista ou tranca não encontrados"}
+        return {"success": "Aluguel realizado", "registro_retirada": aluguel.to_dict()}, 200
