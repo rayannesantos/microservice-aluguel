@@ -60,7 +60,7 @@ class AluguelService:
         if ciclista is None:
             return {"error": "Ciclista não encontrado"}, 404
 
-        if ciclista.status_aluguel:
+        if ciclista.status_aluguel == True:
             return {"error": "Ciclista já tem um aluguel"}, 422
 
 
