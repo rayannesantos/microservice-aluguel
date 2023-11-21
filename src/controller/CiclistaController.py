@@ -45,7 +45,7 @@ def listar_todos_ciclistas_route():
     
     
 # LISTA meio de pagamento
-@ciclista_app.route('/<int:id_ciclista>/pagamento', methods=['GET'])
+@ciclista_app.route('CartaoDeCredito/<int:id_ciclista>/', methods=['GET'])
 def listar_meio_de_pagamento_por_id(id_ciclista):
     meio_de_pagamento = ciclista_service.listar_meio_de_pagamento_por_id(id_ciclista)
     
