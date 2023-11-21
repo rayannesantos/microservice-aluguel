@@ -3,7 +3,8 @@ name: Deploy to Cloud Run
 on:
  push:
     tags:
-      - v*
+      # - v*
+      -main
 
 jobs:
 
