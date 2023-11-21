@@ -214,6 +214,47 @@ class CiclistaService:
 
 
     
+    
+    # UC04 – Devolver bicicleta
+    def devolver_bicicleta(self, numero_bicicleta, numero_tranca):
+        if not self.validar_bicicleta(numero_bicicleta):
+            return {"error": "Dados Inválidos"}, 422
+
+        # Calcula o valor a pagar
+        valor_a_pagar = self.calcular_valor_a_pagar(2)
+
+        registro_devolucao = {
+            "data_hora_devolucao": "timestamp",
+            "valor_a_pagar": valor_a_pagar,
+            "cartao_usado": "teste",
+            "numero_bicicleta": numero_bicicleta,
+            "numero_tranca": "123"
+        }
+        
+
+        # Altera o status da bicicleta para "disponível"
+        # bicicleta.status = "disponível"
+
+        # Solicita o fechamento da tranca alterando seu status para "ocupada"
+        # bicicleta.tranca.status = "ocupada"
+
+        # Envia uma mensagem para o ciclista informando os dados da devolução da bicicleta
+        if not self.enviar_email():
+            return {"warning": "Bicicleta devolvida, mas houve um problema ao enviar o e-mail"}
+
+        return {"success": "Bicicleta devolvida com sucesso", "registro_devolucao": registro_devolucao}, 200
+
+
+    def calcular_valor_a_pagar(self, tempo):
+        if tempo>2:
+            tempoExcedente * 5
+            return tempoExcedente  
+        return 0
+        
+
+
+    
+    
     # PRIMEIRA ENTREGA
     def cadastrar_ciclista(self, data):
         response_mock = Mock()

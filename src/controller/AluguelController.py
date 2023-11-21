@@ -13,3 +13,4 @@ def alugar_bicicleta_route():
     bicicleta_tranca = data.get('bicicleta_tranca')
     resultado_aluguel = aluguel_service.alugar_bicicleta(id_ciclista, numero_tranca, bicicleta_tranca)
     return jsonify(resultado_aluguel)
+
