@@ -1,8 +1,8 @@
-# import unittest, os, sys
-# from unittest.mock import patch
+import unittest, os, sys
+from unittest.mock import patch
 
-# project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-# sys.path.insert(0, project_root)
+project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+sys.path.insert(0, project_root)
 
 # from controller.main import app
 # from controller.CiclistaController import ciclista_app
@@ -125,5 +125,5 @@
 #             response = client.put('/funcionario/2', headers={"Content-Type": "application/json", "X-CSRFToken": token}, json=data)
 #             self.assertEqual(response.status_code, mock_editar_funcionario.status_code) 
 
-# if __name__ == '__main__':
-#     unittest.main()
+if __name__ == '__main__':
+    unittest.main()
