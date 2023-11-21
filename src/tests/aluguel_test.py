@@ -1,5 +1,6 @@
 import unittest
 from unittest.mock import patch
+from datetime import datetime
 import os
 import sys
 
@@ -36,6 +37,12 @@ class TestAluguelService(unittest.TestCase):
         numero_tranca = 102
         resultado,status_code= self.aluguel_service.alugar_bicicleta(id_ciclista, numero_tranca)
         self.assertEqual(status_code, 404)
+        
+        
+
+
+
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -1,5 +1,5 @@
 import unittest
-from unittest.mock import patch
+from unittest.mock import patch,Mock
 import os
 import sys
 
@@ -78,7 +78,21 @@ class TestCiclistaService(unittest.TestCase):
         mock_enviar_email.assert_called_once()
         mock_enviar_para_administradora_cc.assert_called_once()
 
+    def test_ativar_ciclista(self):
+        response_mock = Mock()
+        response_mock.status_code = 200
 
+        ciclistas = [
+            {'id_ciclista': 1, 'status': 'pendente'},
+            {'id_ciclista': 2, 'status': 'pendente'},
+            {'id_ciclista': 3, 'status': 'pendente'},
+        ]
+        self.ciclista_service.listar_ciclistas = Mock(return_value=ciclistas)
+
+        ciclista_id = 2
+        resultado = self.ciclista_service.ativar_ciclista(ciclista_id)
+
+        self.assertEqual(resultado['status'], 'ativado')
 
 if __name__ == '__main__':
     unittest.main()
