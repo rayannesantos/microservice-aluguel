@@ -103,7 +103,7 @@ def alterar_ciclista_id_route(id_ciclista):
     
     
 @app.route('/ciclista/<int:id_ciclista>/permiteAluguel', methods=['GET'])
-def listar_permite_Aluguel(id_ciclista):
+def permite_aluguel_routa(id_ciclista):
         ciclista_service = CiclistaService()
         validacao = ciclista_service.permite_aluguel(id_ciclista)
         return jsonify(validacao)
