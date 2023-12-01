@@ -80,7 +80,7 @@ def hello_world():
 #         return response
 
 # LISTA TODOS OS CICLISTAS
-@ciclista_app.route('/ciclista', methods=['GET'])
+@app.route('/ciclista', methods=['GET'])
 def listar_todos_ciclistas_route():
     try:
         ciclistas = ciclista_service.listar_todos()
