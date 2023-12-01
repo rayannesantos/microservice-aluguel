@@ -6,7 +6,7 @@
 # Não possuir "conhecimento" sobre regras de negócios, ou acesso ao DB
 # Formada quase que exclusivamente por Middlewares
 
-
+import os
 from flask import Blueprint, jsonify,request
 from service.CiclistaService import CiclistaService
 
@@ -58,13 +58,17 @@ def listar_meio_de_pagamento_por_id(id_ciclista):
 
 # PRIMEIRA ENTREGA
 
-# CICLISTAS
-@ciclista_app.route('/', methods=['POST'])
-def cadastrar_ciclista_route():
-        data = request.json
-        return cadastrar_ciclista(data)
+# # CICLISTAS
+# @ciclista_app.route('/', methods=['POST'])
+# def cadastrar_ciclista_route():
+#         data = request.json
+#         return cadastrar_ciclista(data)
 
 
-@ciclista_app.route('/<int:id_ciclista>/ativar', methods=['POST'])
-def ativar_ciclista_route(id_ciclista):
-    return ativar_ciclista(id_ciclista)
+# @ciclista_app.route('/<int:id_ciclista>/ativar', methods=['POST'])
+# def ativar_ciclista_route(id_ciclista):
+#     return ativar_ciclista(id_ciclista)
+
+
+if __name__ == '__main__':
+    ciclista_app.run(port=int(os.environ.get("PORT", 8080)),host='0.0.0.0',debug=True)
