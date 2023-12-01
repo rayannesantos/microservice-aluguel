@@ -38,7 +38,7 @@ class CiclistaService:
                 "senha": "senha"
             }
         ]
-        self.ciclistas = []
+        self.ciclistas = [Ciclista(**data) for data in self.ciclistas_data]
         
         for ciclista_data in self.ciclistas_data:
             ciclista = Ciclista(**ciclista_data)
@@ -102,8 +102,8 @@ class CiclistaService:
     
     
     def obter_ciclista_por_id(self, id_ciclista):
-        for ciclista in self.ciclistas:
-            if ciclista.id_ciclista == id_ciclista:
+        for ciclista in self.ciclistas_data:
+            if ciclista["id_ciclista"] == id_ciclista:
                 return ciclista
         return None   
     

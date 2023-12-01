@@ -6,7 +6,8 @@
 # Não possuir "conhecimento" sobre regras de negócios, ou acesso ao DB
 # Formada quase que exclusivamente por Middlewares
 
-import os
+import os, sys
+
 from flask import Blueprint, jsonify,request
 from service.CiclistaService import CiclistaService
 

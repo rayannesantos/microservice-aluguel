@@ -1,10 +1,10 @@
 import os, sys
+from flask import Flask,jsonify
 from unittest.mock import Mock
-from flask import Blueprint, jsonify,request, Flask
-from service.CiclistaService import CiclistaService
 
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.insert(0, project_root)
+from service.CiclistaService import CiclistaService
 
 
 from controller.CiclistaController import ciclista_app
@@ -12,7 +12,6 @@ from controller.AluguelController import aluguel_app
 from controller.DevolucaoController import devolucao_app
 
 app = Flask(__name__)
-ciclista_service = CiclistaService()
 
 # ###### config do SONAR do problema de CSRF ###### 
 # from flask_wtf import CSRFProtect               #
@@ -27,6 +26,8 @@ ciclista_service = CiclistaService()
 #     token = generate_csrf()                     #
 #     return token, 200                           #
 # #################################################
+
+
 
 @app.route('/', methods=['GET'])
 def hello_world():
@@ -79,14 +80,17 @@ def hello_world():
 #         response = remover_funcionario(id_funcionario)
 #         return response
 
-# LISTA TODOS OS CICLISTAS
-@app.route('/ciclista', methods=['GET'])
-def listar_todos_ciclistas_route():
+
+@app.route('/ciclista/<int:id_ciclista>', methods=['GET'])
+def listar_ciclista_id_route(id_ciclista):
     try:
-        ciclistas = ciclista_service.listar_todos()
-        return jsonify({"ciclistas": ciclistas})
+        ciclista_service = CiclistaService()
+        ciclista = ciclista_service.obter_ciclista_por_id(id_ciclista)
+        return jsonify({"ciclista": ciclista})
     except Exception:
-        return jsonify({"error": "Not Found"}), 404
+        return jsonify({"error": "Requisição mal formada"}), 404
+    
+    
     
 
 if __name__ == '__main__':
