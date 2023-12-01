@@ -1,6 +1,6 @@
 import os, sys
 from unittest.mock import Mock
-from flask import Blueprint, jsonify,request
+from flask import Blueprint, jsonify,request,Flask
 from service.CiclistaService import CiclistaService
 
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
