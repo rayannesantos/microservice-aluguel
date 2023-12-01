@@ -1,7 +1,7 @@
 import os, sys
 from unittest.mock import Mock
-from flask import Blueprint, jsonify,request,Flask
-# from service.CiclistaService import CiclistaService
+from flask import Blueprint, jsonify,request, Flask
+from service.CiclistaService import CiclistaService
 
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.insert(0, project_root)
@@ -12,7 +12,7 @@ from controller.AluguelController import aluguel_app
 from controller.DevolucaoController import devolucao_app
 
 app = Flask(__name__)
-# ciclista_service = CiclistaService()
+ciclista_service = CiclistaService()
 
 # ###### config do SONAR do problema de CSRF ###### 
 # from flask_wtf import CSRFProtect               #
@@ -79,18 +79,18 @@ def hello_world():
 #         response = remover_funcionario(id_funcionario)
 #         return response
 
-# # LISTA TODOS OS CICLISTAS
-# @app.route('/ciclista', methods=['GET'])
-# def listar_todos_ciclistas_route():
-#     try:
-#         ciclistas = ciclista_service.listar_todos()
-#         return jsonify({"ciclistas": ciclistas})
-#     except Exception:
-#         return jsonify({"error": "Not Found"}), 404
+# LISTA TODOS OS CICLISTAS
+@ciclista_app.route('/ciclista', methods=['GET'])
+def listar_todos_ciclistas_route():
+    try:
+        ciclistas = ciclista_service.listar_todos()
+        return jsonify({"ciclistas": ciclistas})
+    except Exception:
+        return jsonify({"error": "Not Found"}), 404
     
 
 if __name__ == '__main__':
-    app.register_blueprint(ciclista_app, url_prefix='/ciclista')
+    # app.register_blueprint(ciclista_app, url_prefix='/ciclista')
     app.register_blueprint(aluguel_app, url_prefix='/aluguel')
     app.register_blueprint(devolucao_app, url_prefix='/devolucao')
     app.run(port=int(os.environ.get("PORT", 8080)),host='0.0.0.0',debug=True)
