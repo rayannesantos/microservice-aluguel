@@ -62,6 +62,18 @@ class CiclistaService:
         ciclistas = [ciclista.to_dict() for ciclista in self.ciclistas]
         return ciclistas        
     
+    def permite_aluguel(self, id_ciclista):
+        ciclista = self.obter_ciclista_por_id(id_ciclista)
+
+        if ciclista is None:
+            return {"error": "Ciclista não encontrado"}, 404
+
+        if ciclista.status_aluguel == True:
+            return False, 200
+        
+        return True,200
+    
+    
     def listar_meio_de_pagamento_por_id(self, id_ciclista):
         ciclista = self.obter_ciclista_por_id(id_ciclista)
 

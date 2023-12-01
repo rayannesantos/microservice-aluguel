@@ -102,6 +102,14 @@ def alterar_ciclista_id_route(id_ciclista):
     return {"mensagem": "Dados atualizados", "ciclistas": resultado}, 200
     
     
+@app.route('/ciclista/<int:id_ciclista>/permiteAluguel', methods=['GET'])
+def listar_permite_Aluguel(id_ciclista):
+        ciclista_service = CiclistaService()
+        validacao = ciclista_service.permite_aluguel(id_ciclista)
+        return jsonify(validacao)
+
+
+
 
 if __name__ == '__main__':
     # app.register_blueprint(ciclista_app, url_prefix='/ciclista')
