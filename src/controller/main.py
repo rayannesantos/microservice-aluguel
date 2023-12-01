@@ -12,6 +12,7 @@ from controller.AluguelController import aluguel_app
 from controller.DevolucaoController import devolucao_app
 
 app = Flask(__name__)
+ciclista_service = CiclistaService()
 
 # ###### config do SONAR do problema de CSRF ###### 
 # from flask_wtf import CSRFProtect               #
