@@ -1,5 +1,5 @@
 import os, sys
-from flask import Flask,jsonify
+from flask import Flask,jsonify, request
 from unittest.mock import Mock
 
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
@@ -80,16 +80,26 @@ def hello_world():
 #         response = remover_funcionario(id_funcionario)
 #         return response
 
-
+# CRU CICLISTA
 @app.route('/ciclista/<int:id_ciclista>', methods=['GET'])
 def listar_ciclista_id_route(id_ciclista):
     try:
         ciclista_service = CiclistaService()
-        ciclista = ciclista_service.obter_ciclista_por_id(id_ciclista)
+        ciclista = ciclista_service.obter_ciclista_por_id_json(id_ciclista)
         return jsonify({"ciclista": ciclista})
     except Exception:
         return jsonify({"error": "Requisição mal formada"}), 404
-    
+
+
+@app.route('/ciclista/<int:id_ciclista>', methods=['PUT'])
+def alterar_ciclista_id_route(id_ciclista):
+    dados = request.json
+    ciclista_service = CiclistaService()
+    resultado = ciclista_service.alterar_ciclista(id_ciclista, dados)
+    if "error" in resultado:
+        return resultado, 422  
+
+    return {"mensagem": "Dados atualizados", "ciclistas": resultado}, 200
     
     
 

@@ -74,10 +74,31 @@ class CiclistaService:
     
 
     # UC06 – Alterar Dados do Ciclista
+    # def alterar_ciclista(self, id_ciclista, dados):
+    #     ciclista = self.obter_ciclista_por_id(id_ciclista)
+        
+    #     if ciclista:
+    #         ciclista.nome = dados.get("nome", ciclista.nome)
+    #         ciclista.cpf = dados.get("cpf", ciclista.cpf)
+    #         ciclista.passaporte = dados.get("passaporte", ciclista.passaporte)
+    #         ciclista.nacionalidade = dados.get("nacionalidade", ciclista.nacionalidade)
+    #         ciclista.url_foto_documento = dados.get("url_foto_documento", ciclista.url_foto_documento)
+    #         ciclista.senha = dados.get("senha", ciclista.senha)
+
+    #         # Validação dos dados
+    #         if not self.validar_dados_ciclista(ciclista):
+    #             return {"error": "Dados inválidos"}, 422
+            
+    #         self.enviar_email()
+    #         return ciclista.to_dict()
+        
+    #     return {"error": "Ciclista não encontrado"}, 404
+
     def alterar_ciclista(self, id_ciclista, dados):
         ciclista = self.obter_ciclista_por_id(id_ciclista)
         
         if ciclista:
+            # Atualiza apenas os atributos presentes nos dados
             ciclista.nome = dados.get("nome", ciclista.nome)
             ciclista.cpf = dados.get("cpf", ciclista.cpf)
             ciclista.passaporte = dados.get("passaporte", ciclista.passaporte)
@@ -94,7 +115,6 @@ class CiclistaService:
         
         return {"error": "Ciclista não encontrado"}, 404
 
-
     def validar_dados_ciclista(self, ciclista):
         if ciclista.nacionalidade == "Brasileiro" and not ciclista.cpf:
             return False  
@@ -102,12 +122,17 @@ class CiclistaService:
     
     
     def obter_ciclista_por_id(self, id_ciclista):
-        for ciclista in self.ciclistas_data:
-            if ciclista["id_ciclista"] == id_ciclista:
-                return ciclista
+        for ciclista_data in self.ciclistas_data:
+            if ciclista_data["id_ciclista"] == id_ciclista:
+                return Ciclista(**ciclista_data)
         return None   
     
-    
+    def obter_ciclista_por_id_json(self, id_ciclista):
+        for ciclista_data in self.ciclistas_data:
+            if ciclista_data["id_ciclista"] == id_ciclista:
+                ciclista = Ciclista(**ciclista_data)
+                return ciclista.to_dict()  # Retorna o dicionário JSON
+        return None
     
     # UC07 – Alterar Cartão
     def alterar_cartao(self, id_ciclista, dados_cartao):
