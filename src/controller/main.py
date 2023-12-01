@@ -1,6 +1,7 @@
 import os, sys
 from unittest.mock import Mock
 from flask import Blueprint, jsonify,request
+from service.CiclistaService import CiclistaService
 
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.insert(0, project_root)
@@ -78,7 +79,7 @@ def hello_world():
 #         return response
 
 # LISTA TODOS OS CICLISTAS
-@ciclista_app.route('/', methods=['GET'])
+@ciclista_app.route('/ciclista', methods=['GET'])
 def listar_todos_ciclistas_route():
     try:
         ciclistas = ciclista_service.listar_todos()
