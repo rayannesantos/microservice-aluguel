@@ -53,7 +53,11 @@ GET /funcionario/{idFuncionario} Recupera funcionário
 https://microservice-aluguel-hm535ksnoq-uc.a.run.app/funcionario/1
 
 PUT /funcionario/{idFuncionario} Editar funcionário
+
 DELETE /funcionario/{idFuncionario}Remover funcionário
+https://microservice-aluguel-hm535ksnoq-uc.a.run.app/funcionario/2
+
+
 GET /cartaoDeCredito/{idCiclista} Recupera dados de cartão de crédito de um ciclista
 PUT /cartaoDeCredito/{idCiclista}
 Alterar dados de cartão de crédito de um ciclista
