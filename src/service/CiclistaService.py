@@ -18,7 +18,7 @@ class CiclistaService:
                     "pais": "MX"
                 },
                 "nacionalidade": "ESTRANGEIRO",
-                "email": "email",
+                "email": "email@email.com.br",
                 "url_foto_documento": "url_foto_documento",
                 "senha": "senha"
             },
@@ -61,6 +61,13 @@ class CiclistaService:
     def listar_todos(self):
         ciclistas = [ciclista.to_dict() for ciclista in self.ciclistas]
         return ciclistas        
+    
+    def verifica_email(self,email):
+        for ciclista_data in self.ciclistas_data:
+                    if ciclista_data["email"] == email:
+                        return True,200       
+        return False, 200
+    
     
     def permite_aluguel(self, id_ciclista):
         ciclista = self.obter_ciclista_por_id(id_ciclista)

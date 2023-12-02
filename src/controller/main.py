@@ -104,17 +104,23 @@ def alterar_ciclista_id_route(id_ciclista):
     
     
 @app.route('/ciclista/<int:id_ciclista>/permiteAluguel', methods=['GET'])
-def permite_aluguel_routa(id_ciclista):
+def permite_aluguel_route(id_ciclista):
         ciclista_service = CiclistaService()
         validacao = ciclista_service.permite_aluguel(id_ciclista)
         return jsonify(validacao)
 
 @app.route('/ciclista/<int:id_ciclista>/bicicletaAlugada', methods=['GET'])
-def bicicleta_alugada_routa(id_ciclista):
+def bicicleta_alugada_route(id_ciclista):
         aluguel_service = AluguelService()
         bicicleta = aluguel_service.obter_bicicleta_alugada_por_ciclista(id_ciclista)
         return bicicleta
 
+
+@app.route('/ciclista/existeEmail/<string:email>', methods=['GET'])
+def existe_email_route(email):
+        ciclista_service = CiclistaService()
+        email = ciclista_service.verifica_email(email)
+        return jsonify(email)
 
 if __name__ == '__main__':
     # app.register_blueprint(ciclista_app, url_prefix='/ciclista')
