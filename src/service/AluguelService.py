@@ -1,6 +1,8 @@
+from flask import jsonify
 from service.CiclistaService import CiclistaService
 from datetime import datetime
 from model.AluguelModel import AluguelBicicleta
+import requests
 
 class AluguelService:
     DISPONIVEL = "Disponível"
@@ -8,7 +10,6 @@ class AluguelService:
     OCUPADA = "Ocupada"
     
     def __init__(self):
-        # Inicializa dados de bicicletas e trancas mockados
         self.bicicletas = [
             {
                 "id": 1,
@@ -40,7 +41,14 @@ class AluguelService:
             }
         ]
         
-        self.alugueis = []
+        self.alugueis = [
+            {
+                "bicicleta": 1,
+                "ciclista":3,
+                "trancaInicio": 50
+            }
+        ]
+        
 
     # UC03 – Alugar bicicleta 
     def alugar_bicicleta(self, id_ciclista, numero_tranca):
@@ -121,9 +129,47 @@ class AluguelService:
                 tranca["status"] = novo_status
                 break
 
+    def obter_bicicleta_alugada_por_ciclista(self, id_ciclista):
+        ciclista_service = CiclistaService()
+        ciclista = ciclista_service.obter_ciclista_por_id(id_ciclista)
+        
+        if ciclista is None:
+            return jsonify({'error': 'Ciclista não encontrado'}), 404
+
+        for aluguel in self.alugueis:
+            if aluguel['ciclista'] == ciclista:  # Correção aqui
+                # chamando microservice-equipamento
+                id_bicicleta = ciclista['bicicleta']
+                url_bicicleta = f'https://bike-rent-g5cdxjx55q-uc.a.run.app/bicicleta/{id_bicicleta}'
+                response = requests.get(url_bicicleta)
+                
+                if response.status_code == 200:
+                    data = response.json()
+                    return jsonify(data)
+                else:
+                    return jsonify({'error': 'Erro ao chamar a API'}), 500
+
+        return jsonify({}), 404
+
+    
+    
 
     def obter_aluguel_por_bicicleta(self, numero_bicicleta):
         for aluguel in self.alugueis: 
             if aluguel.bicicleta == numero_bicicleta:
                 return aluguel.to_dict()  
         return None
+    
+    
+    # def chamar_microservice_equipamento():
+    #     url = 'https://bike-rent-g5cdxjx55q-uc.a.run.app/'
+    #     # Fazendo a requisição GET para a API
+    #     response = requests.get(url)
+    #     # Verificando se a requisição foi bem-sucedida (código 200)
+    #     if response.status_code == 200:
+    #         # Convertendo a resposta JSON para um dicionário Python
+    #         data = response.json()
+    #         return jsonify(data)
+    #     else:
+    #         # Em caso de erro, retornar uma mensagem apropriada
+    #         return jsonify({'error': 'Erro ao chamar a API'}), 500

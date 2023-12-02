@@ -5,6 +5,7 @@ from unittest.mock import Mock
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.insert(0, project_root)
 from service.CiclistaService import CiclistaService
+from service.AluguelService import AluguelService
 
 
 from controller.CiclistaController import ciclista_app
@@ -108,7 +109,11 @@ def permite_aluguel_routa(id_ciclista):
         validacao = ciclista_service.permite_aluguel(id_ciclista)
         return jsonify(validacao)
 
-
+@app.route('/ciclista/<int:id_ciclista>/bicicletaAlugada', methods=['GET'])
+def bicicleta_alugada_routa(id_ciclista):
+        aluguel_service = AluguelService()
+        bicicleta = aluguel_service.obter_bicicleta_alugada_por_ciclista(id_ciclista)
+        return bicicleta
 
 
 if __name__ == '__main__':
