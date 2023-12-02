@@ -159,6 +159,24 @@ def listar_funcionario_id_route(id_funcionario):
     except Exception:
         return jsonify({"error": "Erro interno"}), 500
 
+@app.route('/funcionario/<int:id_funcionario>', methods=['DELETE'])
+def deletar_funcionario_id_route(id_funcionario):
+        funcionario_service = FuncionarioService()
+        funcionario = funcionario_service.remover_funcionario_por_id(id_funcionario)
+        return funcionario
+        
+
+from service.AluguelService import AluguelService
+
+
+@app.route('/aluguel', methods=['POST'])
+def alugar_bicicleta_route():
+    aluguel_service = AluguelService()
+    data = request.json
+    id_ciclista = data.get('id_ciclista')
+    numero_tranca = data.get('trancaInicio')
+    resultado_aluguel = aluguel_service.alugar_bicicleta(id_ciclista, numero_tranca)
+    return jsonify(resultado_aluguel)
 
 
 if __name__ == '__main__':
