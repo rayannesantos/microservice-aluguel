@@ -90,10 +90,21 @@ class CiclistaService:
         return {"error": "Ciclista or meio de pagamento not found"}, 404
     
 
+    # UC02 – Confirmar email
+    def ativar_ciclista(self, id_ciclista):
+        # COMPARAR CÓDIGO
+        
+        ciclista = self.obter_ciclista_por_id(id_ciclista)
+        if ciclista:
+            ciclista['status'] = 'ativado'
+            return ciclista
+
+        return {'error': 'Ciclista not found'}, 404
+
+
     # UC06 – Alterar Dados do Ciclista
     # def alterar_ciclista(self, id_ciclista, dados):
-    #     ciclista = self.obter_ciclista_por_id(id_ciclista)
-        
+    #     ciclista = self.obter_ciclista_por_id(id_ciclista)     
     #     if ciclista:
     #         ciclista.nome = dados.get("nome", ciclista.nome)
     #         ciclista.cpf = dados.get("cpf", ciclista.cpf)
@@ -238,18 +249,18 @@ class CiclistaService:
         }
         return mock_json
 
-    # UC02 – Confirmar email
-    def ativar_ciclista(self, id_ciclista):
-        response_mock = Mock()
-        response_mock.status_code = 200
+    # # UC02 – Confirmar email
+    # def ativar_ciclista(self, id_ciclista):
+    #     response_mock = Mock()
+    #     response_mock.status_code = 200
 
-        ciclistas = self.listar_ciclistas()
-        for ciclista in ciclistas:
-            if ciclista['id_ciclista'] == id_ciclista:
-                ciclista['status'] = 'ativado'
-                return ciclista
+    #     ciclistas = self.listar_ciclistas()
+    #     for ciclista in ciclistas:
+    #         if ciclista['id_ciclista'] == id_ciclista:
+    #             ciclista['status'] = 'ativado'
+    #             return ciclista
 
-        return {'error': 'Ciclista not found'}, 404
+    #     return {'error': 'Ciclista not found'}, 404
 
     def listar_ciclistas(self):
         response_mock = Mock()

@@ -55,27 +55,16 @@ class FuncionarioService:
         print("não foi {id_funcionario}")
         return None
     
-    # NÃO ESTÁ REMOVENDO
-    # def remover_funcionario_por_id(self, id_funcionario):
-        
-    #     index_to_remove = None
-    #     for i, funcionario in enumerate(self.funcionarios_data):
-    #         if funcionario['id_funcionario'] == id_funcionario:
-    #             index_to_remove = i
-    #             print(funcionario)
-    #             break
-            
-    #     if index_to_remove is not None:
-    #         del self.funcionarios_data[index_to_remove]
-    #         return {"mensagem": "Dados removidos"}
-        
-        
-    #     # for funcionario_data in self.funcionarios_data:
-    #     #     if funcionario_data['id_funcionario'] == id_funcionario:
-    #     #         self.funcionarios_data.remove(funcionario_data)
-    #     #         return {"mensagem": "Dados removidos"}
-    #     return {"error": "Não encontrado"}, 404
-
+    def remover_funcionario_por_id(self, id_funcionario):
+        funcionario = next((f for f in self.funcionarios_data if f["id_funcionario"] == id_funcionario), None)
+        if funcionario:
+            self.funcionarios_data.remove(funcionario)
+            self.funcionarios = [Funcionario(**data) for data in self.funcionarios_data]
+            return True
+        return False
+    
+    
+    
 
     # def obter_ciclista_por_id_json(self, id_ciclista):
     #     for ciclista_data in self.ciclistas_data:

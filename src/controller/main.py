@@ -13,6 +13,10 @@ from controller.CiclistaController import ciclista_app
 from controller.AluguelController import aluguel_app
 from controller.DevolucaoController import devolucao_app
 
+funcionario_service = FuncionarioService()
+
+
+
 app = Flask(__name__)
 
 # ###### config do SONAR do problema de CSRF ###### 
@@ -140,7 +144,6 @@ def existe_email_route(email):
 @app.route('/funcionario', methods=['GET'])
 def listar_funcionarios_route():
     try:
-        funcionario_service = FuncionarioService()
         funcionarios = funcionario_service.listar_todos_funcionarios()
         return jsonify({"funcionarios": funcionarios})
     except Exception:
@@ -149,7 +152,6 @@ def listar_funcionarios_route():
 @app.route('/funcionario/<int:id_funcionario>', methods=['GET'])
 def listar_funcionario_id_route(id_funcionario):
     try:
-        funcionario_service = FuncionarioService()
         funcionario = funcionario_service.obter_funcionario_por_id_json(id_funcionario)
         
         if funcionario:
@@ -161,10 +163,12 @@ def listar_funcionario_id_route(id_funcionario):
 
 @app.route('/funcionario/<int:id_funcionario>', methods=['DELETE'])
 def deletar_funcionario_id_route(id_funcionario):
-        funcionario_service = FuncionarioService()
-        funcionario = funcionario_service.remover_funcionario_por_id(id_funcionario)
-        return funcionario
-        
+        if funcionario_service.remover_funcionario_por_id(id_funcionario):
+            return jsonify({'message': 'Funcionário removido com sucesso'}), 200
+        else:
+            return jsonify({'error': 'Funcionário não encontrado'}), 404
+
+            
 
 from service.AluguelService import AluguelService
 

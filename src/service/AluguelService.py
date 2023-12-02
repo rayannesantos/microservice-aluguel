@@ -54,6 +54,8 @@ class AluguelService:
     def alugar_bicicleta(self, id_ciclista, numero_tranca):
         # Validando dados para alugar bicicleta
         trancadesejada = None
+        
+        # CHAMAR MICROSERVIÇO
         for tranca in self.trancas:
             if tranca["numero"] == numero_tranca:
                 trancadesejada = tranca
@@ -137,7 +139,7 @@ class AluguelService:
             return jsonify({'error': 'Ciclista não encontrado'}), 404
 
         for aluguel in self.alugueis:
-            if aluguel['ciclista'] == ciclista:  # Correção aqui
+            if aluguel['ciclista'] == ciclista:  
                 # chamando microservice-equipamento
                 id_bicicleta = ciclista['bicicleta']
                 url_bicicleta = f'https://bike-rent-g5cdxjx55q-uc.a.run.app/bicicleta/{id_bicicleta}'
