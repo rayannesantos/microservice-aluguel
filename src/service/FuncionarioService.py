@@ -3,13 +3,14 @@
 import random
 from flask import Flask
 from unittest.mock import Mock
+from  model.FuncionarioModel import Funcionario
 
 requests = Mock()
 
 class FuncionarioService: 
     def __init__(self):
         self.funcionarios_data = [
-                {
+            {
                 "id_funcionario":1,
                 "matricula": "123",
                 "senha": "string",
@@ -19,7 +20,7 @@ class FuncionarioService:
                 "idade": 19,
                 "funcao": "administrativa",
                 "cpf": "string"
-                },
+            },
             {
                 "id_funcionario":2,
                 "matricula": "456",
@@ -31,13 +32,37 @@ class FuncionarioService:
                 "funcao": "reparador",
                 "cpf": "string"
             }
-    ]
+        ]
+
+        self.funcionarios = [Funcionario(**data) for data in self.funcionarios_data]
         
     def listar_todos_funcionarios(self):
-        funcionarios = [funcionario.copy() for funcionario in self.funcionarios_data]
+        funcionarios = [funcionario.to_dict() for funcionario in self.funcionarios]
         return funcionarios
-    
-      
+
+    def obter_funcionario_por_id(self, id_funcionario):
+        for funcionario in self.funcionarios:
+            if funcionario.id_funcionario == id_funcionario:
+                return funcionario
+        return None
+
+    def obter_funcionario_por_id_json(self, id_funcionario):
+        for funcionario_data in self.funcionarios_data:
+            if funcionario_data['id_funcionario'] == id_funcionario:
+                print(f"Encontrado funcionário com ID {id_funcionario}")
+                funcionario = Funcionario(**funcionario_data)
+                return funcionario.to_dict()
+        print("não foi {id_funcionario}")
+        return None
+
+
+    # def obter_ciclista_por_id_json(self, id_ciclista):
+    #     for ciclista_data in self.ciclistas_data:
+    #         if ciclista_data["id_ciclista"] == id_ciclista:
+    #             ciclista = Ciclista(**ciclista_data)
+    #             return ciclista.to_dict()  # Retorna o dicionário JSON
+    #     return None
+
     # def listar_funcionarios():
     #     response_mock = Mock()
     #     response_mock.status_code = 200

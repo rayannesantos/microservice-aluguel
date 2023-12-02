@@ -146,6 +146,21 @@ def listar_funcionarios_route():
     except Exception:
         return jsonify({"error": "Requisição mal formada"}), 404
 
+@app.route('/funcionario/<int:id_funcionario>', methods=['GET'])
+def listar_funcionario_id_route(id_funcionario):
+    try:
+        funcionario_service = FuncionarioService()
+        funcionario = funcionario_service.obter_funcionario_por_id_json(id_funcionario)
+        
+        if funcionario:
+            return jsonify(funcionario)
+        else:
+            return jsonify({"error": "Não encontrado"}), 404
+    except Exception:
+        return jsonify({"error": "Erro interno"}), 500
+
+
+
 if __name__ == '__main__':
     # app.register_blueprint(ciclista_app, url_prefix='/ciclista')
     app.register_blueprint(aluguel_app, url_prefix='/aluguel')
