@@ -6,6 +6,7 @@ project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.insert(0, project_root)
 from service.CiclistaService import CiclistaService
 from service.AluguelService import AluguelService
+from service.FuncionarioService import FuncionarioService
 
 
 from controller.CiclistaController import ciclista_app
@@ -81,7 +82,7 @@ def hello_world():
 #         response = remover_funcionario(id_funcionario)
 #         return response
 
-# CRU CICLISTA
+# CICLISTA
 @app.route('/ciclista/<int:id_ciclista>', methods=['GET'])
 def listar_ciclista_id_route(id_ciclista):
     try:
@@ -121,6 +122,29 @@ def existe_email_route(email):
         ciclista_service = CiclistaService()
         email = ciclista_service.verifica_email(email)
         return jsonify(email)
+
+
+# TODO
+# @app.route('/cartaoDeCredito/<int:id_ciclista>/', methods=['GET'])
+# def listar_meio_de_pagamento_por_id(id_ciclista):
+#     ciclista_service = CiclistaService()
+#     meio_de_pagamento = ciclista_service.listar_meio_de_pagamento_por_id(id_ciclista)
+    
+#     if 'error' in meio_de_pagamento:
+#         return jsonify({"error": "Não encontrado"}), 404
+    
+#     return jsonify(meio_de_pagamento)
+
+# funcionarios
+
+@app.route('/funcionario', methods=['GET'])
+def listar_funcionarios_route():
+    try:
+        funcionario_service = FuncionarioService()
+        funcionarios = funcionario_service.listar_todos_funcionarios()
+        return jsonify({"funcionarios": funcionarios})
+    except Exception:
+        return jsonify({"error": "Requisição mal formada"}), 404
 
 if __name__ == '__main__':
     # app.register_blueprint(ciclista_app, url_prefix='/ciclista')
