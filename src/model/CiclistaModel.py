@@ -11,8 +11,9 @@ class Ciclista:
         self.senha = senha
         self.status_aluguel = False
 
+
     def to_dict(self):
-        ciclista_dict = {
+        return {
             "id_ciclista": self.id_ciclista,
             "nome": self.nome,
             "nascimento": self.nascimento,
@@ -23,6 +24,6 @@ class Ciclista:
             "url_foto_documento": self.url_foto_documento,
             "senha": self.senha,        
             "status_aluguel": self.status_aluguel
-        }
 
+        }
 

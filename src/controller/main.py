@@ -87,10 +87,11 @@ def hello_world():
 #         return response
 
 # CICLISTA
+ciclista_service = CiclistaService()
+
 @app.route('/ciclista/<int:id_ciclista>', methods=['GET'])
 def listar_ciclista_id_route(id_ciclista):
     try:
-        ciclista_service = CiclistaService()
         ciclista = ciclista_service.obter_ciclista_por_id_json(id_ciclista)
         return jsonify({"ciclista": ciclista})
     except Exception:
@@ -100,7 +101,6 @@ def listar_ciclista_id_route(id_ciclista):
 @app.route('/ciclista/<int:id_ciclista>', methods=['PUT'])
 def alterar_ciclista_id_route(id_ciclista):
     dados = request.json
-    ciclista_service = CiclistaService()
     resultado = ciclista_service.alterar_ciclista(id_ciclista, dados)
     if "error" in resultado:
         return resultado, 422  
@@ -110,7 +110,6 @@ def alterar_ciclista_id_route(id_ciclista):
     
 @app.route('/ciclista/<int:id_ciclista>/permiteAluguel', methods=['GET'])
 def permite_aluguel_route(id_ciclista):
-        ciclista_service = CiclistaService()
         validacao = ciclista_service.permite_aluguel(id_ciclista)
         return jsonify(validacao)
 
@@ -185,6 +184,6 @@ def alugar_bicicleta_route():
 
 if __name__ == '__main__':
     # app.register_blueprint(ciclista_app, url_prefix='/ciclista')
-    app.register_blueprint(aluguel_app, url_prefix='/aluguel')
+    # app.register_blueprint(aluguel_app, url_prefix='/aluguel')
     app.register_blueprint(devolucao_app, url_prefix='/devolucao')
     app.run(port=int(os.environ.get("PORT", 8080)),host='0.0.0.0',debug=True)

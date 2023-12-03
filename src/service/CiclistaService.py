@@ -41,19 +41,19 @@ class CiclistaService:
         self.ciclistas = [Ciclista(**data) for data in self.ciclistas_data]
         
       
-        meio_de_pagamento_data = {
-            "nome_titular": "Titular",
-            "numero_cartao": "1234567890123456",  
-            "validade_cartao": "2025-12-31",
-            "cvv_cartao": "123",
-        }
+        # meio_de_pagamento_data = {
+        #     "nome_titular": "Titular",
+        #     "numero_cartao": "1234567890123456",  
+        #     "validade_cartao": "2025-12-31",
+        #     "cvv_cartao": "123",
+        # }
         
-        # Assuming you want to add meio_de_pagamento_data to the first ciclista in the list
-        if self.ciclistas:
-            ciclista = self.ciclistas[0]
-            meio_de_pagamento_data["ciclista"] = ciclista
-            meio_de_pagamento = MeioDePagamento(**meio_de_pagamento_data)
-            ciclista.meio_de_pagamento = meio_de_pagamento
+        # # Assuming you want to add meio_de_pagamento_data to the first ciclista in the list
+        # if self.ciclistas:
+        #     ciclista = self.ciclistas[0]
+        #     meio_de_pagamento_data["ciclista"] = ciclista
+        #     meio_de_pagamento = MeioDePagamento(**meio_de_pagamento_data)
+        #     ciclista.meio_de_pagamento = meio_de_pagamento
 
             
 
