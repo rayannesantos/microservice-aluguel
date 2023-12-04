@@ -89,6 +89,13 @@ def hello_world():
 # CICLISTA
 ciclista_service = CiclistaService()
 
+@app.route('/ciclista', methods=['POST'])
+def cadastrar_ciclista():
+        dados = request.json
+        ciclista = ciclista_service.cadastrar_ciclista(dados)
+        return ciclista
+
+
 @app.route('/ciclista/<int:id_ciclista>', methods=['GET'])
 def listar_ciclista_id_route(id_ciclista):
     try:
@@ -142,6 +149,12 @@ def listar_meio_de_pagamento_por_id(id_ciclista):
         return jsonify({"error": "Não encontrado"}), 404
     
     return jsonify(meio_de_pagamento)
+
+@app.route('/allciclistas', methods=['GET'])
+def listar_tpdos_os_ciclistas_route():
+        ciclistas = ciclista_service.listar_todos()
+        return jsonify({"funcionarios": ciclistas})
+
 
 # funcionarios
 

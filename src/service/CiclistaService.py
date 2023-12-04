@@ -58,6 +58,15 @@ class CiclistaService:
         ]
 
 
+    def cadastrar_ciclista(self, request_data):
+            response = request_data
+            novo_ciclista = Ciclista(**request_data)
+            self.ciclistas.append(novo_ciclista)
+
+            return response
+
+
+
     def listar_todos(self):
         ciclistas = [ciclista.to_dict() for ciclista in self.ciclistas]
         return ciclistas        
@@ -195,12 +204,12 @@ class CiclistaService:
 
 
     # PRIMEIRA ENTREGA
-    def cadastrar_ciclista(self, data):
-        response_mock = Mock()
-        response_mock.status_code = 200  # Assume success by default
-        self.validar_cartao()
-        response_mock.json.return_value = self.dados_ciclista(data)
-        return response_mock.json()
+    # def cadastrar_ciclista(self, data):
+    #     response_mock = Mock()
+    #     response_mock.status_code = 200  # Assume success by default
+    #     self.validar_cartao()
+    #     response_mock.json.return_value = self.dados_ciclista(data)
+    #     return response_mock.json()
         
         
     # def dados_ciclista(self, data):
