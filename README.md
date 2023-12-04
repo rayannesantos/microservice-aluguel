@@ -29,6 +29,7 @@ JSON:
 }
 
 POST /ciclista/{idCiclista}/ativar Ativar cadastro do ciclista
+https://microservice-aluguel-hm535ksnoq-uc.a.run.app/ciclista/3/ativar
 
 GET /ciclista/{idCiclista}/permiteAluguel Verifica se o ciclista pode alugar uma bicicleta, já que só pode alugar uma por vez.
 https://microservice-aluguel-hm535ksnoq-uc.a.run.app/ciclista/3/permiteAluguel
