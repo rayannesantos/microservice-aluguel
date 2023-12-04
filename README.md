@@ -3,7 +3,7 @@
 
 Endpoints:
 
-POST /ciclista Cadastrar um ciclista TODO
+POST /ciclista Cadastrar um ciclista 
 
 
 GET /ciclista/{idCiclista} Recupera dados de um ciclista
@@ -59,6 +59,8 @@ https://microservice-aluguel-hm535ksnoq-uc.a.run.app/funcionario/2
 
 
 GET /cartaoDeCredito/{idCiclista} Recupera dados de cartão de crédito de um ciclista
+https://microservice-aluguel-hm535ksnoq-uc.a.run.app/cartaoDeCredito/4/
+
 PUT /cartaoDeCredito/{idCiclista}
 Alterar dados de cartão de crédito de um ciclista
 
