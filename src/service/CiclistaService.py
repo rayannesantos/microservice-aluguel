@@ -105,37 +105,24 @@ class CiclistaService:
         # return {"error": "Ciclista or meio de pagamento not found"}, 404
     
 
-    # UC02 – Confirmar email
-    # def ativar_ciclista(self, id_ciclista):
-    #     # COMPARAR CÓDIGO
-        
-    #     ciclista = self.obter_ciclista_por_id(id_ciclista)
-    #     if ciclista:
-    #         ciclista['status'] = 'ativado'
-    #         return ciclista
+    def ativar_ciclista(self, id_ciclista):
+        # TODO: Compare code sent by email
+        ciclista = self.obter_ciclista_por_id(id_ciclista)
+        if ciclista:
+            ciclista.status = 'ativado'
 
-    #     return {'error': 'Ciclista not found'}, 404
+            # Assuming you have a Ciclista with id_ciclista = 3
+            for i, ciclista_data in enumerate(self.ciclistas_data):
+                if ciclista_data["id_ciclista"] == id_ciclista:
+                    self.ciclistas_data[i].update({"status": "ativado"})
+                    break
+
+            return {"ciclista ativado": ciclista.to_dict(include_status=False)}
+
+        return {'mensagem': 'Ciclista não encontrado'}, 404
 
 
-    # UC06 – Alterar Dados do Ciclista
-    # def alterar_ciclista(self, id_ciclista, dados):
-    #     ciclista = self.obter_ciclista_por_id(id_ciclista)     
-    #     if ciclista:
-    #         ciclista.nome = dados.get("nome", ciclista.nome)
-    #         ciclista.cpf = dados.get("cpf", ciclista.cpf)
-    #         ciclista.passaporte = dados.get("passaporte", ciclista.passaporte)
-    #         ciclista.nacionalidade = dados.get("nacionalidade", ciclista.nacionalidade)
-    #         ciclista.url_foto_documento = dados.get("url_foto_documento", ciclista.url_foto_documento)
-    #         ciclista.senha = dados.get("senha", ciclista.senha)
 
-    #         # Validação dos dados
-    #         if not self.validar_dados_ciclista(ciclista):
-    #             return {"error": "Dados inválidos"}, 422
-            
-    #         self.enviar_email()
-    #         return ciclista.to_dict()
-        
-    #     return {"error": "Ciclista não encontrado"}, 404
 
     def alterar_ciclista(self, id_ciclista, dados):
         ciclista = self.obter_ciclista_por_id(id_ciclista)
@@ -178,30 +165,30 @@ class CiclistaService:
         return None
     
     # UC07 – Alterar Cartão
-    def alterar_cartao(self, id_ciclista, dados_cartao):
-        ciclista = self.obter_ciclista_por_id(id_ciclista)
+    # def alterar_cartao(self, id_ciclista, dados_cartao):
+    #     ciclista = self.obter_ciclista_por_id(id_ciclista)
 
-        if ciclista:
-            if not self.validar_dados_cartao():
-                return {"error": "Dados do cartão inválidos"}, 422
+    #     if ciclista:
+    #         if not self.validar_dados_cartao():
+    #             return {"error": "Dados do cartão inválidos"}, 422
 
-            if not self.enviar_para_administradora_cc():
-                return {"error": "Cartão recusado pela Administradora CC"}, 422
+    #         if not self.enviar_para_administradora_cc():
+    #             return {"error": "Cartão recusado pela Administradora CC"}, 422
 
-            ciclista.meio_de_pagamento = MeioDePagamento(
-                nome_titular=dados_cartao["nome_titular"],
-                numero_cartao=dados_cartao["numero_cartao"],
-                validade_cartao=dados_cartao["validade_cartao"],
-                cvv_cartao=dados_cartao["cvv_cartao"],
-                ciclista=ciclista
-        )
+    #         ciclista.meio_de_pagamento = MeioDePagamento(
+    #             nome_titular=dados_cartao["nome_titular"],
+    #             numero_cartao=dados_cartao["numero_cartao"],
+    #             validade_cartao=dados_cartao["validade_cartao"],
+    #             cvv_cartao=dados_cartao["cvv_cartao"],
+    #             ciclista=ciclista
+    #     )
 
-            if not self.enviar_email():
-                return {"warning": "Cartão atualizado, mas houve um problema ao enviar o e-mail"}
+    #         if not self.enviar_email():
+    #             return {"warning": "Cartão atualizado, mas houve um problema ao enviar o e-mail"}
 
-            return {"success": "Cartão atualizado com sucesso"}
+    #         return {"success": "Cartão atualizado com sucesso"}
 
-        return {"error": "Ciclista não encontrado"}, 404
+    #     return {"error": "Ciclista não encontrado"}, 404
 
 
     def validar_dados_cartao(self):

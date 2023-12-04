@@ -127,6 +127,12 @@ def existe_email_route(email):
         return jsonify(email)
 
 
+@app.route('/ciclista/<int:id_ciclista>//ativar', methods=['GET'])
+def ativar_ciclista(id_ciclista):
+    ativar = ciclista_service.ativar_ciclista(id_ciclista)
+    return jsonify(ativar)
+
+
 @app.route('/cartaoDeCredito/<int:id_ciclista>/', methods=['GET'])
 def listar_meio_de_pagamento_por_id(id_ciclista):
     ciclista_service = CiclistaService()
@@ -168,9 +174,8 @@ def deletar_funcionario_id_route(id_funcionario):
 
             
 
+
 from service.AluguelService import AluguelService
-
-
 @app.route('/aluguel', methods=['POST'])
 def alugar_bicicleta_route():
     aluguel_service = AluguelService()
