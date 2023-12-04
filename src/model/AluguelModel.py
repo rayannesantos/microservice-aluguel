@@ -1,5 +1,3 @@
-from datetime import datetime
-
 class AluguelBicicleta:
     def __init__(self, bicicleta, hora_inicio, tranca_inicio, hora_fim=None, tranca_fim=None, cobranca=0, ciclista=None):
         self.bicicleta = bicicleta
@@ -17,8 +15,6 @@ class AluguelBicicleta:
             "trancaFim": self.tranca_fim,
             "horaFim": self.hora_fim.isoformat() if self.hora_fim else None,
             "cobranca": self.cobranca,
-            "ciclista": self.ciclista,
-            "trancaInicio": self.tranca_inicio
+            "trancaInicio": self.tranca_inicio,
+            "ciclista": self.ciclista.to_dict() if self.ciclista else None  # Assuming Ciclista has a to_dict method
         }
-
-

@@ -10,10 +10,10 @@ class Ciclista:
         self.url_foto_documento = url_foto_documento
         self.senha = senha
         self.status_aluguel = False
-
+        self.meio_de_pagamento = None
 
     def to_dict(self):
-        return {
+        ciclista_dict = {
             "id_ciclista": self.id_ciclista,
             "nome": self.nome,
             "nascimento": self.nascimento,
@@ -22,8 +22,11 @@ class Ciclista:
             "nacionalidade": self.nacionalidade,
             "email": self.email,
             "url_foto_documento": self.url_foto_documento,
-            "senha": self.senha,        
+            "senha": self.senha,
             "status_aluguel": self.status_aluguel
-
         }
 
+        if self.meio_de_pagamento:
+            ciclista_dict["meio_de_pagamento"] = self.meio_de_pagamento.to_dict()
+
+        return ciclista_dict

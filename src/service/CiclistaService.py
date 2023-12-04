@@ -40,22 +40,23 @@ class CiclistaService:
         ]
         self.ciclistas = [Ciclista(**data) for data in self.ciclistas_data]
         
-      
-        # meio_de_pagamento_data = {
-        #     "nome_titular": "Titular",
-        #     "numero_cartao": "1234567890123456",  
-        #     "validade_cartao": "2025-12-31",
-        #     "cvv_cartao": "123",
-        # }
-        
-        # # Assuming you want to add meio_de_pagamento_data to the first ciclista in the list
-        # if self.ciclistas:
-        #     ciclista = self.ciclistas[0]
-        #     meio_de_pagamento_data["ciclista"] = ciclista
-        #     meio_de_pagamento = MeioDePagamento(**meio_de_pagamento_data)
-        #     ciclista.meio_de_pagamento = meio_de_pagamento
+        self.meio_de_pagamento_data = [
+        {
+            "nome_titular": "Titular",
+            "numero_cartao": "1234567890123456",
+            "validade_cartao": "2025-12-31",
+            "cvv_cartao": "123",
+            "ciclista":4
+        },
+        {
+            "nome_titular": "Titular",
+            "numero_cartao": "5234567890123456",
+            "validade_cartao": "2035-12-31",
+            "cvv_cartao": "423",
+            "ciclista":3
+        }                   
+        ]
 
-            
 
     def listar_todos(self):
         ciclistas = [ciclista.to_dict() for ciclista in self.ciclistas]
@@ -83,23 +84,37 @@ class CiclistaService:
     def listar_meio_de_pagamento_por_id(self, id_ciclista):
         ciclista = self.obter_ciclista_por_id(id_ciclista)
 
-        if ciclista:
-            meio_de_pagamento = ciclista.meio_de_pagamento
-            if meio_de_pagamento:
-                return meio_de_pagamento.to_dict()
-        return {"error": "Ciclista or meio de pagamento not found"}, 404
+        if ciclista is not None:
+            for meio_de_pagamento_data in self.meio_de_pagamento_data:
+                if meio_de_pagamento_data["ciclista"] == id_ciclista:
+                    meio_de_pagamento_result = {
+                        key: value for key, value in meio_de_pagamento_data.items() if key != "ciclista"
+                    }
+                    # Return only meio_de_pagamento data
+                    return {"meio_de_pagamento": meio_de_pagamento_result}
+
+            return {"mensagem": False, "message": "Ciclista sem cartão cadastrado"}
+        else:
+            return {"mensagem": False, "message": "Ciclista não encontrado."}
+        
+
+        # if ciclista:
+        #     meio_de_pagamento = ciclista.meio_de_pagamento
+        #     if meio_de_pagamento:
+        #         return meio_de_pagamento.to_dict()
+        # return {"error": "Ciclista or meio de pagamento not found"}, 404
     
 
     # UC02 – Confirmar email
-    def ativar_ciclista(self, id_ciclista):
-        # COMPARAR CÓDIGO
+    # def ativar_ciclista(self, id_ciclista):
+    #     # COMPARAR CÓDIGO
         
-        ciclista = self.obter_ciclista_por_id(id_ciclista)
-        if ciclista:
-            ciclista['status'] = 'ativado'
-            return ciclista
+    #     ciclista = self.obter_ciclista_por_id(id_ciclista)
+    #     if ciclista:
+    #         ciclista['status'] = 'ativado'
+    #         return ciclista
 
-        return {'error': 'Ciclista not found'}, 404
+    #     return {'error': 'Ciclista not found'}, 404
 
 
     # UC06 – Alterar Dados do Ciclista
@@ -207,47 +222,47 @@ class CiclistaService:
         return response_mock.json()
         
         
-    def dados_ciclista(self, data):
-        nome = data.get("ciclista").get("nome")
-        nascimento = data.get("ciclista").get("nascimento")
-        cpf = data.get("ciclista").get("cpf")
-        passaporte_numero = data.get("ciclista").get("passaporte").get("numero")
-        passaporte_validade = data.get("ciclista").get("passaporte").get("validade")
-        passaporte_pais = data.get("ciclista").get("passaporte").get("pais")
-        nacionalidade = data.get("ciclista").get("nacionalidade")
+    # def dados_ciclista(self, data):
+    #     nome = data.get("ciclista").get("nome")
+    #     nascimento = data.get("ciclista").get("nascimento")
+    #     cpf = data.get("ciclista").get("cpf")
+    #     passaporte_numero = data.get("ciclista").get("passaporte").get("numero")
+    #     passaporte_validade = data.get("ciclista").get("passaporte").get("validade")
+    #     passaporte_pais = data.get("ciclista").get("passaporte").get("pais")
+    #     nacionalidade = data.get("ciclista").get("nacionalidade")
 
-        email = data.get("ciclista").get("email")
-        url_foto_documento = data.get("ciclista").get("url_foto_documento")
-        senha = data.get("ciclista").get("senha")
-        nome_titular = data.get("meio_de_pagamento").get("nome_titular")
-        numero_cartao = data.get("meio_de_pagamento").get("numero")
-        validade_cartao = data.get("meio_de_pagamento").get("validade")
-        cvv = data.get("meio_de_pagamento").get("cvv")
+    #     email = data.get("ciclista").get("email")
+    #     url_foto_documento = data.get("ciclista").get("url_foto_documento")
+    #     senha = data.get("ciclista").get("senha")
+    #     nome_titular = data.get("meio_de_pagamento").get("nome_titular")
+    #     numero_cartao = data.get("meio_de_pagamento").get("numero")
+    #     validade_cartao = data.get("meio_de_pagamento").get("validade")
+    #     cvv = data.get("meio_de_pagamento").get("cvv")
 
-        mock_json = {
-            "ciclista": {
-                "id_ciclista": 3,
-                "nome": nome,
-                "nascimento": nascimento,
-                "cpf": cpf,
-                "passaporte": {
-                    "numero": passaporte_numero,
-                    "validade": passaporte_validade,
-                    "pais": passaporte_pais
-                },
-                "nacionalidade": nacionalidade,
-                "email": email,
-                "url_foto_documento": url_foto_documento,
-                "senha": senha
-            },
-            "meio_de_pagamento": {
-                "nome_titular": nome_titular,
-                "numero": numero_cartao,
-                "validade": validade_cartao,
-                "cvv": cvv
-            }
-        }
-        return mock_json
+    #     mock_json = {
+    #         "ciclista": {
+    #             "id_ciclista": 3,
+    #             "nome": nome,
+    #             "nascimento": nascimento,
+    #             "cpf": cpf,
+    #             "passaporte": {
+    #                 "numero": passaporte_numero,
+    #                 "validade": passaporte_validade,
+    #                 "pais": passaporte_pais
+    #             },
+    #             "nacionalidade": nacionalidade,
+    #             "email": email,
+    #             "url_foto_documento": url_foto_documento,
+    #             "senha": senha
+    #         },
+    #         "meio_de_pagamento": {
+    #             "nome_titular": nome_titular,
+    #             "numero": numero_cartao,
+    #             "validade": validade_cartao,
+    #             "cvv": cvv
+    #         }
+    #     }
+    #     return mock_json
 
     # # UC02 – Confirmar email
     # def ativar_ciclista(self, id_ciclista):
