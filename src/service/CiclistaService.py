@@ -98,20 +98,14 @@ class CiclistaService:
             return {"mensagem": False, "message": "Ciclista não encontrado."}
         
 
-        # if ciclista:
-        #     meio_de_pagamento = ciclista.meio_de_pagamento
-        #     if meio_de_pagamento:
-        #         return meio_de_pagamento.to_dict()
-        # return {"error": "Ciclista or meio de pagamento not found"}, 404
     
 
     def ativar_ciclista(self, id_ciclista):
-        # TODO: Compare code sent by email
+        # TODO: Fazer ativação de emails
         ciclista = self.obter_ciclista_por_id(id_ciclista)
         if ciclista:
             ciclista.status = 'ativado'
 
-            # Assuming you have a Ciclista with id_ciclista = 3
             for i, ciclista_data in enumerate(self.ciclistas_data):
                 if ciclista_data["id_ciclista"] == id_ciclista:
                     self.ciclistas_data[i].update({"status": "ativado"})
