@@ -44,44 +44,54 @@ class AluguelService:
             }
         ]
         
-
-    # UC03 – Alugar bicicleta 
     def alugar_bicicleta(self, id_ciclista, numero_tranca): 
-        
         url_tranca = 'https://bike-rent-g5cdxjx55q-uc.a.run.app/bicicleta/{numero_tranca}'
         response = requests.get(url_tranca)  
                 
         if response.status_code == 404:
             return {"error": "Tranca não encontrada"}, 404 
         
-        if response.status_code == 200:
-
+        if response.status_code == 200:        
             ciclista_service = CiclistaService()
             ciclista = ciclista_service.obter_ciclista_por_id(id_ciclista)
 
             if ciclista is None:
                 return {"error": "Ciclista não encontrado"}, 404
 
-            if ciclista.status_aluguel == True:
+            if ciclista.status_aluguel:
                 return {"error": "Ciclista já tem um aluguel"}, 422
 
+            # Chamar cobrança
+            dados_cobranca = {"valor": 10, "ciclista": str(id_ciclista)}
+            valida_cobranca = self.chamar_cobranca(dados_cobranca)
+            print(valida_cobranca)
 
-            # chamar cobrança
-            
+            if not valida_cobranca:
+                return {"error": "Falha na cobrança"}, 422
+
+            hora_atual = datetime.now()
             aluguel = AluguelBicicleta(
-                bicicleta=response["bicicleta"],
-                hora_inicio= hora_atual.strftime("%Y-%m-%d %H:%M:%S"),
+                bicicleta= response['bicicleta'],
+                hora_inicio=hora_atual.strftime("%Y-%m-%d %H:%M:%S"),
                 tranca_inicio=numero_tranca,
-                ciclista=ciclista.id_ciclista
+                ciclista=ciclista  
             )
-                    
-            ciclista_service.requisita_enviar_email("Dados do aluguel", aluguel);
-            
-            self.alugueis.append(aluguel)
-            
 
-            return {"success": "Aluguel realizado", "registro_retirada": aluguel.to_dict()}, 200
-
+            try:
+                ciclista_service.requisita_enviar_email("Dados do aluguel", aluguel.to_dict())
+                self.alugueis.append(aluguel)
+                print(aluguel)
+                return {"success": "Aluguel realizado", "registro_retirada": aluguel.to_dict()}, 200
+            except Exception as e:
+                return {"error": f"Erro ao processar aluguel: {str(e)}"}, 500
+        
+        
+    def chamar_cobranca(self, dados): 
+        url_cobranca = 'https://microservice-externo-b4i7jmshsa-uc.a.run.app/cobranca'
+        response = requests.post(url_cobranca, json = dados)
+        if response.status_code == 200:
+            return True
+        return False
 
     def devolver_bicicleta(self, numero_bicicleta, numero_tranca):
             # Encontra o aluguel correspondente à bicicleta devolvida
