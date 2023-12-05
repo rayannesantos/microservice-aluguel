@@ -192,13 +192,11 @@ def enviar_email(assunto, mensagem):
 def obter_tranca(numero_tranca):
     url_tranca = f'https://bike-rent-g5cdxjx55q-uc.a.run.app/tranca/{numero_tranca}'
     response = requests.get(url_tranca)  
-
     return response
 
 def obter_bicicleta(numero_bicicleta):
     url_bicicleta = f'https://bike-rent-g5cdxjx55q-uc.a.run.app/bicicleta/{numero_bicicleta}'
     response = requests.get(url_bicicleta)  
-
     return response
 
 def chamar_cobranca(id_ciclista):
