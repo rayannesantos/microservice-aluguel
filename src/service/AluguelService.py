@@ -8,40 +8,40 @@ import requests
 hora_atual = datetime.now()
 
 class AluguelService:
-    TRANCA_INICIAL = "Tranca inicial"
-    COBRANCA_INICIAL = "Cobranca inicial"
-    DATA_INICIO = "Data início"
+    # TRANCA_INICIAL = "Tranca inicial"
+    # COBRANCA_INICIAL = "Cobranca inicial"
+    # DATA_INICIO = "Data início"
 
     
     
     def __init__(self):
         self.alugueis = [
-            {
-                "ciclista": 3,
-                "Bicicleta": 3,
-                self.TRANCA_INICIAL: 2,
-                "Status": "EM_ANDAMENTO",
-                self.COBRANCA_INICIAL: 1,
-                self.DATA_INICIO: hora_atual.strftime("%Y-%m-%d %H:%M:%S")
-            },
-            {
-                "ciclista": 4,
-                "Bicicleta": 5,
-                self.TRANCA_INICIAL: 4,
-                "Status": "EM_ANDAMENTO",
-                self.COBRANCA_INICIAL: 2,
-                self.DATA_INICIO: (hora_atual - timedelta(hours=2)).strftime("%Y-%m-%d %H:%M:%S")
-            },
-            {
-                "ciclista": 3,
-                "Bicicleta": 1,
-                self.TRANCA_INICIAL: 1,
-                "Tranca final": 2,
-                "Status": "FINALIZADO COM COBRANCA EXTRA PENDENTE",
-                self.COBRANCA_INICIAL: 3,
-                "Data início": (hora_atual - timedelta(hours=2)).strftime("%Y-%m-%d %H:%M:%S"),
-                self.DATA_INICIO: hora_atual.strftime("%Y-%m-%d %H:%M:%S")
-            }
+            # {
+            #     "ciclista": 3,
+            #     "Bicicleta": 3,
+            #     self.TRANCA_INICIAL: 2,
+            #     "Status": "EM_ANDAMENTO",
+            #     self.COBRANCA_INICIAL: 1,
+            #     self.DATA_INICIO: hora_atual.strftime("%Y-%m-%d %H:%M:%S")
+            # },
+            # {
+            #     "ciclista": 4,
+            #     "Bicicleta": 5,
+            #     self.TRANCA_INICIAL: 4,
+            #     "Status": "EM_ANDAMENTO",
+            #     self.COBRANCA_INICIAL: 2,
+            #     self.DATA_INICIO: (hora_atual - timedelta(hours=2)).strftime("%Y-%m-%d %H:%M:%S")
+            # },
+            # {
+            #     "ciclista": 3,
+            #     "Bicicleta": 1,
+            #     self.TRANCA_INICIAL: 1,
+            #     "Tranca final": 2,
+            #     "Status": "FINALIZADO COM COBRANCA EXTRA PENDENTE",
+            #     self.COBRANCA_INICIAL: 3,
+            #     "Data início": (hora_atual - timedelta(hours=2)).strftime("%Y-%m-%d %H:%M:%S"),
+            #     self.DATA_INICIO: hora_atual.strftime("%Y-%m-%d %H:%M:%S")
+            # }
         ]
         
     def alugar_bicicleta(self, id_ciclista, numero_tranca): 
