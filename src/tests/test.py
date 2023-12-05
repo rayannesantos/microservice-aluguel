@@ -118,6 +118,7 @@ class TestRoutes(unittest.TestCase):
 
     @patch('controller.main.chamar_cobranca')
     def test_obter_bicicleta_integration(self, mock_get):
+        mock_get.return_value.status_code = 200
         resultado = chamar_cobranca(3)
         self.assertTrue(resultado)
 
