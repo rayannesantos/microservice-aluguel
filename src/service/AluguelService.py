@@ -13,8 +13,6 @@ class AluguelService:
     OCUPADA = "Ocupada"
     
     def __init__(self):
-
-        
         self.alugueis = [
             {
                 "ciclista": 3,
