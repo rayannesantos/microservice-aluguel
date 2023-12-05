@@ -166,25 +166,12 @@ def alugar_bicicleta_route():
 
 @app.route('/devolucao', methods=['POST'])
 def devolver_bicicleta_route():
-        try:
-            data = request.json
-            id_bicicleta = data.get('id_bicicleta')
-            id_tranca = data.get('id_tranca')
-            
-            resultado_devolucao = aluguel_service.devolver_bicicleta(id_bicicleta, id_tranca)
-            
-            print(resultado_devolucao)
-            return jsonify(resultado_devolucao)
-        except Exception as e:
-            print(f"An error occurred: {e}")
-            return jsonify({"error": "Internal Server Error"}), 500
-    
-    # data = request.json
-    # id_bicicleta = data.get('id_bicicleta')
-    # id_tranca = data.get('id_tranca')
-    # resultado_devolucao = aluguel_service.devolver_bicicleta(id_bicicleta, id_tranca)
-    # print (resultado_devolucao)
-    # return jsonify(resultado_devolucao)
+    data = request.json
+    id_bicicleta = data.get('id_bicicleta')
+    id_tranca = data.get('id_tranca')
+    resultado_devolucao = aluguel_service.devolver_bicicleta(id_bicicleta, id_tranca)
+    print (resultado_devolucao)
+    return jsonify(resultado_devolucao)
 
 
 def enviar_email(assunto, mensagem):
