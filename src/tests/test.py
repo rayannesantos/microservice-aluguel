@@ -33,9 +33,53 @@ class TestRoutes(unittest.TestCase):
         
     def test_listar_todos_funcionarios_id_route(self):
         response = self.client.get('/funcionario/1')
-        self.assertEqual(response.status_code, 200)           
+        self.assertEqual(response.status_code, 200)  
         
+        
+    def test_cadastrar_ciclista_route(self):         
+        data = {
+            "ciclista": {
+                "id_ciclista":1,
+                "nome": "string",
+                "nascimento": "2023-12-05",
+                "cpf": "44286496753",
+                "passaporte": {
+                "numero": "string",
+                "validade": "2023-12-05",
+                "pais": "JM"
+                },
+                "nacionalidade": "string",
+                "email": "user20@example.com",
+                "url_foto_documento": "string",
+                "senha": "string"
+            },
+            "meioDePagamento": {
+                "nome_titular": "string",
+                "numero": "2459398914097794571835616046632677",
+                "validade": "2023-12-05",
+                "cvv": "307"
+            }
+        }  
+        response = self.client.post('/ciclista', json=data)
+        print(response)
+        self.assertEqual(response.status_code, 200)
            
+           
+    def test_cadastrar_funcionario_route(self):         
+        data = {
+            "id_funcionario":50,
+             "matricula": 4435698,
+            "senha": "string",
+            "confirmacao_senha": "string",
+            "email": "user@example.com",
+            "nome": "string",
+            "idade": 0,
+            "funcao": "string",
+            "cpf": "string"
+        }  
+        response = self.client.post('/funcionario', json=data)
+        print(response)
+        self.assertEqual(response.status_code, 200)
    
 if __name__ == '__main__':
     unittest.main()
