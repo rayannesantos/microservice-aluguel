@@ -58,7 +58,6 @@ class AluguelService:
             # Chamar cobrança
             dados_cobranca = {"valor": 10, "ciclista": str(id_ciclista)}
             valida_cobranca = self.chamar_cobranca(dados_cobranca)
-            print(valida_cobranca)
 
             if not valida_cobranca:
                 return {"error": "Falha na cobrança"}, 422
@@ -95,26 +94,33 @@ class AluguelService:
     def devolver_bicicleta(self, numero_bicicleta, numero_tranca):
             # Encontra o aluguel correspondente à bicicleta devolvida
             aluguel_correspondente = None
+            
+            print(self.alugueis)
             for aluguel in self.alugueis:
-                if aluguel.bicicleta == numero_bicicleta:
+                if aluguel['Bicicleta'] == numero_bicicleta:
                     aluguel_correspondente = aluguel
-                    break     
+                    print("entrou")
+                    print(aluguel_correspondente)
                        
             if aluguel_correspondente is None:
                 return {"error": "Aluguel não encontrado para a bicicleta especificada"}, 404
-            else:
-                aluguel_correspondente.hora_fim = datetime.now()
-                aluguel_correspondente.tranca_fim = numero_tranca
+            aluguel_correspondente['hora_fim'] = datetime.now()
+            aluguel_correspondente['tranca_fim'] = numero_tranca
                 
                 
-    
-            # self.alterar_status_bicicleta(numero_bicicleta, self.DISPONIVEL)
-
-            # self.alterar_status_tranca(numero_tranca, self.OCUPADA) 
+            url_status_tranca =f'https://bike-rent-g5cdxjx55q-uc.a.run.app/tranca/{numero_tranca}/status/4'
+            response_tranca = requests.post(url_status_tranca)
+                
+            url_status_bicicleta = f'https://bike-rent-g5cdxjx55q-uc.a.run.app/bicicleta/{numero_bicicleta}/status/1'
+            response_bicicleta = requests.post(url_status_bicicleta)
             
-                       
+            print(response_bicicleta)
+            if response_tranca == 200 and response_bicicleta.status_code == 200:
+                    return {"success": "Bicicleta devolvida com sucesso", "registro_devolucao": aluguel_correspondente.to_dict()}, 200
+                
+                
+            return False
 
-            return {"success": "Bicicleta devolvida com sucesso", "registro_devolucao": aluguel_correspondente.to_dict()}, 200
 
 
 

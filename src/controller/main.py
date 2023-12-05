@@ -152,15 +152,24 @@ def deletar_funcionario_id_route(id_funcionario):
 
 
 from service.AluguelService import AluguelService
+aluguel_service = AluguelService()
+
 @app.route('/aluguel', methods=['POST'])
 def alugar_bicicleta_route():
-    aluguel_service = AluguelService()
     data = request.json
     id_ciclista = data.get('id_ciclista')
     numero_tranca = data.get('tranca_inicio')
     resultado_aluguel = aluguel_service.alugar_bicicleta(id_ciclista, numero_tranca)
     return jsonify(resultado_aluguel)
 
+
+@app.route('/devolucao', methods=['POST'])
+def devolvet_bicicleta_route():
+    data = request.json
+    id_bicicleta = data.get('id_bicicleta')
+    id_tranca = data.get('id_tranca')
+    resultado_devolucao = aluguel_service.devolver_bicicleta(id_bicicleta, id_tranca)
+    return jsonify(resultado_devolucao)
 
 if __name__ == '__main__':
     app.run(port=int(os.environ.get("PORT", 8080)),host='0.0.0.0',debug=True)
