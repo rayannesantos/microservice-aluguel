@@ -9,9 +9,7 @@ from service.AluguelService import AluguelService
 from service.FuncionarioService import FuncionarioService
 
 
-from controller.CiclistaController import ciclista_app
-from controller.AluguelController import aluguel_app
-from controller.DevolucaoController import devolucao_app
+
 
 funcionario_service = FuncionarioService()
 
@@ -153,6 +151,4 @@ def alugar_bicicleta_route():
 
 
 if __name__ == '__main__':
-
-    app.register_blueprint(devolucao_app, url_prefix='/devolucao')
     app.run(port=int(os.environ.get("PORT", 8080)),host='0.0.0.0',debug=True)
