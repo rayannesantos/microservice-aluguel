@@ -169,6 +169,7 @@ def devolvet_bicicleta_route():
     id_bicicleta = data.get('id_bicicleta')
     id_tranca = data.get('id_tranca')
     resultado_devolucao = aluguel_service.devolver_bicicleta(id_bicicleta, id_tranca)
+    print (resultado_devolucao)
     return jsonify(resultado_devolucao)
 
 if __name__ == '__main__':

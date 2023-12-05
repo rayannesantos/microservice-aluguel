@@ -92,35 +92,30 @@ class AluguelService:
         return False
 
     def devolver_bicicleta(self, numero_bicicleta, numero_tranca):
-            # Encontra o aluguel correspondente à bicicleta devolvida
-            aluguel_correspondente = None
-            
-            print(self.alugueis)
-            for aluguel in self.alugueis:
-                if aluguel['Bicicleta'] == numero_bicicleta:
-                    aluguel_correspondente = aluguel
-                    print("entrou")
-                    print(aluguel_correspondente)
-                       
-            if aluguel_correspondente is None:
-                return {"error": "Aluguel não encontrado para a bicicleta especificada"}, 404
-            aluguel_correspondente['hora_fim'] = datetime.now()
-            aluguel_correspondente['tranca_fim'] = numero_tranca
-                
-                
-            url_status_tranca =f'https://bike-rent-g5cdxjx55q-uc.a.run.app/tranca/{numero_tranca}/status/4'
-            response_tranca = requests.post(url_status_tranca)
-                
-            url_status_bicicleta = f'https://bike-rent-g5cdxjx55q-uc.a.run.app/bicicleta/{numero_bicicleta}/status/1'
-            response_bicicleta = requests.post(url_status_bicicleta)
-            
-            print(response_bicicleta)
-            if response_tranca == 200 and response_bicicleta.status_code == 200:
-                    return {"success": "Bicicleta devolvida com sucesso", "registro_devolucao": aluguel_correspondente.to_dict()}, 200
-                
-                
-            return False
+        aluguel_correspondente = None
+        
+        print(self.alugueis)
+        for aluguel in self.alugueis:
+            if aluguel['Bicicleta'] == numero_bicicleta:  
+                aluguel_correspondente = aluguel
+                        
+        if aluguel_correspondente is None:
+            return {"error": "Aluguel não encontrado para a bicicleta especificada"}, 404
 
+        aluguel_correspondente['Data fim'] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        aluguel_correspondente['Tranca final'] = numero_tranca
+        
+        url_status_tranca = f'https://bike-rent-g5cdxjx55q-uc.a.run.app/tranca/{numero_tranca}/status/4'
+        response_tranca = requests.post(url_status_tranca)
+
+        url_status_bicicleta = f'https://bike-rent-g5cdxjx55q-uc.a.run.app/bicicleta/{numero_bicicleta}/status/1'
+        response_bicicleta = requests.post(url_status_bicicleta)
+
+        print(response_bicicleta)
+        if response_tranca.status_code == 200 and response_bicicleta.status_code == 200:
+            return {"success": "Bicicleta devolvida com sucesso", "registro_devolucao": aluguel_correspondente}, 200
+
+        return {"Mensagem": "Erro ao devolver bicicleta"}, 422
 
 
 
