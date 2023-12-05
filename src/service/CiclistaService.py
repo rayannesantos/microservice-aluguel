@@ -266,21 +266,3 @@ class CiclistaService:
                 return ciclista.to_dict()  # Retorna o dicionário JSON
         return None
     
-   
-
-    def validar_dados_cartao(self):
-        # externo
-        return True
-
-    def enviar_para_administradora_cc(self):
-        # Simulação do envio para a Administradora CC
-        return True
-
-
-    # Apenas para retornar sem chamar o microsserviço externo
-    def enviar_email(self):
-        return True
-    
-    # Apenas para retornar sem chamar o microsserviço externo
-    def validar_cartao(self):
-        return True
