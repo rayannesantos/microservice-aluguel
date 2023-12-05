@@ -29,6 +29,14 @@ class FuncionarioService:
         funcionarios = [funcionario.to_dict() for funcionario in self.funcionarios]
         return funcionarios
 
+
+    def cadastrar_funcionario(self, request_data):
+            novo_funcionario = Funcionario(**request_data)
+            self.funcionarios.append(novo_funcionario)
+            return {'Funcionario cadastrado. ' : request_data}
+                    
+                
+
     def obter_funcionario_por_id(self, id_funcionario):
         for funcionario in self.funcionarios:
             if funcionario.id_funcionario == id_funcionario:

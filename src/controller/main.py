@@ -8,9 +8,6 @@ from service.CiclistaService import CiclistaService
 from service.AluguelService import AluguelService
 from service.FuncionarioService import FuncionarioService
 
-
-
-
 funcionario_service = FuncionarioService()
 
 
@@ -115,6 +112,12 @@ def listar_tpdos_os_ciclistas_route():
         return jsonify({"ciclistas": ciclistas})
 
 
+
+@app.route('/funcionario', methods=['POST'])
+def cadastrar_funcionario():
+        dados = request.json
+        funcionario = funcionario_service.cadastrar_funcionario(dados)
+        return funcionario
 
 @app.route('/funcionario', methods=['GET'])
 def listar_funcionarios_route():
