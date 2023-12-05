@@ -110,7 +110,6 @@ class AluguelService:
         for aluguel in self.alugueis:
             if aluguel['Bicicleta'] == numero_bicicleta:  
                 aluguel_correspondente = aluguel
-                print(aluguel_correspondente)
                         
         if aluguel_correspondente is None:
             return {"error": "Aluguel não encontrado para a bicicleta especificada"}, 404
