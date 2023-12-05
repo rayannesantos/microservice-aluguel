@@ -28,13 +28,6 @@ app = Flask(__name__)
 #     return token, 200                           #
 # #################################################
 
-
-
-@app.route('/', methods=['GET'])
-def hello_world():
-    return "Microservice Aluguel"
-
-
 # CICLISTA
 ciclista_service = CiclistaService()
 

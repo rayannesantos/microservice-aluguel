@@ -65,28 +65,28 @@ class CiclistaService:
         
     meio_de_pagamento_data = [
         {
-            "nome_titular": "Fulano Beltrano",
+            "nome_titular": "Fulano Beltrano Um",
             "numero": "4012001037141112",
             "validade": "2022-12",
             "cvv": "132",
             "ciclista": 1
         },
         {
-            "nome_titular": "Fulano Beltrano",
+            "nome_titular": "Fulano Beltrano Dois",
             "numero": "4012001037141112",
             "validade": "2022-12",
             "cvv": "132",
             "ciclista": 2
         },
         {
-            "nome_titular": "Fulano Beltrano",
+            "nome_titular": "Fulano Beltrano Três",
             "numero": "4012001037141112",
             "validade": "2022-12",
             "cvv": "132",
             "ciclista": 3
         },
         {
-            "nome_titular": "Fulano Beltrano",
+            "nome_titular": "Fulano Beltrano Quatro",
             "numero": "4012001037141112",
             "validade": "2022-12",
             "cvv": "132",
