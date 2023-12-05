@@ -98,7 +98,6 @@ class AluguelService:
             print(aluguel['Bicicleta'])
 
             if aluguel['Bicicleta'] == numero_bicicleta:  
-                print("entrou")
                 aluguel_correspondente = aluguel
                 print(aluguel_correspondente)
                         
@@ -114,9 +113,12 @@ class AluguelService:
         url_status_bicicleta = f'https://bike-rent-g5cdxjx55q-uc.a.run.app/bicicleta/{numero_bicicleta}/status/1'
         response_bicicleta = requests.post(url_status_bicicleta)
 
-        print(response_bicicleta)
         if response_tranca.status_code == 200 and response_bicicleta.status_code == 200:
+            dados_cobranca = {"valor": 10, "ciclista": str(aluguel_correspondente['ciclista'])}
+            valida_cobranca = self.chamar_cobranca(dados_cobranca)
+            
             return {"success": "Bicicleta devolvida com sucesso", "registro_devolucao": aluguel_correspondente}, 200
+
 
         return {"Mensagem": "Erro ao devolver bicicleta"}, 422
 
@@ -124,8 +126,6 @@ class AluguelService:
 
     def calcular_valor_a_pagar(self, horas_excedidas):
         return 5.0 * horas_excedidas
-
-
 
     def alterar_status_bicicleta(self, numero_bicicleta, novo_status):
         for bicicleta in self.bicicletas:
