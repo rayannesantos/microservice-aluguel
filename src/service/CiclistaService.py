@@ -152,7 +152,6 @@ class CiclistaService:
 
     # chamar api microservice-externo
     def valida_cartao(self, request_data):
-        # meio_de_pagamento = request_data.get('meioDePagamento', {})
         nome_titular = request_data.get('nome_titular')
         numero = request_data.get('numero')
         validade = request_data.get('validade')
