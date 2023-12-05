@@ -1,5 +1,5 @@
 class Ciclista:
-    def __init__(self, id_ciclista, nome, nascimento, cpf, passaporte, nacionalidade, email, url_foto_documento, senha, status='desativado'):
+    def __init__(self, id_ciclista, nome, nascimento, cpf, nacionalidade, email, senha, status='aguardando_confirmacao', url_foto_documento=None,passaporte=None):
         self.id_ciclista = id_ciclista
         self.nome = nome
         self.nascimento = nascimento

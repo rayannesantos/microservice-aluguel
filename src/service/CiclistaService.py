@@ -11,56 +11,85 @@ class CiclistaService:
     def __init__(self):
         self.ciclistas_data = [
             {
-                "id_ciclista": 3,
-                "nome": "Ciclista 1",
-                "nascimento": "nascimento",
-                "cpf": "",
+                "id_ciclista": 1,
+                "nome": "Fulano Beltrano",
+                "nascimento": "2021-05-02",
+                "cpf": "78804034009",
                 "passaporte": {
-                    "numero": "12358",
-                    "validade": "02/01/1997",
-                    "pais": "MX"
+                    "numero": "4012001037141112",
+                    "validade": "2022-12",
+                    "pais": "BR"
                 },
-                "nacionalidade": "ESTRANGEIRO",
-                "email": "email@email.com.br",
-                "url_foto_documento": "url_foto_documento",
-                "senha": "senha"
+                "nacionalidade": "Brasileiro",
+                "email": "user@example.com",
+                "url_foto_documento": "string",
+                "senha": "ABC123"
+            },
+            {
+                "id_ciclista": 2,
+                "nome": "Fulano Beltrano",
+                "nascimento": "2021-05-02",
+                "cpf": "43943488039",
+                "passaporte": {
+                    "numero": "4012001037141112",
+                    "validade": "2022-12",
+                    "pais": "BR"
+                },
+                "nacionalidade": "Brasileiro",
+                "email": "user2@example.com",
+                "senha": "ABC123"
+            },
+            {
+                "id_ciclista": 3,
+                "nome": "Fulano Beltrano",
+                "nascimento": "2021-05-02",
+                "cpf": "10243164084",
+                "nacionalidade": "Brasileiro",
+                "email": "user3@example.com",
+                "senha": "ABC123"
             },
             {
                 "id_ciclista": 4,
-                "nome": "Ciclista 2",
-                "nascimento": "nascimento",
-                "cpf": "cpf",
-                "passaporte": {
-                    "numero": "passaporte_numero",
-                    "validade": "passaporte_validade",
-                    "pais": "passaporte_pais"
-                },
-                "nacionalidade": "nacionalidade",
-                "email": "email",
-                "url_foto_documento": "url_foto_documento",
-                "senha": "senha"
+                "nome": "Fulano Beltrano",
+                "nascimento": "2021-05-02",
+                "cpf": "30880150017",
+                "nacionalidade": "Brasileiro",
+                "email": "user4@example.com",
+                "senha": "ABC123"
             }
         ]
         self.ciclistas = [Ciclista(**data) for data in self.ciclistas_data]
         
-        self.meio_de_pagamento_data = [
+    meio_de_pagamento_data = [
         {
-            "nome_titular": "Titular",
-            "numero_cartao": "1234567890123456",
-            "validade_cartao": "2025-12-31",
-            "cvv_cartao": "123",
-            "ciclista":4
+            "nome_titular": "Fulano Beltrano",
+            "numero": "4012001037141112",
+            "validade": "2022-12",
+            "cvv": "132",
+            "ciclista": 1
         },
         {
-            "nome_titular": "Titular",
-            "numero_cartao": "5234567890123456",
-            "validade_cartao": "2035-12-31",
-            "cvv_cartao": "423",
-            "ciclista":3
-        }                   
-        ]
-
-
+            "nome_titular": "Fulano Beltrano",
+            "numero": "4012001037141112",
+            "validade": "2022-12",
+            "cvv": "132",
+            "ciclista": 2
+        },
+        {
+            "nome_titular": "Fulano Beltrano",
+            "numero": "4012001037141112",
+            "validade": "2022-12",
+            "cvv": "132",
+            "ciclista": 3
+        },
+        {
+            "nome_titular": "Fulano Beltrano",
+            "numero": "4012001037141112",
+            "validade": "2022-12",
+            "cvv": "132",
+            "ciclista": 4
+        }
+]
     def cadastrar_ciclista(self, request_data):
         email = request_data.get('ciclista', {}).get('email')
         if email and re.match(r'^\S+@\S+\.\S+$', email):
@@ -81,9 +110,9 @@ class CiclistaService:
                 
                 meio_de_pagamento_data = request_data.get('meioDePagamento', {})
                 nome_titular = meio_de_pagamento_data.get('nome_titular')
-                numero_cartao = meio_de_pagamento_data.get('numero')
-                validade_cartao = meio_de_pagamento_data.get('validade')
-                cvv_cartao = meio_de_pagamento_data.get('cvv')
+                numero = meio_de_pagamento_data.get('numero')
+                validade = meio_de_pagamento_data.get('validade')
+                cvv = meio_de_pagamento_data.get('cvv')
                 print(meio_de_pagamento_data)
                 
                 valida_cartao = self.valida_cartao(meio_de_pagamento_data)
@@ -94,9 +123,9 @@ class CiclistaService:
                     ciclista_id = request_data.get('ciclista', {}).get('id_ciclista')
                     novo_meio_de_pagamento = MeioDePagamento(
                         nome_titular=nome_titular,
-                        numero_cartao=numero_cartao,
-                        validade_cartao=validade_cartao,
-                        cvv_cartao=cvv_cartao,
+                        numero=numero,
+                        validade=validade,
+                        cvv=cvv,
                         ciclista=ciclista_id
                     )
                     novo_ciclista = Ciclista(**request_data.get('ciclista', {}))
@@ -120,16 +149,16 @@ class CiclistaService:
         print(request_data)
         # meio_de_pagamento = request_data.get('meioDePagamento', {})
         nome_titular = request_data.get('nome_titular')
-        numero_cartao = request_data.get('numero')
-        validade_cartao = request_data.get('validade')
-        cvv_cartao = request_data.get('cvv')
+        numero = request_data.get('numero')
+        validade = request_data.get('validade')
+        cvv = request_data.get('cvv')
 
 
         json_meio_de_pagamento = {
             "nome_titular": nome_titular,
-            "numero": numero_cartao,
-            "validade": validade_cartao,
-            "cvv": cvv_cartao
+            "numero": numero,
+            "validade": validade,
+            "cvv": cvv
         }
 
 
@@ -197,7 +226,7 @@ class CiclistaService:
 
             for i, ciclista_data in enumerate(self.ciclistas_data):
                 if ciclista_data["id_ciclista"] == id_ciclista:
-                    self.ciclistas_data[i].update({"status": "ativado"})
+                    self.ciclistas_data[i].update({"status": "confirmado"})
                     break
 
             return {"ciclista ativado": ciclista.to_dict(include_status=False)}
