@@ -61,7 +61,6 @@ class TestRoutes(unittest.TestCase):
             }
         }  
         response = self.client.post('/ciclista', json=data)
-        print(response)
         self.assertEqual(response.status_code, 200)
            
            
@@ -78,8 +77,23 @@ class TestRoutes(unittest.TestCase):
             "cpf": "string"
         }  
         response = self.client.post('/funcionario', json=data)
-        print(response)
         self.assertEqual(response.status_code, 200)
-   
+
+    def test_aluguel_route(self):         
+        data = {
+        "id_ciclista": 2,
+        "tranca_inicio": 2
+        } 
+        response = self.client.post('/aluguel', json=data)
+        self.assertEqual(response.status_code, 200)
+
+    def test_devolucao_route(self):         
+        data = {
+        "id_tranca": 2,
+        "id_bicicleta": 1
+        } 
+        response = self.client.post('/devolucao', json=data)
+        self.assertEqual(response.status_code, 200)  
+  
 if __name__ == '__main__':
     unittest.main()
