@@ -157,7 +157,7 @@ def alugar_bicicleta_route():
     aluguel_service = AluguelService()
     data = request.json
     id_ciclista = data.get('id_ciclista')
-    numero_tranca = data.get('trancaInicio')
+    numero_tranca = data.get('tranca_inicio')
     resultado_aluguel = aluguel_service.alugar_bicicleta(id_ciclista, numero_tranca)
     return jsonify(resultado_aluguel)
 

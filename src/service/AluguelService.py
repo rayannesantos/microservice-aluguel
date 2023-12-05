@@ -8,10 +8,6 @@ import requests
 hora_atual = datetime.now()
 
 class AluguelService:
-    DISPONIVEL = "Disponível"
-    INDISPONIVEL = "Indisponível"
-    OCUPADA = "Ocupada"
-    
     def __init__(self):
         self.alugueis = [
             {
@@ -43,9 +39,9 @@ class AluguelService:
         ]
         
     def alugar_bicicleta(self, id_ciclista, numero_tranca): 
-        url_tranca = 'https://bike-rent-g5cdxjx55q-uc.a.run.app/bicicleta/{numero_tranca}'
+        url_tranca = f'https://bike-rent-g5cdxjx55q-uc.a.run.app/tranca/{numero_tranca}'
         response = requests.get(url_tranca)  
-                
+
         if response.status_code == 404:
             return {"error": "Tranca não encontrada"}, 404 
         
@@ -109,12 +105,14 @@ class AluguelService:
             else:
                 aluguel_correspondente.hora_fim = datetime.now()
                 aluguel_correspondente.tranca_fim = numero_tranca
-            
-            
-            
-            self.alterar_status_bicicleta(numero_bicicleta, self.DISPONIVEL)
+                
+                
+    
+            # self.alterar_status_bicicleta(numero_bicicleta, self.DISPONIVEL)
 
-            self.alterar_status_tranca(numero_tranca, self.OCUPADA)            
+            # self.alterar_status_tranca(numero_tranca, self.OCUPADA) 
+            
+                       
 
             return {"success": "Bicicleta devolvida com sucesso", "registro_devolucao": aluguel_correspondente.to_dict()}, 200
 
