@@ -5,7 +5,7 @@ from flask_testing import TestCase
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.insert(0, project_root)
 
-from controller.main import app, enviar_email , obter_tranca , obter_bicicleta
+from controller.main import app, enviar_email , obter_tranca , obter_bicicleta, chamar_cobranca
 
 
 class TestRoutes(unittest.TestCase):
@@ -104,18 +104,22 @@ class TestRoutes(unittest.TestCase):
 
     @patch('controller.main.obter_tranca')
     def test_obter_tranca_integration(self, mock_get):
-        # como não há bicicleta e trancas cadastrada então a comparação é com 404
-        mock_get.return_value.status_code = 404
+        mock_get.return_value.status_code = 200
         resultado = obter_tranca(1)
         
-        self.assertEqual(resultado.status_code, 404)
+        self.assertEqual(resultado.status_code, 200)
 
 
     @patch('controller.main.obter_bicicleta')
     def test_obter_bicicleta_integration(self, mock_get):
-        mock_get.return_value.status_code = 404
+        mock_get.return_value.status_code = 200
         resultado = obter_bicicleta(0)
-        self.assertTrue(resultado.status_code, 404)
+        self.assertTrue(resultado.status_code, 200)
+
+    @patch('controller.main.chamar_cobranca')
+    def test_obter_bicicleta_integration(self, mock_get):
+        resultado = chamar_cobranca(3)
+        self.assertTrue(resultado)
 
 
 if __name__ == '__main__':

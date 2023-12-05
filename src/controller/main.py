@@ -200,7 +200,14 @@ def obter_bicicleta(numero_bicicleta):
     response = requests.get(url_bicicleta)  
 
     return response
-            
 
+def chamar_cobranca(id_ciclista):
+        dados_cobranca = {"valor": 10, "ciclista": str(id_ciclista)}
+        url_cobranca = 'https://microservice-externo-b4i7jmshsa-uc.a.run.app/cobranca'
+        response = requests.post(url_cobranca, json = dados_cobranca)
+        if response.status_code == 200:
+            return True
+        return False
+            
 if __name__ == '__main__':
     app.run(port=int(os.environ.get("PORT", 8080)),host='0.0.0.0',debug=True)
