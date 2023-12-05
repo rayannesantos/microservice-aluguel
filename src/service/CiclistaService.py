@@ -13,7 +13,7 @@ class CiclistaService:
         self.ciclistas_data = [
             {
                 "id_ciclista": 1,
-                "nome": "Fulano Beltrano",
+                "nome": "Fulano Beltrano Um",
                 "nascimento": "2021-05-02",
                 "cpf": "78804034009",
                 "passaporte": {
@@ -28,7 +28,7 @@ class CiclistaService:
             },
             {
                 "id_ciclista": 2,
-                "nome": "Fulano Beltrano",
+                "nome": "Fulano Beltrano Dois",
                 "nascimento": "2021-05-02",
                 "cpf": "43943488039",
                 "passaporte": {
@@ -42,7 +42,7 @@ class CiclistaService:
             },
             {
                 "id_ciclista": 3,
-                "nome": "Fulano Beltrano",
+                "nome": "Fulano Beltrano Três",
                 "nascimento": "2021-05-02",
                 "cpf": "10243164084",
                 "nacionalidade": "Brasileiro",
@@ -51,7 +51,7 @@ class CiclistaService:
             },
             {
                 "id_ciclista": 4,
-                "nome": "Fulano Beltrano",
+                "nome": "Fulano Beltrano Quatro",
                 "nascimento": "2021-05-02",
                 "cpf": "30880150017",
                 "nacionalidade": "Brasileiro",
