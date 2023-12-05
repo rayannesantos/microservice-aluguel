@@ -136,7 +136,7 @@ class CiclistaService:
                     
                 
                 # chamar valida email 
-                teste= self.requisita_enviar_email("santosrayanne.s@gmail.com","Confirmar Email", "Código:12345")
+                teste= self.requisita_enviar_email("bqueiroz@edu.unirio.br","Confirmar Email", "Código:12345")
                 print(teste)
                 # self.enviar_email()
                 return {'Ciclista cadastrado. Enviado email para ativação ' : request_data}
@@ -149,7 +149,6 @@ class CiclistaService:
 
     # chamar api microservice-externo
     def valida_cartao(self, request_data):
-        print(request_data)
         # meio_de_pagamento = request_data.get('meioDePagamento', {})
         nome_titular = request_data.get('nome_titular')
         numero = request_data.get('numero')
