@@ -153,7 +153,7 @@ def listar_meio_de_pagamento_por_id(id_ciclista):
 @app.route('/allciclistas', methods=['GET'])
 def listar_tpdos_os_ciclistas_route():
         ciclistas = ciclista_service.listar_todos()
-        return jsonify({"funcionarios": ciclistas})
+        return jsonify({"ciclistas": ciclistas})
 
 
 # funcionarios

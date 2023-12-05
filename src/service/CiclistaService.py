@@ -2,10 +2,13 @@
 from unittest.mock import Mock
 from model.CiclistaModel import Ciclista
 from model.MeiodePagamentoModel import MeioDePagamento  # Make sure to adjust the import path
+import re
+import requests
+from flask import jsonify, Response
+
 
 class CiclistaService: 
     def __init__(self):
-        # Inicializa com alguns dados fictícios de ciclistas
         self.ciclistas_data = [
             {
                 "id_ciclista": 3,
@@ -59,12 +62,88 @@ class CiclistaService:
 
 
     def cadastrar_ciclista(self, request_data):
-            response = request_data
-            novo_ciclista = Ciclista(**request_data)
-            self.ciclistas.append(novo_ciclista)
+        email = request_data.get('ciclista', {}).get('email')
+        meio_de_pagamento = request_data.get('meioDePagamento', {})
+        print(meio_de_pagamento)
+        if email and re.match(r'^\S+@\S+\.\S+$', email):
+            # Verificar nacionalidade
+            nacionalidade = request_data.get('ciclista', {}).get('nacionalidade')
+            if nacionalidade == 'brasileiro':
+                # Se brasileiro, CPF é obrigatório
+                cpf = request_data.get('ciclista', {}).get('cpf')
+                if not cpf:
+                    return {"mensagem": 'CPF é obrigatório para brasileiros' }
 
-            return response
+            elif nacionalidade == 'estrangeiro':
+                passaporte = request_data.get('ciclista', {}).get('passaporte', {})
+                if not passaporte or not passaporte.get('numero') or not passaporte.get('validade') or not passaporte.get('pais'):
+                    return {"mensagem" : 'Passaporte e país são obrigatórios para estrangeiros'}
 
+            if not self.verifica_email(email):
+                
+                novo_ciclista = Ciclista(**request_data.get('ciclista', {}))
+                self.ciclistas.append(novo_ciclista)
+                self.ciclistas = [Ciclista(**data) for data in self.ciclistas_data]
+                
+                # falta validar cartão e email
+                # chamar microserviço validar cartão
+                # adiciona pagamento
+                meio_de_pagamento_data = request_data.get('meioDePagamento', {})
+                nome_titular = meio_de_pagamento_data.get('nome_titular')
+                numero_cartao = meio_de_pagamento_data.get('numero')
+                validade_cartao = meio_de_pagamento_data.get('validade')
+                cvv_cartao = meio_de_pagamento_data.get('cvv')
+
+                # Construir o objeto MeioDePagamento com o campo ciclista_id
+                ciclista_id = request_data.get('ciclista', {}).get('id_ciclista')
+                novo_meio_de_pagamento = MeioDePagamento(
+                    nome_titular=nome_titular,
+                    numero_cartao=numero_cartao,
+                    validade_cartao=validade_cartao,
+                    cvv_cartao=cvv_cartao,
+                    ciclista=ciclista_id
+                )
+
+                self.meio_de_pagamento_data.append(novo_meio_de_pagamento)
+                
+                # chamar valida email
+
+                return {'Ciclista cadastrado ' : request_data}
+            else:
+                return {"mensagem":'E-mail já cadastrado'}
+
+        else:
+            return {"mensagem":'Formato de e-mail inválido'}
+
+
+    # chamar api microservice-externo
+    def valida_cartao(self, request_data):
+        meio_de_pagamento = request_data.get('meioDePagamento', {})
+        nome_titular = meio_de_pagamento.get('nomeTitular')
+        numero_cartao = meio_de_pagamento.get('numero')
+        validade_cartao = meio_de_pagamento.get('validade')
+        cvv_cartao = meio_de_pagamento.get('cvv')
+
+        json_meio_de_pagamento = {
+            "nome_titular": nome_titular,
+            "numero": numero_cartao,
+            "validade": validade_cartao,
+            "cvv": cvv_cartao
+        }
+
+        # microservice-externo
+        try: 
+            url_valida_cartao = 'https://microservice-externo-b4i7jmshsa-uc.a.run.app/validaCartaoDeCredito'
+            response = requests.post(url_valida_cartao, json=json_meio_de_pagamento)
+            
+            if response.status_code == 200:
+                return True
+            else:
+                return False
+            
+        except requests.exceptions.RequestException as e:
+          return {"Erro na solicitação: {e}"}
+          
 
 
     def listar_todos(self):
@@ -74,8 +153,8 @@ class CiclistaService:
     def verifica_email(self,email):
         for ciclista_data in self.ciclistas_data:
                     if ciclista_data["email"] == email:
-                        return True,200       
-        return False, 200
+                        return True       
+        return False
     
     
     def permite_aluguel(self, id_ciclista):
@@ -143,10 +222,29 @@ class CiclistaService:
             if not self.validar_dados_ciclista(ciclista):
                 return {"error": "Dados inválidos"}, 422
             
+            # CHAMAR MICROSERVICE EMAIL
             self.enviar_email()
-            return ciclista.to_dict()
-        
+            
+        for ciclista_data in self.ciclistas_data:
+            if ciclista_data["id_ciclista"] == id_ciclista:
+                ciclista_data.update({
+                    "nome": dados.get("nome", ciclista_data["nome"]),
+                    "cpf": dados.get("cpf", ciclista_data["cpf"]),
+                    "passaporte": dados.get("passaporte", ciclista_data["passaporte"]),
+                    "nacionalidade": dados.get("nacionalidade", ciclista_data["nacionalidade"]),
+                    "url_foto_documento": dados.get("url_foto_documento", ciclista_data["url_foto_documento"]),
+                    "senha": dados.get("senha", ciclista_data["senha"]),
+              
+                })
+                break
+            
+        for i, c in enumerate(self.ciclistas):
+            if c.id_ciclista == id_ciclista:
+                self.ciclistas[i] = ciclista.to_dict()
+                break
+            return ciclista.to_dict()        
         return {"error": "Ciclista não encontrado"}, 404
+
 
     def validar_dados_ciclista(self, ciclista):
         if ciclista.nacionalidade == "Brasileiro" and not ciclista.cpf:
@@ -167,32 +265,7 @@ class CiclistaService:
                 return ciclista.to_dict()  # Retorna o dicionário JSON
         return None
     
-    # UC07 – Alterar Cartão
-    # def alterar_cartao(self, id_ciclista, dados_cartao):
-    #     ciclista = self.obter_ciclista_por_id(id_ciclista)
-
-    #     if ciclista:
-    #         if not self.validar_dados_cartao():
-    #             return {"error": "Dados do cartão inválidos"}, 422
-
-    #         if not self.enviar_para_administradora_cc():
-    #             return {"error": "Cartão recusado pela Administradora CC"}, 422
-
-    #         ciclista.meio_de_pagamento = MeioDePagamento(
-    #             nome_titular=dados_cartao["nome_titular"],
-    #             numero_cartao=dados_cartao["numero_cartao"],
-    #             validade_cartao=dados_cartao["validade_cartao"],
-    #             cvv_cartao=dados_cartao["cvv_cartao"],
-    #             ciclista=ciclista
-    #     )
-
-    #         if not self.enviar_email():
-    #             return {"warning": "Cartão atualizado, mas houve um problema ao enviar o e-mail"}
-
-    #         return {"success": "Cartão atualizado com sucesso"}
-
-    #     return {"error": "Ciclista não encontrado"}, 404
-
+   
 
     def validar_dados_cartao(self):
         # externo
@@ -203,108 +276,6 @@ class CiclistaService:
         return True
 
 
-    # PRIMEIRA ENTREGA
-    # def cadastrar_ciclista(self, data):
-    #     response_mock = Mock()
-    #     response_mock.status_code = 200  # Assume success by default
-    #     self.validar_cartao()
-    #     response_mock.json.return_value = self.dados_ciclista(data)
-    #     return response_mock.json()
-        
-        
-    # def dados_ciclista(self, data):
-    #     nome = data.get("ciclista").get("nome")
-    #     nascimento = data.get("ciclista").get("nascimento")
-    #     cpf = data.get("ciclista").get("cpf")
-    #     passaporte_numero = data.get("ciclista").get("passaporte").get("numero")
-    #     passaporte_validade = data.get("ciclista").get("passaporte").get("validade")
-    #     passaporte_pais = data.get("ciclista").get("passaporte").get("pais")
-    #     nacionalidade = data.get("ciclista").get("nacionalidade")
-
-    #     email = data.get("ciclista").get("email")
-    #     url_foto_documento = data.get("ciclista").get("url_foto_documento")
-    #     senha = data.get("ciclista").get("senha")
-    #     nome_titular = data.get("meio_de_pagamento").get("nome_titular")
-    #     numero_cartao = data.get("meio_de_pagamento").get("numero")
-    #     validade_cartao = data.get("meio_de_pagamento").get("validade")
-    #     cvv = data.get("meio_de_pagamento").get("cvv")
-
-    #     mock_json = {
-    #         "ciclista": {
-    #             "id_ciclista": 3,
-    #             "nome": nome,
-    #             "nascimento": nascimento,
-    #             "cpf": cpf,
-    #             "passaporte": {
-    #                 "numero": passaporte_numero,
-    #                 "validade": passaporte_validade,
-    #                 "pais": passaporte_pais
-    #             },
-    #             "nacionalidade": nacionalidade,
-    #             "email": email,
-    #             "url_foto_documento": url_foto_documento,
-    #             "senha": senha
-    #         },
-    #         "meio_de_pagamento": {
-    #             "nome_titular": nome_titular,
-    #             "numero": numero_cartao,
-    #             "validade": validade_cartao,
-    #             "cvv": cvv
-    #         }
-    #     }
-    #     return mock_json
-
-    # # UC02 – Confirmar email
-    # def ativar_ciclista(self, id_ciclista):
-    #     response_mock = Mock()
-    #     response_mock.status_code = 200
-
-    #     ciclistas = self.listar_ciclistas()
-    #     for ciclista in ciclistas:
-    #         if ciclista['id_ciclista'] == id_ciclista:
-    #             ciclista['status'] = 'ativado'
-    #             return ciclista
-
-    #     return {'error': 'Ciclista not found'}, 404
-
-    def listar_ciclistas(self):
-        response_mock = Mock()
-        response_mock.status_code = 200
-        response_mock.json.return_value = [
-            {
-                "id_ciclista": 1,
-                "status": "desativado",
-                "nome": "string",
-                "nascimento": "2023-11-13",
-                "cpf": "00964211258",
-                "passaporte": {
-                    "numero": "string",
-                    "validade": "2023-11-13",
-                    "pais": "JF"
-                },
-                "nacionalidade": "string",
-                "email": "user@example.com",
-                "urlFotoDocumento": "string"
-            },
-            {
-                "id_ciclista": 2,
-                "status": "desativado",
-                "nome": "string",
-                "nascimento": "2023-11-13",
-                "cpf": "00964211258",
-                "passaporte": {
-                    "numero": "string",
-                    "validade": "2023-11-13",
-                    "pais": "JF"
-                },
-                "nacionalidade": "string",
-                "email": "user@example.com",
-                "urlFotoDocumento": "string"
-            },
-        ]
-        return response_mock.json()
-
-       
     # Apenas para retornar sem chamar o microsserviço externo
     def enviar_email(self):
         return True
