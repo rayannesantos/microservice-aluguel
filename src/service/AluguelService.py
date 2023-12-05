@@ -119,9 +119,7 @@ class AluguelService:
         url_status_bicicleta = f'https://bike-rent-g5cdxjx55q-uc.a.run.app/bicicleta/{numero_bicicleta}/status/1'
         response_bicicleta = requests.post(url_status_bicicleta)
 
-        if response_tranca.status_code == 200 and response_bicicleta.status_code == 200:
-            dados_cobranca = {"valor": 10, "ciclista": str(aluguel_correspondente['ciclista'])}
-            
+        if response_tranca.status_code == 200 and response_bicicleta.status_code == 200:            
             return {"success": "Bicicleta devolvida com sucesso", "registro_devolucao": aluguel_correspondente}, 200
 
 
