@@ -1,8 +1,11 @@
 from flask import jsonify
 from service.CiclistaService import CiclistaService
-from datetime import datetime
+from datetime import datetime, timedelta
 from model.AluguelModel import AluguelBicicleta
 import requests
+
+
+hora_atual = datetime.now()
 
 class AluguelService:
     DISPONIVEL = "Disponível"
@@ -10,58 +13,49 @@ class AluguelService:
     OCUPADA = "Ocupada"
     
     def __init__(self):
-        self.bicicletas = [
-            {
-                "id": 1,
-                "marca": "Caloi",
-                "modelo": "Mountain Bike",
-                "ano": "2022",
-                "numero": 101,
-                "status": self.DISPONIVEL
-            },
-            {
-                "id": 2,
-                "marca": "Specialized",
-                "modelo": "Road Bike",
-                "ano": "2021",
-                "numero": 102,
-                "status": self.INDISPONIVEL
-            }
-        ]
 
-        self.trancas = [
-            {
-                "id": 50,
-                "bicicleta": 1,
-                "numero": 100,
-                "localizacao": "Estação A",
-                "anoDeFabricacao": "2022",
-                "modelo": "Tranca A",
-                "status": self.DISPONIVEL
-            }
-        ]
         
         self.alugueis = [
             {
-                "bicicleta": 1,
-                "ciclista":3,
-                "trancaInicio": 50
+                "ciclista": 3,
+                "Bicicleta": 3,
+                "Tranca inicial": 2,
+                "Status": "EM_ANDAMENTO",
+                "Cobranca inicial": 1,
+                "Data início": hora_atual.strftime("%Y-%m-%d %H:%M:%S")
+            },
+            {
+                "ciclista": 4,
+                "Bicicleta": 5,
+                "Tranca inicial": 4,
+                "Status": "EM_ANDAMENTO",
+                "Cobranca inicial": 2,
+                "Data início": (hora_atual - timedelta(hours=2)).strftime("%Y-%m-%d %H:%M:%S")
+            },
+            {
+                "ciclista": 3,
+                "Bicicleta": 1,
+                "Tranca inicial": 1,
+                "Tranca final": 2,
+                "Status": "FINALIZADO COM COBRANCA EXTRA PENDENTE",
+                "Cobranca inicial": 3,
+                "Data início": (hora_atual - timedelta(hours=2)).strftime("%Y-%m-%d %H:%M:%S"),
+                "Data fim": hora_atual.strftime("%Y-%m-%d %H:%M:%S")
             }
         ]
         
 
     # UC03 – Alugar bicicleta 
-    def alugar_bicicleta(self, id_ciclista, numero_tranca):
-        # Validando dados para alugar bicicleta
-        trancadesejada = None
+    def alugar_bicicleta(self, id_ciclista, numero_tranca): 
         
-        # CHAMAR MICROSERVIÇO
-        for tranca in self.trancas:
-            if tranca["numero"] == numero_tranca:
-                trancadesejada = tranca
-                break
+        url_tranca = f'https://bike-rent-g5cdxjx55q-uc.a.run.app/bicicleta/{numero_tranca}'
+        response = requests.get(url_tranca)   
+        response.status_code =200;
+        response["bicicleta"] = 1;
+        if response.status_code == 200:
+            return True
 
-        if trancadesejada is None:
+        if response is 404:
             return {"error": "Tranca não encontrada"}, 404
 
         ciclista_service = CiclistaService()
@@ -75,14 +69,17 @@ class AluguelService:
 
 
         aluguel = AluguelBicicleta(
-            bicicleta=trancadesejada["bicicleta"],
-            hora_inicio=datetime.now(),
+            bicicleta=response["bicicleta"],
+            hora_inicio= hora_atual.strftime("%Y-%m-%d %H:%M:%S"),
             tranca_inicio=numero_tranca,
-            ciclista=ciclista.nome
+            ciclista=ciclista.id_ciclista
         )
+                
+        ciclista_service.requisita_enviar_email("Dados do aluguel", aluguel);
         
         self.alugueis.append(aluguel)
-
+        
+        print(aluguel)
 
         return {"success": "Aluguel realizado", "registro_retirada": aluguel.to_dict()}, 200
 
@@ -114,8 +111,6 @@ class AluguelService:
     def calcular_valor_a_pagar(self, horas_excedidas):
         return 5.0 * horas_excedidas
 
-    def enviar_email(self):
-        return True
 
 
     def alterar_status_bicicleta(self, numero_bicicleta, novo_status):

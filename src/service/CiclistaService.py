@@ -136,13 +136,12 @@ class CiclistaService:
                     self.ciclistas = [Ciclista(**data) for data in self.ciclistas_data]
                     self.meio_de_pagamento_data.append(novo_meio_de_pagamento)
                     
-                # codigo = random.randint(100000, 999999);
-                # chama valida email 
-                codigo="12345"
-                confirma_email = self.requisita_enviar_email("bqueiroz@edu.unirio.br", "Confirmar Email", f"Código para validação: {codigo}")
+                link = "https://microservice-aluguel-hm535ksnoq-uc.a.run.app/ciclista/{}/ativar"
+                link_completo = link.format(ciclista_id)
+                corpo_email = f"Link para ativar: {link_completo}"
+                confirma_email = self.requisita_enviar_email("Confirmar Email", corpo_email)
                 if confirma_email:
-                     self.global_validacao_ciclista.append({"codigo": codigo, "ciclista": ciclista_id})
-                     return {'Ciclista cadastrado. Enviado email para ativação ' : request_data}
+                    return {'Ciclista cadastrado. Enviado email para ativação ' : request_data}
             else:
                 return {"mensagem":'E-mail já cadastrado'}
 
@@ -181,7 +180,7 @@ class CiclistaService:
 
 
 
-    def requisita_enviar_email(self, destinatario, assunto, mensagem): 
+    def requisita_enviar_email(self,assunto, mensagem): 
             url_email = "https://microservice-externo-b4i7jmshsa-uc.a.run.app/enviarEmail"
             
             dados = {"destinatario": "bqueiroz@edu.unirio.br", 
@@ -269,26 +268,20 @@ class CiclistaService:
         
 
     
-
-    def ativar_ciclista(self, id_ciclista, codigo_email="12345"):
-        ciclista = self.obter_ciclista_por_id(id_ciclista) 
+    def ativar_ciclista(self, id_ciclista):
+        ciclista = self.obter_ciclista_por_id(id_ciclista)
         if ciclista:
-            for item in self.global_validacao_ciclista:
-                codigo = item.get("codigo")
-                ciclista_id = item.get("ciclista")
+            ciclista.status = 'confirmado'
 
-                if ciclista_id == id_ciclista and codigo == "12345":
-                    ciclista.status = 'confirmado'
-                    for i, ciclista_data in enumerate(self.ciclistas_data):
-                        if ciclista_data["id_ciclista"] == id_ciclista:
-                            self.ciclistas_data[i].update({"status": "confirmado"})
-                            break
+            for i, ciclista_data in enumerate(self.ciclistas_data):
+                if ciclista_data["id_ciclista"] == id_ciclista:
+                    self.ciclistas_data[i].update({"status": "confirmado"})
+                    break
 
-                    return {"ciclista ativado": ciclista.to_dict(include_status=False)}
-
-            return {'mensagem': 'Código de e-mail inválido'}
+            return {"ciclista ativado": ciclista.to_dict(include_status=False)}
 
         return {'mensagem': 'Ciclista não encontrado'}, 404
+
 
 
 
@@ -308,9 +301,7 @@ class CiclistaService:
             if not self.validar_dados_ciclista(ciclista):
                 return {"error": "Dados inválidos"}, 422
             
-            # CHAMAR MICROSERVICE EMAIL
-            # self.enviar_email()
-            
+ 
         for ciclista_data in self.ciclistas_data:
             if ciclista_data["id_ciclista"] == id_ciclista:
                 ciclista_data.update({
@@ -328,7 +319,11 @@ class CiclistaService:
             if c.id_ciclista == id_ciclista:
                 self.ciclistas[i] = ciclista.to_dict()
                 break
-            return ciclista.to_dict()        
+            self.requisita_enviar_email("Atualização de dados", "Seus dados foram atualizados")
+            return ciclista.to_dict()
+        
+        
+                
         return {"error": "Ciclista não encontrado"}, 404
 
 
