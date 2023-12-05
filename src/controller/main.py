@@ -189,7 +189,7 @@ def enviar_email(assunto, mensagem):
     
     return True
 
-def obter_tranca(id_ciclista, numero_tranca):
+def obter_tranca(numero_tranca):
     url_tranca = f'https://bike-rent-g5cdxjx55q-uc.a.run.app/tranca/{numero_tranca}'
     response = requests.get(url_tranca)  
 

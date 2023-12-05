@@ -92,6 +92,7 @@ class TestRoutes(unittest.TestCase):
         response = self.client.post('/devolucao', json=data)
         self.assertEqual(response.status_code, 200)  
 
+
     @patch('controller.main.enviar_email')
     def test_enviar_email_integration(self, mock_post):
         mock_post.return_value.status_code = 200
