@@ -70,8 +70,13 @@ class AluguelService:
                 return {"error": "Falha na cobrança"}, 422
 
             hora_atual = datetime.now()
+            
+            dados_json = response.json()
+
+            bicicleta = dados_json.get("bicicleta")            
+            
             aluguel = AluguelBicicleta(
-                bicicleta= response['bicicleta'],
+                bicicleta=bicicleta,
                 hora_inicio=hora_atual.strftime("%Y-%m-%d %H:%M:%S"),
                 tranca_inicio=numero_tranca,
                 ciclista=ciclista  
