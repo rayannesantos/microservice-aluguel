@@ -93,13 +93,13 @@ class CiclistaService:
             "ciclista": 4
         }
 ]
+    
+    
     def cadastrar_ciclista(self, request_data):
         email = request_data.get('ciclista', {}).get('email')
         if email and re.match(r'^\S+@\S+\.\S+$', email):
-            # Verificar nacionalidade
             nacionalidade = request_data.get('ciclista', {}).get('nacionalidade')
             if nacionalidade == 'brasileiro':
-                # Se brasileiro, CPF é obrigatório
                 cpf = request_data.get('ciclista', {}).get('cpf')
                 if not cpf:
                     return {"mensagem": 'CPF é obrigatório para brasileiros' }
@@ -122,7 +122,6 @@ class CiclistaService:
                 
                 ciclista_id = request_data.get('ciclista', {}).get('id_ciclista')
 
-                print(valida_cartao)
                 if(valida_cartao):
                     # Construir o objeto MeioDePagamento com o campo ciclista_id
                     novo_meio_de_pagamento = MeioDePagamento(
@@ -139,15 +138,10 @@ class CiclistaService:
                     
                 # codigo = random.randint(100000, 999999);
                 # chama valida email 
-                # confirma_email = self.requisita_enviar_email("bqueiroz@edu.unirio.br", "Confirmar Email", f"Código para validação: {codigo}")
                 codigo="12345"
-                confirma_email = True;
-                
-                print (codigo)
+                confirma_email = self.requisita_enviar_email("bqueiroz@edu.unirio.br", "Confirmar Email", f"Código para validação: {codigo}")
                 if confirma_email:
                      self.global_validacao_ciclista.append({"codigo": codigo, "ciclista": ciclista_id})
-                     
-                     print(self.global_validacao_ciclista)
                      return {'Ciclista cadastrado. Enviado email para ativação ' : request_data}
             else:
                 return {"mensagem":'E-mail já cadastrado'}
@@ -248,7 +242,6 @@ class CiclistaService:
                     meio_de_pagamento_result = {
                         key: value for key, value in meio_de_pagamento_data.items() if key != "ciclista"
                     }
-                    # Return only meio_de_pagamento data
                     return {"meio_de_pagamento": meio_de_pagamento_result}
 
             return {"mensagem": False, "message": "Ciclista sem cartão cadastrado"}
@@ -285,7 +278,6 @@ class CiclistaService:
         ciclista = self.obter_ciclista_por_id(id_ciclista)
         
         if ciclista:
-            # Atualiza apenas os atributos presentes nos dados
             ciclista.nome = dados.get("nome", ciclista.nome)
             ciclista.cpf = dados.get("cpf", ciclista.cpf)
             ciclista.passaporte = dados.get("passaporte", ciclista.passaporte)
