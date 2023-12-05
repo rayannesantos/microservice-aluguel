@@ -63,7 +63,6 @@ class CiclistaService:
 
     def cadastrar_ciclista(self, request_data):
         email = request_data.get('ciclista', {}).get('email')
-        meio_de_pagamento = request_data.get('meioDePagamento', {})
         if email and re.match(r'^\S+@\S+\.\S+$', email):
             # Verificar nacionalidade
             nacionalidade = request_data.get('ciclista', {}).get('nacionalidade')
@@ -85,11 +84,12 @@ class CiclistaService:
                 numero_cartao = meio_de_pagamento_data.get('numero')
                 validade_cartao = meio_de_pagamento_data.get('validade')
                 cvv_cartao = meio_de_pagamento_data.get('cvv')
+                print(meio_de_pagamento_data)
                 
                 valida_cartao = self.valida_cartao(meio_de_pagamento_data)
                 
                 
-                if(validade_cartao):
+                if(valida_cartao):
                     # Construir o objeto MeioDePagamento com o campo ciclista_id
                     ciclista_id = request_data.get('ciclista', {}).get('id_ciclista')
                     novo_meio_de_pagamento = MeioDePagamento(
