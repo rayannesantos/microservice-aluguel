@@ -42,7 +42,7 @@ https://microservice-aluguel-hm535ksnoq-uc.a.run.app/ciclista/3/bicicletaAlugada
 
 
 GET /ciclista/existeEmail/{email} Verifica se o e-mail já foi utilizado por algum ciclista.
-true:https://microservice-aluguel-hm535ksnoq-uc.a.run.app/ciclista/existeEmail/user@example.com
+true:https://microservice-aluguel-hm535ksnoq-uc.a.run.app/ciclista/existeEmail/email@email.com.br
 false:https://microservice-aluguel-hm535ksnoq-uc.a.run.app/ciclista/existeEmail/email2@email.com.br
 
 GET /funcionario recupera funcionários cadastrados
