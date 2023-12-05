@@ -11,26 +11,15 @@ class FuncionarioService:
     def __init__(self):
         self.funcionarios_data = [
             {
-                "id_funcionario":1,
-                "matricula": "123",
-                "senha": "string",
-                "confirmacaoSenha": "string",
-                "email": "funcionarioum@example.com",
-                "nome": "João João",
-                "idade": 19,
-                "funcao": "administrativa",
-                "cpf": "string"
-            },
-            {
-                "id_funcionario":2,
-                "matricula": "456",
-                "senha": "string",
-                "confirmacaoSenha": "string",
-                "email": "funcionariodois@example.com",
-                "nome": "Maria Maria",
-                "idade": 18,
-                "funcao": "reparador",
-                "cpf": "string"
+            "id_funcionario":1,
+            "matricula": "12345",
+            "senha": "123",
+            "confirmacaoSenha": "123",
+            "email": "employee@example.com",
+            "nome": "Beltrano",
+            "idade": 25,
+            "funcao": "Reparador",
+            "cpf": "99999999999"
             }
         ]
 
