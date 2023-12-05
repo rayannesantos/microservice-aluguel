@@ -169,7 +169,7 @@ def devolver_bicicleta_route():
     try:
         data = request.json
         id_bicicleta = data.get('id_bicicleta')
-        id_tranca = data.get('id_tranca')
+        id_tranca = data["id_tranca"]
         resultado_devolucao = aluguel_service.devolver_bicicleta(id_bicicleta, id_tranca)
         print (resultado_devolucao)
         return jsonify(resultado_devolucao)
