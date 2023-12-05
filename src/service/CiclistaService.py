@@ -64,7 +64,6 @@ class CiclistaService:
     def cadastrar_ciclista(self, request_data):
         email = request_data.get('ciclista', {}).get('email')
         meio_de_pagamento = request_data.get('meioDePagamento', {})
-        print(meio_de_pagamento)
         if email and re.match(r'^\S+@\S+\.\S+$', email):
             # Verificar nacionalidade
             nacionalidade = request_data.get('ciclista', {}).get('nacionalidade')
@@ -81,34 +80,34 @@ class CiclistaService:
 
             if not self.verifica_email(email):
                 
-                novo_ciclista = Ciclista(**request_data.get('ciclista', {}))
-                self.ciclistas.append(novo_ciclista)
-                self.ciclistas = [Ciclista(**data) for data in self.ciclistas_data]
-                
-                # falta validar cartão e email
-                # chamar microserviço validar cartão
-                # adiciona pagamento
                 meio_de_pagamento_data = request_data.get('meioDePagamento', {})
                 nome_titular = meio_de_pagamento_data.get('nome_titular')
                 numero_cartao = meio_de_pagamento_data.get('numero')
                 validade_cartao = meio_de_pagamento_data.get('validade')
                 cvv_cartao = meio_de_pagamento_data.get('cvv')
-
-                # Construir o objeto MeioDePagamento com o campo ciclista_id
-                ciclista_id = request_data.get('ciclista', {}).get('id_ciclista')
-                novo_meio_de_pagamento = MeioDePagamento(
-                    nome_titular=nome_titular,
-                    numero_cartao=numero_cartao,
-                    validade_cartao=validade_cartao,
-                    cvv_cartao=cvv_cartao,
-                    ciclista=ciclista_id
-                )
-
-                self.meio_de_pagamento_data.append(novo_meio_de_pagamento)
+                
+                valida_cartao = self.valida_cartao(meio_de_pagamento_data)
+                
+                
+                if(validade_cartao):
+                    # Construir o objeto MeioDePagamento com o campo ciclista_id
+                    ciclista_id = request_data.get('ciclista', {}).get('id_ciclista')
+                    novo_meio_de_pagamento = MeioDePagamento(
+                        nome_titular=nome_titular,
+                        numero_cartao=numero_cartao,
+                        validade_cartao=validade_cartao,
+                        cvv_cartao=cvv_cartao,
+                        ciclista=ciclista_id
+                    )
+                    novo_ciclista = Ciclista(**request_data.get('ciclista', {}))
+                    self.ciclistas.append(novo_ciclista)
+                    self.ciclistas = [Ciclista(**data) for data in self.ciclistas_data]
+                    self.meio_de_pagamento_data.append(novo_meio_de_pagamento)
+                    
                 
                 # chamar valida email
 
-                return {'Ciclista cadastrado ' : request_data}
+                return {'Ciclista cadastrado. Enviado email para ativação ' : request_data}
             else:
                 return {"mensagem":'E-mail já cadastrado'}
 
@@ -118,11 +117,13 @@ class CiclistaService:
 
     # chamar api microservice-externo
     def valida_cartao(self, request_data):
-        meio_de_pagamento = request_data.get('meioDePagamento', {})
-        nome_titular = meio_de_pagamento.get('nomeTitular')
-        numero_cartao = meio_de_pagamento.get('numero')
-        validade_cartao = meio_de_pagamento.get('validade')
-        cvv_cartao = meio_de_pagamento.get('cvv')
+        print(request_data)
+        # meio_de_pagamento = request_data.get('meioDePagamento', {})
+        nome_titular = request_data.get('nome_titular')
+        numero_cartao = request_data.get('numero')
+        validade_cartao = request_data.get('validade')
+        cvv_cartao = request_data.get('cvv')
+
 
         json_meio_de_pagamento = {
             "nome_titular": nome_titular,
@@ -130,6 +131,7 @@ class CiclistaService:
             "validade": validade_cartao,
             "cvv": cvv_cartao
         }
+
 
         # microservice-externo
         try: 
@@ -142,8 +144,7 @@ class CiclistaService:
                 return False
             
         except requests.exceptions.RequestException as e:
-          return {"Erro na solicitação: {e}"}
-          
+            return {"error": f"Erro na solicitação: {e}"}
 
 
     def listar_todos(self):
