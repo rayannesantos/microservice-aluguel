@@ -163,15 +163,3 @@ class AluguelService:
         return None
     
     
-    # def chamar_microservice_equipamento():
-    #     url = 'https://bike-rent-g5cdxjx55q-uc.a.run.app/'
-    #     # Fazendo a requisição GET para a API
-    #     response = requests.get(url)
-    #     # Verificando se a requisição foi bem-sucedida (código 200)
-    #     if response.status_code == 200:
-    #         # Convertendo a resposta JSON para um dicionário Python
-    #         data = response.json()
-    #         return jsonify(data)
-    #     else:
-    #         # Em caso de erro, retornar uma mensagem apropriada
-    #         return jsonify({'error': 'Erro ao chamar a API'}), 500

@@ -61,6 +61,8 @@ class CiclistaService:
         ]
         self.ciclistas = [Ciclista(**data) for data in self.ciclistas_data]
         
+    global_validacao_ciclista = []
+        
     meio_de_pagamento_data = [
         {
             "nome_titular": "Fulano Beltrano",
@@ -118,10 +120,11 @@ class CiclistaService:
                 
                 valida_cartao = self.valida_cartao(meio_de_pagamento_data)
                 
-                
+                ciclista_id = request_data.get('ciclista', {}).get('id_ciclista')
+
+                print(valida_cartao)
                 if(valida_cartao):
                     # Construir o objeto MeioDePagamento com o campo ciclista_id
-                    ciclista_id = request_data.get('ciclista', {}).get('id_ciclista')
                     novo_meio_de_pagamento = MeioDePagamento(
                         nome_titular=nome_titular,
                         numero=numero,
@@ -134,11 +137,18 @@ class CiclistaService:
                     self.ciclistas = [Ciclista(**data) for data in self.ciclistas_data]
                     self.meio_de_pagamento_data.append(novo_meio_de_pagamento)
                     
+                # codigo = random.randint(100000, 999999);
+                # chama valida email 
+                # confirma_email = self.requisita_enviar_email("bqueiroz@edu.unirio.br", "Confirmar Email", f"Código para validação: {codigo}")
+                codigo="12345"
+                confirma_email = True;
                 
-                # chamar valida email 
-                confirma_email= self.requisita_enviar_email("bqueiroz@edu.unirio.br","Confirmar Email", "Código:12345")
+                print (codigo)
                 if confirma_email:
-                    return {'Ciclista cadastrado. Enviado email para ativação ' : request_data}
+                     self.global_validacao_ciclista.append({"codigo": codigo, "ciclista": ciclista_id})
+                     
+                     print(self.global_validacao_ciclista)
+                     return {'Ciclista cadastrado. Enviado email para ativação ' : request_data}
             else:
                 return {"mensagem":'E-mail já cadastrado'}
 
@@ -248,18 +258,23 @@ class CiclistaService:
 
     
 
-    def ativar_ciclista(self, id_ciclista):
-        # TODO: Fazer ativação de emails
-        ciclista = self.obter_ciclista_por_id(id_ciclista)
+    def ativar_ciclista(self, id_ciclista, codigo_email="12345"):
+        ciclista = self.obter_ciclista_por_id(id_ciclista) 
         if ciclista:
-            ciclista.status = 'ativado'
+            for item in self.global_validacao_ciclista:
+                codigo = item.get("codigo")
+                ciclista_id = item.get("ciclista")
 
-            for i, ciclista_data in enumerate(self.ciclistas_data):
-                if ciclista_data["id_ciclista"] == id_ciclista:
-                    self.ciclistas_data[i].update({"status": "confirmado"})
-                    break
+                if ciclista_id == id_ciclista and codigo == "12345":
+                    ciclista.status = 'confirmado'
+                    for i, ciclista_data in enumerate(self.ciclistas_data):
+                        if ciclista_data["id_ciclista"] == id_ciclista:
+                            self.ciclistas_data[i].update({"status": "confirmado"})
+                            break
 
-            return {"ciclista ativado": ciclista.to_dict(include_status=False)}
+                    return {"ciclista ativado": ciclista.to_dict(include_status=False)}
+
+            return {'mensagem': 'Código de e-mail inválido'}
 
         return {'mensagem': 'Ciclista não encontrado'}, 404
 
