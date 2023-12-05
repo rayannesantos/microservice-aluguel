@@ -76,7 +76,7 @@ def existe_email_route(email):
         return jsonify(email)
 
 
-@app.route('/ciclista/<int:id_ciclista>//ativar', methods=['GET'])
+@app.route('/ciclista/<int:id_ciclista>/ativar', methods=['GET'])
 def ativar_ciclista(id_ciclista):
     ativar = ciclista_service.ativar_ciclista(id_ciclista)
     return jsonify(ativar)
