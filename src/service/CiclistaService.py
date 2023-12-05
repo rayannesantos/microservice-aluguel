@@ -136,10 +136,9 @@ class CiclistaService:
                     
                 
                 # chamar valida email 
-                teste= self.requisita_enviar_email("bqueiroz@edu.unirio.br","Confirmar Email", "Código:12345")
-                print(teste)
-                # self.enviar_email()
-                return {'Ciclista cadastrado. Enviado email para ativação ' : request_data}
+                confirma_email= self.requisita_enviar_email("bqueiroz@edu.unirio.br","Confirmar Email", "Código:12345")
+                if confirma_email:
+                    return {'Ciclista cadastrado. Enviado email para ativação ' : request_data}
             else:
                 return {"mensagem":'E-mail já cadastrado'}
 
