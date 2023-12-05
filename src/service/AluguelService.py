@@ -108,8 +108,6 @@ class AluguelService:
         aluguel_correspondente = None
     
         for aluguel in self.alugueis:
-            print(aluguel['Bicicleta'])
-
             if aluguel['Bicicleta'] == numero_bicicleta:  
                 aluguel_correspondente = aluguel
                 print(aluguel_correspondente)
@@ -120,7 +118,7 @@ class AluguelService:
         aluguel_correspondente['Data fim'] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         aluguel_correspondente['Tranca final'] = numero_tranca
         
-        url_status_tranca = f'https://bike-rent-g5cdxjx55q-uc.a.run.app/tranca/{numero_tranca}/status/4'
+        url_status_tranca = f'https://bike-rent-g5cdxjx55q-uc.a.run.app/tranca/{numero_tranca}/status/3'
         response_tranca = requests.post(url_status_tranca)
 
         url_status_bicicleta = f'https://bike-rent-g5cdxjx55q-uc.a.run.app/bicicleta/{numero_bicicleta}/status/1'

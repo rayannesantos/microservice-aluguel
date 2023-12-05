@@ -165,7 +165,7 @@ def alugar_bicicleta_route():
 
 
 @app.route('/devolucao', methods=['POST'])
-def devolvet_bicicleta_route():
+def devolver_bicicleta_route():
     data = request.json
     id_bicicleta = data.get('id_bicicleta')
     id_tranca = data.get('id_tranca')
