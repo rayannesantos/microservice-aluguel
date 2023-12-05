@@ -48,40 +48,39 @@ class AluguelService:
     # UC03 – Alugar bicicleta 
     def alugar_bicicleta(self, id_ciclista, numero_tranca): 
         
-        url_tranca = f'https://bike-rent-g5cdxjx55q-uc.a.run.app/bicicleta/{numero_tranca}'
-        response = requests.get(url_tranca)   
-        response.status_code =200;
-        response["bicicleta"] = 1;
-        if response.status_code == 200:
-            return True
-
-        if response is 404:
-            return {"error": "Tranca não encontrada"}, 404
-
-        ciclista_service = CiclistaService()
-        ciclista = ciclista_service.obter_ciclista_por_id(id_ciclista)
-
-        if ciclista is None:
-            return {"error": "Ciclista não encontrado"}, 404
-
-        if ciclista.status_aluguel == True:
-            return {"error": "Ciclista já tem um aluguel"}, 422
-
-
-        aluguel = AluguelBicicleta(
-            bicicleta=response["bicicleta"],
-            hora_inicio= hora_atual.strftime("%Y-%m-%d %H:%M:%S"),
-            tranca_inicio=numero_tranca,
-            ciclista=ciclista.id_ciclista
-        )
+        url_tranca = 'https://bike-rent-g5cdxjx55q-uc.a.run.app/bicicleta/{numero_tranca}'
+        response = requests.get(url_tranca)  
                 
-        ciclista_service.requisita_enviar_email("Dados do aluguel", aluguel);
+        if response.status_code == 404:
+            return {"error": "Tranca não encontrada"}, 404 
         
-        self.alugueis.append(aluguel)
-        
-        print(aluguel)
+        if response.status_code == 200:
 
-        return {"success": "Aluguel realizado", "registro_retirada": aluguel.to_dict()}, 200
+            ciclista_service = CiclistaService()
+            ciclista = ciclista_service.obter_ciclista_por_id(id_ciclista)
+
+            if ciclista is None:
+                return {"error": "Ciclista não encontrado"}, 404
+
+            if ciclista.status_aluguel == True:
+                return {"error": "Ciclista já tem um aluguel"}, 422
+
+
+            # chamar cobrança
+            
+            aluguel = AluguelBicicleta(
+                bicicleta=response["bicicleta"],
+                hora_inicio= hora_atual.strftime("%Y-%m-%d %H:%M:%S"),
+                tranca_inicio=numero_tranca,
+                ciclista=ciclista.id_ciclista
+            )
+                    
+            ciclista_service.requisita_enviar_email("Dados do aluguel", aluguel);
+            
+            self.alugueis.append(aluguel)
+            
+
+            return {"success": "Aluguel realizado", "registro_retirada": aluguel.to_dict()}, 200
 
 
     def devolver_bicicleta(self, numero_bicicleta, numero_tranca):
