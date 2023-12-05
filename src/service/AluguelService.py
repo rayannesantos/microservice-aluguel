@@ -8,33 +8,39 @@ import requests
 hora_atual = datetime.now()
 
 class AluguelService:
+    TRANCA_INICIAL = "Tranca inicial"
+    COBRANCA_INICIAL = "Cobranca inicial"
+    DATA_INICIO = "Data início"
+
+    
+    
     def __init__(self):
         self.alugueis = [
             {
                 "ciclista": 3,
                 "Bicicleta": 3,
-                "Tranca inicial": 2,
+                self.TRANCA_INICIAL: 2,
                 "Status": "EM_ANDAMENTO",
-                "Cobranca inicial": 1,
-                "Data início": hora_atual.strftime("%Y-%m-%d %H:%M:%S")
+                self.COBRANCA_INICIAL: 1,
+                self.DATA_INICIO: hora_atual.strftime("%Y-%m-%d %H:%M:%S")
             },
             {
                 "ciclista": 4,
                 "Bicicleta": 5,
-                "Tranca inicial": 4,
+                self.TRANCA_INICIAL: 4,
                 "Status": "EM_ANDAMENTO",
-                "Cobranca inicial": 2,
-                "Data início": (hora_atual - timedelta(hours=2)).strftime("%Y-%m-%d %H:%M:%S")
+                self.COBRANCA_INICIAL: 2,
+                self.DATA_INICIO: (hora_atual - timedelta(hours=2)).strftime("%Y-%m-%d %H:%M:%S")
             },
             {
                 "ciclista": 3,
                 "Bicicleta": 1,
-                "Tranca inicial": 1,
+                self.TRANCA_INICIAL: 1,
                 "Tranca final": 2,
                 "Status": "FINALIZADO COM COBRANCA EXTRA PENDENTE",
-                "Cobranca inicial": 3,
+                self.COBRANCA_INICIAL: 3,
                 "Data início": (hora_atual - timedelta(hours=2)).strftime("%Y-%m-%d %H:%M:%S"),
-                "Data fim": hora_atual.strftime("%Y-%m-%d %H:%M:%S")
+                self.DATA_INICIO: hora_atual.strftime("%Y-%m-%d %H:%M:%S")
             }
         ]
         
@@ -115,7 +121,6 @@ class AluguelService:
 
         if response_tranca.status_code == 200 and response_bicicleta.status_code == 200:
             dados_cobranca = {"valor": 10, "ciclista": str(aluguel_correspondente['ciclista'])}
-            valida_cobranca = self.chamar_cobranca(dados_cobranca)
             
             return {"success": "Bicicleta devolvida com sucesso", "registro_devolucao": aluguel_correspondente}, 200
 
