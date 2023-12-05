@@ -166,13 +166,16 @@ def alugar_bicicleta_route():
 
 @app.route('/devolucao', methods=['POST'])
 def devolver_bicicleta_route():
-    data = request.json
-    id_bicicleta = data.get('id_bicicleta')
-    id_tranca = data.get('id_tranca')
-    resultado_devolucao = aluguel_service.devolver_bicicleta(id_bicicleta, id_tranca)
-    print (resultado_devolucao)
-    return jsonify(resultado_devolucao)
-
+    try:
+        data = request.json
+        id_bicicleta = data.get('id_bicicleta')
+        id_tranca = data.get('id_tranca')
+        resultado_devolucao = aluguel_service.devolver_bicicleta(id_bicicleta, id_tranca)
+        print (resultado_devolucao)
+        return jsonify(resultado_devolucao)
+    except Exception as e:
+        # Trate a exceção adequadamente, registre logs, etc.
+        return {"error": f"Erro: {str(e)}"}, 500
 
 def enviar_email(assunto, mensagem):
     url = "https://microservice-externo-b4i7jmshsa-uc.a.run.app/enviarEmail"

@@ -105,7 +105,6 @@ class AluguelService:
 
     def devolver_bicicleta(self, numero_bicicleta, numero_tranca):
         aluguel_correspondente = None
-    
         for aluguel in self.alugueis:
             if aluguel['Bicicleta'] == numero_bicicleta:  
                 aluguel_correspondente = aluguel
