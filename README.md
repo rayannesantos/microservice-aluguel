@@ -72,6 +72,13 @@ JSON:{
   "trancaInicio": 100
 }
 
-POST /devolucao
+POST 
+https://microservice-aluguel-hm535ksnoq-uc.a.run.app//devolucao
 Realizar devolução, sendo invocado de maneira automática pelo hardware do totem ao encostar a bicicleta na tranca.
+
+{
+	"id_bicicleta": 0,
+  "id_tranca": 3
+}
+
 
