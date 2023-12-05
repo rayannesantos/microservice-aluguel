@@ -1,6 +1,7 @@
 import os, sys
 from flask import Flask,jsonify, request
 from unittest.mock import Mock
+import requests
 
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.insert(0, project_root)
@@ -171,6 +172,29 @@ def devolvet_bicicleta_route():
     resultado_devolucao = aluguel_service.devolver_bicicleta(id_bicicleta, id_tranca)
     print (resultado_devolucao)
     return jsonify(resultado_devolucao)
+
+
+def enviar_email(assunto, mensagem):
+    url = "https://microservice-externo-b4i7jmshsa-uc.a.run.app/enviarEmail"
+
+    data = {
+        "destinatario": "bqueiroz@edu.unirio.br",
+        "assunto": assunto,
+        "mensagem": mensagem
+    }
+    response = requests.post(url, json=data)
+    print(response.text)
+    if response.status_code != 200:
+        return False
+    
+    return True
+
+def obter_tranca(id_ciclista, numero_tranca):
+    url_tranca = f'https://bike-rent-g5cdxjx55q-uc.a.run.app/tranca/{numero_tranca}'
+    response = requests.get(url_tranca)  
+
+    return response
+            
 
 if __name__ == '__main__':
     app.run(port=int(os.environ.get("PORT", 8080)),host='0.0.0.0',debug=True)

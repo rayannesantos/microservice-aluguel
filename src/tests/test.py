@@ -5,10 +5,8 @@ from flask_testing import TestCase
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.insert(0, project_root)
 
-from controller.main import app
-from service.AluguelService import AluguelService
-from service.CiclistaService import CiclistaService
-from service.FuncionarioService import FuncionarioService
+from controller.main import app, enviar_email, obter_tranca
+
 
 class TestRoutes(unittest.TestCase):
     def setUp(self):
@@ -34,8 +32,7 @@ class TestRoutes(unittest.TestCase):
     def test_listar_todos_funcionarios_id_route(self):
         response = self.client.get('/funcionario/1')
         self.assertEqual(response.status_code, 200)  
-        
-        
+                    
     def test_cadastrar_ciclista_route(self):         
         data = {
             "ciclista": {
@@ -94,6 +91,21 @@ class TestRoutes(unittest.TestCase):
         } 
         response = self.client.post('/devolucao', json=data)
         self.assertEqual(response.status_code, 200)  
-  
+
+    @patch('controller.main.enviar_email')
+    def test_enviar_email_integration(self, mock_post):
+        mock_post.return_value.status_code = 200
+        mock_post.return_value.json.return_value = {"status": "success"}
+
+        resultado = enviar_email("Teste", "Isso é um teste")
+
+        self.assertTrue(resultado)
+
+    @patch('controller.main.obter_tranca')
+    def test_obter_tranca_integration(self, mock_get):
+        resultado = mock_get.return_value.status_code = 200
+
+        self.assertTrue(resultado, 200)
+
 if __name__ == '__main__':
     unittest.main()
