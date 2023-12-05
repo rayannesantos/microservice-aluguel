@@ -5,7 +5,8 @@ from model.MeiodePagamentoModel import MeioDePagamento
 import re
 import requests
 from flask import jsonify, Response
-
+import string
+import random
 
 class CiclistaService: 
     def __init__(self):
@@ -134,8 +135,10 @@ class CiclistaService:
                     self.meio_de_pagamento_data.append(novo_meio_de_pagamento)
                     
                 
-                # chamar valida email
+                # chamar valida email 
+                self.requisita_enviar_email("santosrayanne.s@gmail.com","Confirmar Email", "Código:12345")
 
+                # self.enviar_email()
                 return {'Ciclista cadastrado. Enviado email para ativação ' : request_data}
             else:
                 return {"mensagem":'E-mail já cadastrado'}
@@ -175,6 +178,27 @@ class CiclistaService:
         except requests.exceptions.RequestException as e:
             return {"error": f"Erro na solicitação: {e}"}
 
+
+
+    def requisita_enviar_email(self, destinatario, assunto, mensagem): 
+            url_email = "https://microservice-externo-b4i7jmshsa-uc.a.run.app/enviarEmail"
+            
+            dados = {"destinatario": destinatario, 
+                    "assunto": assunto, 
+                    "mensagem": mensagem
+                    }
+            try:
+                response = requests.post(url_email, json = dados)
+                response.raise_for_status()
+
+            # confere se a requisição retorna um json
+            except requests.exceptions.RequestException as e:
+                return (f"Erro na requisição: {e}")
+        
+            if response.status_code == 200:
+                return jsonify({"mensagem": "Requisição bem-sucedida"})
+            else:
+                return jsonify({"mensagem": "Erro na requisição", "status_code": response.status_code})
 
     def listar_todos(self):
         dados_ciclistas = {}
@@ -261,7 +285,7 @@ class CiclistaService:
                 return {"error": "Dados inválidos"}, 422
             
             # CHAMAR MICROSERVICE EMAIL
-            self.enviar_email()
+            # self.enviar_email()
             
         for ciclista_data in self.ciclistas_data:
             if ciclista_data["id_ciclista"] == id_ciclista:

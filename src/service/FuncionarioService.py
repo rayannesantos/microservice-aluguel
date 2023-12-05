@@ -14,7 +14,7 @@ class FuncionarioService:
             "id_funcionario":1,
             "matricula": "12345",
             "senha": "123",
-            "confirmacaoSenha": "123",
+            "confirmacao_senha": "123",
             "email": "employee@example.com",
             "nome": "Beltrano",
             "idade": 25,
