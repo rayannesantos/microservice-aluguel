@@ -35,7 +35,21 @@ class FuncionarioService:
             self.funcionarios.append(novo_funcionario)
             return {'Funcionario cadastrado. ' : request_data}
                     
-                
+    def alterar_funcionario(self, id_funcionario, dados):
+        funcionario = self.obter_funcionario_por_id(id_funcionario)
+        if funcionario:
+            funcionario.matricula = dados.get('matricula', funcionario.matricula)
+            funcionario.senha = dados.get('senha', funcionario.senha)
+            funcionario.confirmacao_senha = dados.get('confirmacao_senha', funcionario.confirmacao_senha)
+            funcionario.email = dados.get('email', funcionario.email)
+            funcionario.nome = dados.get('nome', funcionario.nome)
+            funcionario.idade = dados.get('idade', funcionario.idade)
+            funcionario.funcao = dados.get('funcao', funcionario.funcao)
+            funcionario.cpf = dados.get('cpf', funcionario.cpf)
+            return {'mensagem': 'Funcionário alterado com sucesso', 'funcionario': funcionario.to_dict()}
+  
+        return {'Funcionário não encontrado'}
+                       
 
     def obter_funcionario_por_id(self, id_funcionario):
         for funcionario in self.funcionarios:

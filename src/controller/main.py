@@ -118,6 +118,15 @@ def cadastrar_funcionario():
         dados = request.json
         funcionario = funcionario_service.cadastrar_funcionario(dados)
         return funcionario
+    
+@app.route('/funcionario/<int:id_funcionario>/', methods=['PUT'])
+def alterar_funcionario(id_funcionario):
+    dados = request.json
+    funcionario = funcionario_service.alterar_funcionario(id_funcionario,dados)
+    if 'mensagem' in funcionario:
+        return jsonify(funcionario)
+    else:
+        return jsonify({"error": "Funcionário não alterado"}), 404
 
 @app.route('/funcionario', methods=['GET'])
 def listar_funcionarios_route():
