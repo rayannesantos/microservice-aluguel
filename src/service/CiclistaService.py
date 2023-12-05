@@ -1,7 +1,7 @@
 # UC01–Cadastrar Ciclista
 from unittest.mock import Mock
 from model.CiclistaModel import Ciclista
-from model.MeiodePagamentoModel import MeioDePagamento  # Make sure to adjust the import path
+from model.MeiodePagamentoModel import MeioDePagamento  
 import re
 import requests
 from flask import jsonify, Response
