@@ -21,7 +21,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install Flask gunicorn requests mock flask_wtf coverage
+          pip install Flask gunicorn requests mock flask_wtf coverage flask_testing
 
       - name: Run tests and coverage
         run: |
