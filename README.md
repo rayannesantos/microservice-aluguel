@@ -42,7 +42,7 @@ https://microservice-aluguel-hm535ksnoq-uc.a.run.app/ciclista/3/bicicletaAlugada
 
 
 GET /ciclista/existeEmail/{email} Verifica se o e-mail já foi utilizado por algum ciclista.
-true:https://microservice-aluguel-hm535ksnoq-uc.a.run.app/ciclista/existeEmail/email@email.com.br
+true:https://microservice-aluguel-hm535ksnoq-uc.a.run.app/ciclista/existeEmail/user@example.com
 false:https://microservice-aluguel-hm535ksnoq-uc.a.run.app/ciclista/existeEmail/email2@email.com.br
 
 GET /funcionario recupera funcionários cadastrados
@@ -72,6 +72,13 @@ JSON:{
   "trancaInicio": 100
 }
 
-POST /devolucao
+POST 
+https://microservice-aluguel-hm535ksnoq-uc.a.run.app//devolucao
 Realizar devolução, sendo invocado de maneira automática pelo hardware do totem ao encostar a bicicleta na tranca.
+
+{
+	"id_bicicleta": 0,
+  "id_tranca": 3
+}
+
 
