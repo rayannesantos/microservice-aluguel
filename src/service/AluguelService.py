@@ -44,6 +44,8 @@ class AluguelService:
             }
         ]
         
+
+        
     def alugar_bicicleta(self, id_ciclista, numero_tranca): 
         url_tranca = f'https://bike-rent-g5cdxjx55q-uc.a.run.app/tranca/{numero_tranca}'
         response = requests.get(url_tranca)  
@@ -86,14 +88,14 @@ class AluguelService:
             
             url_status_bicicleta = f'https://bike-rent-g5cdxjx55q-uc.a.run.app/bicicleta/{bicicleta}/status/2'
             response_bicicleta = requests.post(url_status_bicicleta)
-
-            try:
-                ciclista_service.requisita_enviar_email("Dados do aluguel", aluguel.to_dict())
-                self.alugueis.append(aluguel)
-                print(aluguel)
-                return {"success": "Aluguel realizado", "registro_retirada": aluguel.to_dict()}, 200
-            except Exception as e:
-                return {"error": f"Erro ao processar aluguel: {str(e)}"}, 500
+            if response_tranca.status_code == 200 and response_bicicleta.status_code == 200:            
+                try:
+                    ciclista_service.requisita_enviar_email("Dados do aluguel", aluguel.to_dict())
+                    self.alugueis.append(aluguel)
+                    print(aluguel)
+                    return {"success": "Aluguel realizado", "registro_retirada": aluguel.to_dict()}, 200
+                except Exception as e:
+                    return {"error": f"Erro ao processar aluguel: {str(e)}"}, 500
         
         
     def chamar_cobranca(self, dados): 
@@ -176,4 +178,11 @@ class AluguelService:
                 return aluguel.to_dict()  
         return None
     
+    
+
+
+    # def listar_todos(self):
+    #     data_alugueis = [alugue.to_dict() for funcionario in self.funcionarios]
+    #     return dados_alugueis
+
     

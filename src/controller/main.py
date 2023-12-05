@@ -105,7 +105,10 @@ def listar_tpdos_os_ciclistas_route():
         ciclistas = ciclista_service.listar_todos()
         return jsonify({"ciclistas": ciclistas})
 
-
+@app.route('/allalugueis', methods=['GET'])
+def listar_todos_os_alugueis_route():
+        alugueis = aluguel_service.listar_todos()
+        return jsonify({"alugueis": alugueis})
 
 @app.route('/funcionario', methods=['POST'])
 def cadastrar_funcionario():
