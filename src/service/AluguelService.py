@@ -80,6 +80,9 @@ class AluguelService:
                 tranca_inicio=numero_tranca,
                 ciclista=ciclista  
             )
+            
+            url_status_bicicleta = f'https://bike-rent-g5cdxjx55q-uc.a.run.app/bicicleta/bicicleta/status/2'
+            response_bicicleta = requests.post(url_status_bicicleta)
 
             try:
                 ciclista_service.requisita_enviar_email("Dados do aluguel", aluguel.to_dict())
