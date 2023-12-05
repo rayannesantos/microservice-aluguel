@@ -232,6 +232,26 @@ class CiclistaService:
         return True,200
     
     
+    def alterar_meio_de_pagamento(self, id_ciclista, dados_meio_pagamento):
+        meio_de_pagamento = self.obter_meio_de_pagamento_por_id_ciclista(id_ciclista)
+        if meio_de_pagamento:
+            meio_de_pagamento.update(dados_meio_pagamento)
+            for i, meio_de_pagamento_data in enumerate(self.meio_de_pagamento_data):
+                if meio_de_pagamento_data["ciclista"] == id_ciclista:
+                    self.meio_de_pagamento_data[i].update(dados_meio_pagamento)
+                    return {'mensagem': 'Meio de pagamento alterado com sucesso'}
+            return {'mensagem': 'Falha ao atualizar meio de pagamento'}, 500
+        else:
+            return {'mensagem': 'Meio de pagamento não encontrado para o ciclista'}, 404
+
+
+    def obter_meio_de_pagamento_por_id_ciclista(self, id_ciclista):
+        for meio_de_pagamento_data in self.meio_de_pagamento_data:
+            if meio_de_pagamento_data["ciclista"] == id_ciclista:
+                return meio_de_pagamento_data
+        return None
+    
+    
     def listar_meio_de_pagamento_por_id(self, id_ciclista):
         ciclista = self.obter_ciclista_por_id(id_ciclista)
 

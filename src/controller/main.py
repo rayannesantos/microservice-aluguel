@@ -94,11 +94,18 @@ def ativar_ciclista(id_ciclista):
 
 @app.route('/cartaoDeCredito/<int:id_ciclista>/', methods=['GET'])
 def listar_meio_de_pagamento_por_id(id_ciclista):
-    ciclista_service = CiclistaService()
     meio_de_pagamento = ciclista_service.listar_meio_de_pagamento_por_id(id_ciclista)
-    
     if 'error' in meio_de_pagamento:
         return jsonify({"error": "Não encontrado"}), 404
+    
+    return jsonify(meio_de_pagamento)
+
+@app.route('/cartaoDeCredito/<int:id_ciclista>/', methods=['PUT'])
+def alterar_meio_de_pagamento_por_id(id_ciclista):
+    dados = request.json
+    meio_de_pagamento = ciclista_service.alterar_meio_de_pagamento(id_ciclista,dados)
+    if 'error' in meio_de_pagamento:
+        return jsonify({"error": "Não alterado"}), 404
     
     return jsonify(meio_de_pagamento)
 
