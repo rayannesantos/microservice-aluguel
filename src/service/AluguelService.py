@@ -81,7 +81,6 @@ class AluguelService:
                 ciclista=ciclista  
             )
             
-                    
             url_status_tranca = f'https://bike-rent-g5cdxjx55q-uc.a.run.app/tranca/{numero_tranca}/status/6'
             response_tranca = requests.post(url_status_tranca)
             
