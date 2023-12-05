@@ -93,11 +93,14 @@ class AluguelService:
 
     def devolver_bicicleta(self, numero_bicicleta, numero_tranca):
         aluguel_correspondente = None
-        
-        print(self.alugueis)
+    
         for aluguel in self.alugueis:
+            print(aluguel['Bicicleta'])
+
             if aluguel['Bicicleta'] == numero_bicicleta:  
+                print("entrou")
                 aluguel_correspondente = aluguel
+                print(aluguel_correspondente)
                         
         if aluguel_correspondente is None:
             return {"error": "Aluguel não encontrado para a bicicleta especificada"}, 404
