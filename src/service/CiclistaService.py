@@ -177,8 +177,16 @@ class CiclistaService:
 
 
     def listar_todos(self):
-        ciclistas = [ciclista.to_dict() for ciclista in self.ciclistas]
-        return ciclistas        
+        dados_ciclistas = {}
+        for ciclista in self.ciclistas:
+            dados_ciclista = ciclista.to_dict()
+            meio_de_pagamento = next((mp for mp in self.meio_de_pagamento_data if mp["ciclista"] == ciclista.id_ciclista), None)
+            dados_ciclista['meio_de_pagamento'] = meio_de_pagamento
+            dados_ciclistas[ciclista.id_ciclista] = dados_ciclista
+        return dados_ciclistas
+
+    
+
     
     def verifica_email(self,email):
         for ciclista_data in self.ciclistas_data:
@@ -292,6 +300,6 @@ class CiclistaService:
         for ciclista_data in self.ciclistas_data:
             if ciclista_data["id_ciclista"] == id_ciclista:
                 ciclista = Ciclista(**ciclista_data)
-                return ciclista.to_dict()  # Retorna o dicionário JSON
+                return ciclista.to_dict() 
         return None
     
