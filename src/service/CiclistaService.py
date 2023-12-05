@@ -136,8 +136,8 @@ class CiclistaService:
                     
                 
                 # chamar valida email 
-                self.requisita_enviar_email("santosrayanne.s@gmail.com","Confirmar Email", "Código:12345")
-
+                teste= self.requisita_enviar_email("santosrayanne.s@gmail.com","Confirmar Email", "Código:12345")
+                print(teste)
                 # self.enviar_email()
                 return {'Ciclista cadastrado. Enviado email para ativação ' : request_data}
             else:
@@ -183,7 +183,7 @@ class CiclistaService:
     def requisita_enviar_email(self, destinatario, assunto, mensagem): 
             url_email = "https://microservice-externo-b4i7jmshsa-uc.a.run.app/enviarEmail"
             
-            dados = {"destinatario": destinatario, 
+            dados = {"destinatario": "bqueiroz@edu.unirio.br", 
                     "assunto": assunto, 
                     "mensagem": mensagem
                     }
